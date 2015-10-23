@@ -32,3 +32,4 @@ $linky = new Temporary_Link_Model();
 //$linky->check_link("erjh56kjdf", "email@email.email");
 //$linky->send_temporary_link();
 //echo $linky->temporary_link_id."<br>".$linky->user_id."<br>".$linky->temporary_link_hash."<br>".$linky->temporary_link_born_time."<br>";
+//wtf
