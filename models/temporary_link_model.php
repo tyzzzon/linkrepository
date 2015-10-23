@@ -1,5 +1,5 @@
 <?php
-require_once "models/user_model.php";
+#require_once "models/user_model.php";
 class Temporary_Link_Model
 {
     public $temporary_link_id;
@@ -20,13 +20,8 @@ class Temporary_Link_Model
             $this->temporary_link_hash = sha1(uniqid($this->user_id, true));
             $db->query("INSERT INTO temporary_links (user_id, temporary_link_hash, temporary_link_born_time)
 VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_link_born_time . "')");
-            $this->temporary_link_user_id = $user_id;
+            $this->user_id = $user_id;
             $this->temporary_link_born_time = $temporary_link_born_time;
-            $db->query("ALTER TABLE  `temporary_links` DROP FOREIGN KEY  `temporary_links_ibfk_1` ;");
-            $db->query("ALTER TABLE temporary_links DROP temporary_link_id");
-            $db->query("ALTER TABLE  `temporary_links` ADD `temporary_link_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-            $db->query("ALTER TABLE `temporary_links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
             $get_id = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = " .
                 $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->temporary_link_id = $get_id[0]["temporary_link_id"];
@@ -60,11 +55,6 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         if ($numb)
         {
             $db->query("DELETE FROM temporary_links WHERE user_id =".$user_id);
-            $db->query("ALTER TABLE  `temporary_links` DROP FOREIGN KEY  `temporary_links_ibfk_1` ;");
-            $db->query("ALTER TABLE temporary_links DROP temporary_link_id");
-            $db->query("ALTER TABLE  `temporary_links` ADD `temporary_link_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-            $db->query("ALTER TABLE `temporary_links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
         }
         else
         {

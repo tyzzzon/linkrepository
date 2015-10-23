@@ -39,11 +39,6 @@ class Link_Model extends Model
             $db->query("INSERT INTO links (`link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
 `link_born_time` , `user_id`) VALUES ('" . $link_name . "', '" . $link_url . "', '" .
                 $link_description . "', '" . $link_private_status . "', '" . $link_born_time . "', '" . $user_id . "')");
-            $db->query("ALTER TABLE  `links` DROP FOREIGN KEY  `links_ibfk_1` ;");
-            $db->query("ALTER TABLE links DROP link_id");
-            $db->query("ALTER TABLE  `links` ADD `link_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-            $db->query("ALTER TABLE `links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
             $get_id = $db->query("SELECT `link_id` FROM `links` WHERE `link_url` = '" . $link_url . "' AND
         `user_id` = '" . $user_id . "'")->fetchAll(PDO::FETCH_ASSOC);
             $this->link_id = $get_id[0]["link_id"];
@@ -91,11 +86,6 @@ class Link_Model extends Model
             case 1:
                 $db->query("DELETE FROM links WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id);
-                $db->query("ALTER TABLE  `links` DROP FOREIGN KEY  `links_ibfk_1` ;");
-                $db->query("ALTER TABLE links DROP link_id");
-                $db->query("ALTER TABLE  `links` ADD `link_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-                $db->query("ALTER TABLE `links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-                      (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
                 echo "Everything is ok<br>";
                 break;
             case 0:

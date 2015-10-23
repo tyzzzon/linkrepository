@@ -39,12 +39,13 @@ user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "',
                 "', '" . $this->user_role . "', '" . $this->user_status . "')");
             $get_id = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '" . $user_login . "' AND
         `user_password` = '" . $password . "'")->fetchAll(PDO::FETCH_ASSOC);
-            $db->query("ALTER TABLE  `links` DROP FOREIGN KEY  `links_ibfk_1` ;");
-            $db->query("ALTER TABLE users DROP user_id");
-            $db->query("ALTER TABLE  `users` ADD `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-            $db->query("ALTER TABLE `links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
             $this->user_id = $get_id[0]["user_id"];
+            $this->lets_see();
+            $temp_link = new Temporary_Link_Model();
+            $temp_link->create_temporary_link($this->user_id, date("Y-m-d H:i"));
+            echo $temp_link->temporary_link_id."<br>".$temp_link->temporary_link_hash."<br>".$temp_link->temporary_link_born_time."<br>".
+                $temp_link->user_id."<br>";
+            $temp_link->send_temporary_link();
         }
     }
 
@@ -108,11 +109,6 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         {
             case 1:
                 $db->query("DELETE FROM users WHERE user_login = '".$user_login."'");
-                $db->query("ALTER TABLE  `links` DROP FOREIGN KEY  `links_ibfk_1` ;");
-                $db->query("ALTER TABLE users DROP user_id");
-                $db->query("ALTER TABLE  `users` ADD `user_id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST");
-                $db->query("ALTER TABLE `links` ADD FOREIGN KEY ( `user_id` ) REFERENCES `users`
-                      (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE");
                 echo "Everything is ok<br>";
                 break;
             case 0:
