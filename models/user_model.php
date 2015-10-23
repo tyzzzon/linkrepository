@@ -120,7 +120,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         }
     }
 
-    public function edit_user($user_login, $user_name, $user_surname, $user_role, $user_status)
+    public function edit_user($user_login)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
@@ -128,9 +128,9 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
 WHERE `user_login` = '".$user_login."'")->rowCount();
         if ($numb)
         {
-            $db->query("UPDATE users SET user_name = '".$user_name."', user_surname =
-             '".$user_surname."', user_role = '".$user_role."', user_status =
-              '".$user_status."' WHERE user_login = '". $user_login."'");
+            $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =
+             '".$this->user_surname."', user_role = '".$this->user_role."', user_status =
+              '".$this->user_status."' WHERE user_login = '". $this->user_login."'");
         }
         else
         {

@@ -7,7 +7,7 @@ class Temporary_Link_Model
     public $temporary_link_hash;
     public $temporary_link_born_time;
 
-    public function create_temporary_link($user_id, $temporary_link_born_time)
+    public function create_temporary_link($user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
@@ -17,11 +17,12 @@ class Temporary_Link_Model
         }
         else
         {
+            $temporary_link_born_date = date("Y-m-d H:i");
             $this->temporary_link_hash = sha1(uniqid($this->user_id, true));
             $db->query("INSERT INTO temporary_links (user_id, temporary_link_hash, temporary_link_born_time)
-VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_link_born_time . "')");
+VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_link_born_date . "')");
             $this->user_id = $user_id;
-            $this->temporary_link_born_time = $temporary_link_born_time;
+            $this->temporary_link_born_time = $temporary_link_born_date;
             $get_id = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = " .
                 $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->temporary_link_id = $get_id[0]["temporary_link_id"];
