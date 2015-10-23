@@ -7,6 +7,7 @@ class Reg_Controller
         {
             $poson = new User_Model();
             $poson->create($user_name, $user_surname, $user_login, $user_email, $user_password);
+            echo "Check your e-mail for link";
         }
         else
         {

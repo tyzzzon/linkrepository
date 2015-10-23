@@ -137,4 +137,27 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
             echo "There is no such user<br>";
         }
     }
+
+    public function authentification($user_login, $user_password)
+    {
+        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'");
+        if ($numb)
+        {
+            $user = new User_Model();
+            $user->get_from_database($user_login);
+            if ($user_password == $user->user_password)
+            {
+                echo "Success!";
+            }
+            else
+            {
+                echo "Wrong password";
+            }
+        }
+        else
+        {
+            echo "Wrong login";
+        }
+    }
 }
