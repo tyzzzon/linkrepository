@@ -141,7 +141,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
     public function authentification($user_login, $user_password)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'");
+        $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->rowCount();
         if ($numb)
         {
             $user = new User_Model();
