@@ -30,5 +30,5 @@ $linky = new Temporary_Link_Model();
 //$linky->get_from_database(5);
 //$linky->delete_link(1);
 //$linky->check_link("erjh56kjdf", "email@email.email");
-$linky->send_temporary_link();
+//$linky->send_temporary_link();
 //echo $linky->temporary_link_id."<br>".$linky->user_id."<br>".$linky->temporary_link_hash."<br>".$linky->temporary_link_born_time."<br>";
