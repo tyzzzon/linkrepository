@@ -130,7 +130,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         {
             $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =
              '".$this->user_surname."', user_role = '".$this->user_role."', user_status =
-              '".$this->user_status."' WHERE user_login = '". $this->user_login."'");
+              '".$this->user_status."' user_password = '".$this->user_password."' WHERE user_login = '". $this->user_login."'");
         }
         else
         {
