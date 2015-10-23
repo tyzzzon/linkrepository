@@ -96,7 +96,7 @@ class Link_Model extends Model
                 break;
         }
     }
-
+    //могут быть одинаковые ссылки у разных пользователей
     /*public function edit_link($link_name, $link_url, $link_description, $link_private_status, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
