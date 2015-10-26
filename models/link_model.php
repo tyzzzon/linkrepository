@@ -113,4 +113,29 @@ WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount
             echo "There is no such link<br>";
         }
     }
+
+    public function link_look($private_rights)
+    {
+        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        if ($private_rights)
+        {
+            $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description, link_private_status FROM
+links")->fetchAll(PDO::FETCH_ASSOC);
+            for ($i = 0; $i < count($rows); $i++)
+            {
+                echo "Link name = ".$rows[$i]["link_name"]." link url = ".$rows[$i]["link_url"]." link description = ".
+                    $rows[$i]["link_description"]." link private status = ".$rows[$i]["link_private_status"]."<br>";
+            }
+        }
+        else
+        {
+            $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description FROM links WHERE
+link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
+            for ($i = 0; $i < count($rows); $i++)
+            {
+                echo "Link name = ".$rows[$i]["link_name"]." link url = ".$rows[$i]["link_url"]." link description = ".
+                    $rows[$i]["link_description"]."<br>";
+            }
+        }
+    }
 }
