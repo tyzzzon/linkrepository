@@ -102,9 +102,10 @@ class Link_Model extends Model
 WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
-            $db->query("UPDATE users SET link_name = '".$this->link_name."', link_url =
+            $db->query("UPDATE links SET link_name = '".$this->link_name."', link_url =
              '".$this->link_url."', link_description = '".$this->link_description."', link_private_status =
-              '".$this->link_private_status."' WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id);
+              ".$this->link_private_status." WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id);
+            echo "Everithing is ok";
         }
         else
         {

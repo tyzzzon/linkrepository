@@ -1,5 +1,5 @@
 <?php
-class Link_Edit
+class Link_Edit_Controller
 {
     public function link_edit($link_name, $link_url, $link_description, $link_private_status, $user_id)
     {
