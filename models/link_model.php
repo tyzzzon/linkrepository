@@ -138,4 +138,16 @@ link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
             }
         }
     }
+
+    public function my_link_look($user_id)
+    {
+        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description, link_private_status FROM
+links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
+        for ($i = 0; $i < count($rows); $i++)
+        {
+            echo "Link name = ".$rows[$i]["link_name"]." link url = ".$rows[$i]["link_url"]." link description = ".
+                $rows[$i]["link_description"]." link private status = ".$rows[$i]["link_private_status"]."<br>";
+        }
+    }
 }
