@@ -77,25 +77,22 @@ user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "',
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
 `user_email`, `user_password`, `user_role`, `user_status` FROM `users`
 WHERE `user_login` = '".$user_login."'")->rowCount();
-        switch ($numb)
+        if ($numb) {
+            $this->user_id = $row[0]["user_id"];
+            $this->user_name = $row[0]["user_name"];
+            $this->user_surname = $row[0]["user_surname"];
+            $this->user_login = $row[0]["user_login"];
+            $this->user_email = $row[0]["user_email"];
+            $this->user_password = $row[0]["user_password"];
+            $this->user_role = $row[0]["user_role"];
+            $this->user_status = $row[0]["user_status"];
+            echo "Everything is ok<br>";
+            return true;
+        }
+        else
         {
-            case 1:
-                $this->user_id = $row[0]["user_id"];
-                $this->user_name = $row[0]["user_name"];
-                $this->user_surname = $row[0]["user_surname"];
-                $this->user_login = $row[0]["user_login"];
-                $this->user_email = $row[0]["user_email"];
-                $this->user_password = $row[0]["user_password"];
-                $this->user_role = $row[0]["user_role"];
-                $this->user_status = $row[0]["user_status"];
-                echo "Everything is ok<br>";
-                break;
-            case 0:
-                echo "There is no such user<br>";
-                break;
-            default:
-                echo "Smth is wrong...<br>";
-                break;
+            echo "There is no such user<br>";
+            return false;
         }
     }
 
@@ -120,12 +117,12 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         }
     }
 
-    public function edit_user($user_login)
+    public function edit_user($this)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
 `user_email`, `user_password`, `user_role`, `user_status` FROM `users`
-WHERE `user_login` = '".$user_login."'")->rowCount();
+WHERE `user_login` = '".$this->user_login."'")->rowCount();
         if ($numb)
         {
             $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =

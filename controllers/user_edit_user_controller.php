@@ -1,7 +1,7 @@
 <?php
-class Admin_Edit_User_Controller
+class User_Edit_User_Controller
 {
-    public function admin_edit_user($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
+    public function user_edit_user($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
     {
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
@@ -17,7 +17,6 @@ class Admin_Edit_User_Controller
                 $user->user_surname = $user_surname;
                 $user->user_email = $user_email;
                 $user->user_password = $user_password;
-                $user->user_role = $user_role;
                 $user->edit_user($user_login);
             }
         }

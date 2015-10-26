@@ -97,7 +97,7 @@ class Link_Model extends Model
         }
     }
     //могут быть одинаковые ссылки у разных пользователей
-    /*public function edit_link($link_name, $link_url, $link_description, $link_private_status, $user_id)
+    public function edit_link($link_name, $link_url, $link_description, $link_private_status, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT link_name, link_url, link_description, link_private_status FROM `links`
@@ -112,5 +112,5 @@ WHERE `link_url` = '".$link_url."'AND user_id =".$user_id)->rowCount();
         {
             echo "There is no such link<br>";
         }
-    }*/
+    }
 }
