@@ -51,27 +51,25 @@ class Link_Model extends Model
         $numb = $db->query("SELECT `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
 `link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
-        switch ($numb)
+        if ($numb)
         {
-            case 1:
-                $row = $db->query("SELECT `link_id`, `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
-`link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
-".$user_id)->fetchAll(PDO::FETCH_ASSOC);
-                $this->link_id = $row[0]["link_id"];
-                $this->link_name = $row[0]["link_name"];
-                $this->link_url = $row[0]["link_url"];
-                $this->link_description = $row[0]["link_description"];
-                $this->link_private_status = $row[0]["link_private_status"];
-                $this->link_born_time = $row[0]["link_born_time"];
-                $this->user_id = $row[0]["user_id"];
-                echo "Everything is ok<br>";
-                break;
-            case 0:
-                echo "There is no such link<br>";
-                break;
-            default:
-                echo "Smth is wrong...<br>";
-                break;
+            $row = $db->query("SELECT `link_id`, `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
+`link_born_time` , `user_id` FROM `links` WHERE `link_url` = '" . $link_url . "' AND user_id =
+" . $user_id)->fetchAll(PDO::FETCH_ASSOC);
+            $this->link_id = $row[0]["link_id"];
+            $this->link_name = $row[0]["link_name"];
+            $this->link_url = $row[0]["link_url"];
+            $this->link_description = $row[0]["link_description"];
+            $this->link_private_status = $row[0]["link_private_status"];
+            $this->link_born_time = $row[0]["link_born_time"];
+            $this->user_id = $row[0]["user_id"];
+            echo "Everything is ok<br>";
+            return true;
+        }
+        else
+        {
+            echo "There is no such link<br>";
+            return false;
         }
     }
 
@@ -97,16 +95,16 @@ class Link_Model extends Model
         }
     }
     //могут быть одинаковые ссылки у разных пользователей
-    public function edit_link($link_name, $link_url, $link_description, $link_private_status, $user_id)
+    public function edit_link()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT link_name, link_url, link_description, link_private_status FROM `links`
-WHERE `link_url` = '".$link_url."'AND user_id =".$user_id)->rowCount();
+WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
-            $db->query("UPDATE users SET link_name = '".$link_name."', link_url =
-             '".$link_url."', link_description = '".$link_description."', link_private_status =
-              '".$link_private_status."' WHERE `link_url` = '".$link_url."'AND user_id =".$user_id);
+            $db->query("UPDATE users SET link_name = '".$this->link_name."', link_url =
+             '".$this->link_url."', link_description = '".$this->link_description."', link_private_status =
+              '".$this->link_private_status."' WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id);
         }
         else
         {

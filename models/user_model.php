@@ -1,5 +1,5 @@
 <?php
-require_once "core/model.php";
+//require_once "autoload.php";
 class User_Model extends Model
 {
     public $user_id;
@@ -25,6 +25,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         if ($numb)
         {
             echo "There is a user with such login<br>";
+            return false;
         }
         else
         {
@@ -46,6 +47,7 @@ user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "',
             echo $temp_link->temporary_link_id."<br>".$temp_link->temporary_link_hash."<br>".$temp_link->temporary_link_born_time."<br>".
                 $temp_link->user_id."<br>";
             $temp_link->send_temporary_link();
+            return true;
         }
     }
 
@@ -117,7 +119,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         }
     }
 
-    public function edit_user($this)
+    public function edit_user()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
@@ -127,7 +129,9 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
         {
             $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =
              '".$this->user_surname."', user_role = '".$this->user_role."', user_status =
-              '".$this->user_status."' user_password = '".$this->user_password."' WHERE user_login = '". $this->user_login."'");
+              '".$this->user_status."', user_password = '".$this->user_password."', user_email = '".$this->user_email."'
+              WHERE user_login = '". $this->user_login."'");
+            echo "Everything is ok<br>";
         }
         else
         {

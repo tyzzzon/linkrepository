@@ -1,6 +1,8 @@
 <?php
-/*ini_set('display errors', 1);
-require_once 'bootstrap.php';*/
+error_reporting(E_ALL);
+ini_set('display_errors', TRUE);
+ini_set('display_startup_errors', TRUE);
+//require_once 'bootstrap.php';
 //$db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
 require_once "autoload.php";
 //require_once "models/user_model.php";
@@ -33,5 +35,7 @@ require_once "autoload.php";
 //$linky->check_link("erjh56kjdf", "email@email.email");
 //$linky->send_temporary_link();
 //echo $linky->temporary_link_id."<br>".$linky->user_id."<br>".$linky->temporary_link_hash."<br>".$linky->temporary_link_born_time."<br>";
-$cont = new Auth_Controller();
-$cont->authentification("MK","555");
+$cont = new Edit_User_Controller();
+//$cont = new Auth_Controller();
+//$cont->authentification("MK", "555");
+$cont->admin_edit_user("Vasya", "Petrov", "VP", "email@email.email", "111", "editor");

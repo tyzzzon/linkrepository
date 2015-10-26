@@ -6,8 +6,8 @@ class Reg_Controller
         if ($user_password == $user_password_validation)
         {
             $poson = new User_Model();
-            $poson->create($user_name, $user_surname, $user_login, $user_email, $user_password);
-            echo "Check your e-mail for link";
+            if ($poson->create($user_name, $user_surname, $user_login, $user_email, $user_password))
+                echo "Check your e-mail for link";
         }
         else
         {

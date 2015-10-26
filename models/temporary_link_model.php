@@ -42,10 +42,12 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
             $this->user_id = $link_row[0]["user_id"];
             $this->temporary_link_hash = $link_row[0]["temporary_link_hash"];
             $this->temporary_link_born_time = $link_row[0]["temporary_link_born_time"];
+            return true;
         }
         else
         {
             echo "There is no link for that user";
+            return false;
         }
     }
 

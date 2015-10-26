@@ -2,16 +2,24 @@
 function autoloadModel($className) {
     $filename = "models/" . strtolower($className) . ".php";
     if (is_readable($filename)) {
-        require $filename;
+        require_once $filename;
     }
 }
 
 function autoloadController($className) {
     $filename = "controllers/" . strtolower($className) . ".php";
     if (is_readable($filename)) {
-        require $filename;
+        require_once $filename;
+    }
+}
+
+function autoloadCore($className) {
+    $filename = "core/" . strtolower($className) . ".php";
+    if (is_readable($filename)) {
+        require_once $filename;
     }
 }
 
 spl_autoload_register("autoloadModel");
 spl_autoload_register("autoloadController");
+spl_autoload_register("autoloadCore");
