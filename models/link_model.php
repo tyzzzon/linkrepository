@@ -18,7 +18,6 @@ class Link_Model extends Model
     public function create($link_name, $link_url, $link_description, $link_private_status,
                            $link_born_time, $user_id)
     {
-
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository', 'root', '111111');
         $numb = $db->query("SELECT `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
 `link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
@@ -26,6 +25,7 @@ class Link_Model extends Model
         if ($numb)
         {
             echo "There is a link with such url<br>";
+            return false;
         }
         else
         {
@@ -42,6 +42,7 @@ class Link_Model extends Model
             $get_id = $db->query("SELECT `link_id` FROM `links` WHERE `link_url` = '" . $link_url . "' AND
         `user_id` = '" . $user_id . "'")->fetchAll(PDO::FETCH_ASSOC);
             $this->link_id = $get_id[0]["link_id"];
+            return true;
         }
     }
 
