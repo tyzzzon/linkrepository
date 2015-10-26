@@ -115,7 +115,6 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         $delta = 3600;
         $data_now = explode("/", date("Y/m/d/H/i"));
         $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $this->temporary_link_born_time))));
-        var_dump($data_born);
         if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
                 $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
         {

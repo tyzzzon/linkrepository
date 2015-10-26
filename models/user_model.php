@@ -46,10 +46,10 @@ WHERE `user_email` = '".$email."'")->rowCount();
                 $this->user_email = $email;
                 $this->user_password = $password;
                 $db->query("INSERT INTO users (user_name, user_surname, user_login, user_email, user_password, user_role,
-user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "', '" . $email . "', '" . $password .
+user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "', '" . $email . "', '" . md5($password) .
                     "', '" . $this->user_role . "', '" . $this->user_status . "')");
                 $get_id = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '" . $user_login . "' AND
-        `user_password` = '" . $password . "'")->fetchAll(PDO::FETCH_ASSOC);
+        `user_password` = '" . md5($password) . "'")->fetchAll(PDO::FETCH_ASSOC);
                 $this->user_id = $get_id[0]["user_id"];
                 $this->lets_see();
                 $temp_link = new Temporary_Link_Model();
@@ -76,7 +76,6 @@ user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "',
             echo "Surname: " . $this->user_surname . "<br>";
             echo "User login: " . $this->user_login . "<br>";
             echo "Email: " . $this->user_email . "<br>";
-            echo "Password: " . $this->user_password . "<br>";
             echo "Role: " . $this->user_role . "<br>";
             echo "Status: " . $this->user_status . "<br>";
         }
@@ -140,7 +139,7 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
         {
             $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =
              '".$this->user_surname."', user_role = '".$this->user_role."', user_status =
-              '".$this->user_status."', user_password = '".$this->user_password."', user_email = '".$this->user_email."'
+              '".$this->user_status."', user_password = '".md5($this->user_password)."', user_email = '".$this->user_email."'
               WHERE user_login = '". $this->user_login."'");
             echo "Everything is ok<br>";
         }
@@ -159,22 +158,23 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
             $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
             $user = new User_Model();
             $user->get_from_database($user_login);
-            if ($row[0]["user_status"] == "blocked")
+            if ($user_password == $user->user_password)
             {
-                echo "You are blocked";
-                $temp_link = new Temporary_Link_Model();
-                $temp_link->create_temporary_link($user->user_id);
-            }
-            else
-            {
-                if ($user_password == $user->user_password)
+                echo "Success!";
+                if ($row[0]["user_status"] == "blocked")
                 {
-                    echo "Success!";
+                    echo "You are blocked";
+                    $temp_link = new Temporary_Link_Model();
+                    $temp_link->create_temporary_link($user->user_id);
                 }
                 else
                 {
-                    echo "Wrong password";
+
                 }
+            }
+            else
+            {
+                echo "Wrong password";
             }
         }
         else
