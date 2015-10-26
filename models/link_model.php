@@ -74,6 +74,15 @@ class Link_Model extends Model
         }
     }
 
+    public function lets_see($link_url, $user_id)
+    {
+        $this->get_from_database($link_url, $user_id);
+            echo "Name: " . $this->link_name . "<br>";
+            echo "URL: " . $this->link_url . "<br>";
+            echo "Description: " . $this->link_description . "<br>";
+            echo "Private status: " . $this->link_private_status . "<br>";
+    }
+
     public function delete_link($link_url, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');

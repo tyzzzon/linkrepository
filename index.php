@@ -44,3 +44,5 @@ require_once "autoload.php";
 //$link->link_look(0);
 //$cont = new My_Link_Look_Controller();
 //$cont->my_link_look(5);
+//$cont = new Link_Description_Controller();
+//$cont->link_description("vk.com", 5);
