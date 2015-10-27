@@ -1,6 +1,26 @@
 <?php
-class Edit_User_Controller
+class User_Controller
 {
+    public function registration($user_name, $user_surname, $user_login, $user_email, $user_password, $user_password_validation)
+    {
+        if ($user_password == $user_password_validation)
+        {
+            $poson = new User_Model();
+            if ($poson->create($user_name, $user_surname, $user_login, $user_email, $user_password))
+                echo "Check your e-mail for link";
+        }
+        else
+        {
+            echo "passwords are not the same";
+        }
+    }
+
+    public function authentification($user_login, $user_password)
+    {
+        $user = new User_Model();
+        $user->authentification($user_login, md5($user_password));
+    }
+
     public function admin_edit_user($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
     {
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
