@@ -1,7 +1,7 @@
 <?php
 class User_Controller
 {
-    public function registration($user_name, $user_surname, $user_login, $user_email, $user_password, $user_password_validation)
+    public function registration_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_password_validation)
     {
         if ($user_password == $user_password_validation)
         {
@@ -15,13 +15,13 @@ class User_Controller
         }
     }
 
-    public function authentification($user_login, $user_password)
+    public function authentification_action()
     {
         $user = new User_Model();
-        $user->authentification($user_login, md5($user_password));
+        $user->authentification($_POST["Login"], md5($_POST["Password"]));
     }
 
-    public function admin_edit_user($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
+    public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
     {
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
@@ -43,7 +43,7 @@ class User_Controller
         }
     }
 
-    public function user_edit_user($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
+    public function user_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
     {
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
@@ -61,6 +61,17 @@ class User_Controller
                 $user->user_password = $user_password;
                 $user->edit_user();
             }
+        }
+    }
+
+    public function see_users_action()
+    {
+        exit();
+        $user=new User_Model();
+        for ($i=0; $i<5; $i++)
+        {
+            $user->get_from_database("DK");
+            $user->lets_see();
         }
     }
 }

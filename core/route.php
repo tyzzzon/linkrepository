@@ -14,6 +14,7 @@ class Route
         //controller and default action
         $controller_name = 'Main';
         $action_name = 'index';
+        echo "6";
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
         //getting the name of the controller
@@ -21,8 +22,9 @@ class Route
         {
             $controller_name = $routes[1];
         }
+        echo "1";
 
-        //getting the name of the controller
+        //getting the name of the action
         if ( !empty($routes[2]))
         {
             $action_name = $routes[2];
@@ -30,7 +32,8 @@ class Route
         //adding prefixes
         $model_name = $controller_name.'_Model';
         $controller_name = $controller_name.'_Controller';
-        $action_name = $action_name.'_Action';
+        $action_name = $action_name.'_action';
+        echo "2";
 
         //file of model-class
         $model_file = strtolower($model_name).'.php';
@@ -39,6 +42,7 @@ class Route
         {
             include "models/".$model_file;
         }
+        echo "3";
 
         //file of controller-class
         $controller_file = strtolower($controller_name).'.php';
@@ -51,25 +55,23 @@ class Route
         {
             Route::ErrorPage404();
         }
-        echo "4";
         //making a controller
-
+        echo "4";
+        exit();
           $controller = new $controller_name;
-//        var_dump($action_name);
-//        $action = new $action_name;
+        var_dump($action_name);
+        //$action = new $action_name;
         echo "5";
 
         if (method_exists($controller, $action_name))
         {
             //calling an action of controller
-            $controller->$action_name;
-            echo "7";
+            $controller->$action_name();
         }
         else
         {
             Route::ErrorPage404();
         }
-        echo "6";
 
 
     }

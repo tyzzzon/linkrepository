@@ -2,9 +2,9 @@
 error_reporting(E_ALL);
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);
-//require_once 'bootstrap.php';
-//$db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
 require_once "autoload.php";
+require_once 'bootstrap.php';
+//$db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
 //require_once "models/user_model.php";
 //require_once "models/link_model.php";
 //require_once "models/temporary_link_model.php";
@@ -37,8 +37,8 @@ require_once "autoload.php";
 //$linky->check_time_link();
 //echo $linky->temporary_link_id."<br>".$linky->user_id."<br>".$linky->temporary_link_hash."<br>".$linky->temporary_link_born_time."<br>";
 //$cont = new Link_Create_Controller();
-$cont = new Auth_Controller();
-$cont->authentification("DK", "888");
+//$cont = new Auth_Controller();
+//$cont->authentification("DK", "888");
 //$cont->link_create("vk", "vk.com", "social web", 1, 5);
 //$link = new Link_Look_Controller();
 //$link->link_look(0);
@@ -48,3 +48,12 @@ $cont->authentification("DK", "888");
 //$cont->link_description("vk.com", 5);
 //$cont = new Reg_Controller();
 //$cont->registration("Domokl", "Krivanskiy", "DK", "dk@email.com", "888", "888");
+echo "245h1yh";
+//if ($_REQUEST['ok'] && $_REQUEST['Login']!="" && $_REQUEST['Password']!="")
+//{
+//
+//    $cont = new User_Controller();
+//    $cont->authentification($_POST["Login"], $_POST["Password"]);
+//    //header ("Location: ".$_SERVER['HTTP_REFERER']);
+//}
+?>
