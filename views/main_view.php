@@ -22,7 +22,7 @@
             </button>
             <a class="navbar-brand" href="#">Link repository</a>
             <a class="navbar-brand" href="#">Home</a>
-            <a class="navbar-brand" href="#">Registration</a>
+            <a class="navbar-brand" href="/registration">Registration</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" action="/user/authentification" method="post">

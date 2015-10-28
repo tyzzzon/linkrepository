@@ -16,7 +16,7 @@ class Route
         $action_name = 'index';
         $view_name = 'Main';
 
-        $routes = ($strpos=mb_strpos($_SERVER['REQUEST_URI'],"?"))!==false?mb_substr($_SERVER['REQUEST_URI'],0,$strpos):$_SERVER['REQUEST_URI'];
+        $routes = ($strpos=strpos($_SERVER['REQUEST_URI'],"?"))!==false?substr($_SERVER['REQUEST_URI'],0,$strpos):$_SERVER['REQUEST_URI'];
         //var_dump($routes);
         $routes = explode('/', $routes);
         //var_dump($routes);
@@ -80,6 +80,5 @@ class Route
                 Route::ErrorPage404();
             }
         }
-
     }
 }

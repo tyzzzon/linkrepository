@@ -6,7 +6,8 @@ class User_Controller
         if ($_POST["user_login"]=="" || $_POST["user_email"]=="" || $_POST["user_password"]=="")
         {
             echo "Not all required fields are filled";
-            // вот тута!!!!!!!!!
+            $view = new View();
+            $view->render("registration");
         }
         else
         {
@@ -24,6 +25,8 @@ class User_Controller
             else
             {
                 echo "passwords are not the same<br>";
+                $view = new View();
+                $view->render("registration");
             }
         }
     }
