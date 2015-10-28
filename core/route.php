@@ -18,16 +18,13 @@ class Route
         $routes = ($strpos=strpos($_SERVER['REQUEST_URI'],"?"))!==false?substr($_SERVER['REQUEST_URI'],0,$strpos):$_SERVER['REQUEST_URI'];
         $routes = explode('/', $routes);
         //getting the name of the controller
-        if ( !empty($routes[1]))
+        if ( !empty($routes[1]) && !empty($routes[2]))
         {
             $controller_name = $routes[1];
+            $action_name = $routes[2];
         }
 
         //getting the name of the action
-        if ( !empty($routes[2]))
-        {
-            $action_name = $routes[2];
-        }
         //adding postfixes
         $controller_name = $controller_name.'_Controller';
         $action_name = $action_name.'_action';

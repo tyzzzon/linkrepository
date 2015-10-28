@@ -1,8 +1,12 @@
 <?php
 class View
 {
-    function render($view)
+    function render($view_name)
     {
-        include 'views/'.$view.".php";
+        if ($view_name == "")
+        {
+            $view_name = "index";
+        }
+            include 'views/' . $view_name . "_view.php";
     }
 }
