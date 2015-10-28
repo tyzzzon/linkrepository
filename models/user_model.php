@@ -16,12 +16,12 @@ class User_Model extends Model
         parent::__construct();
     }
 
-    public function create($name, $surname, $user_login, $email, $password)
+    public function create()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository', 'root', '111111');
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
 `user_email`, `user_password`, `user_role`, `user_status` FROM `users`
-WHERE `user_login` = '".$user_login."'")->rowCount();
+WHERE `user_login` = '".$this->user_login."'")->rowCount();
         if ($numb)
         {
             echo "There is a user with such login<br>";
@@ -31,7 +31,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         {
             $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
 `user_email`, `user_password`, `user_role`, `user_status` FROM `users`
-WHERE `user_email` = '".$email."'")->rowCount();
+WHERE `user_email` = '".$this->user_email."'")->rowCount();
             if ($numb)
             {
                 echo "There is a user with such email<br>";
@@ -40,20 +40,15 @@ WHERE `user_email` = '".$email."'")->rowCount();
             else
             {
                 echo "Everything is ok <br>";
-                $this->user_name = $name;
-                $this->user_surname = $surname;
-                $this->user_login = $user_login;
-                $this->user_email = $email;
-                $this->user_password = $password;
                 $db->query("INSERT INTO users (user_name, user_surname, user_login, user_email, user_password, user_role,
-user_status) VALUES ('" . $name . "', '" . $surname . "', '" . $user_login . "', '" . $email . "', '" . md5($password) .
+user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', '" . $this->user_login . "', '" . $this->user_email . "', '" . md5($this->user_password) .
                     "', '" . $this->user_role . "', '" . $this->user_status . "')");
-                $get_id = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '" . $user_login . "' AND
-        `user_password` = '" . md5($password) . "'")->fetchAll(PDO::FETCH_ASSOC);
+                $get_id = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '" . $this->user_login . "' AND
+        `user_password` = '" . md5($this->user_password) . "'")->fetchAll(PDO::FETCH_ASSOC);
                 $this->user_id = $get_id[0]["user_id"];
                 $this->lets_see();
                 $temp_link = new Temporary_Link_Model();
-                $temp_link->create_temporary_link($this->user_id, date("Y-m-d H:i"));
+                $temp_link->create_temporary_link($this->user_id);
                 echo $temp_link->temporary_link_id . "<br>" . $temp_link->temporary_link_hash . "<br>" . $temp_link->temporary_link_born_time . "<br>" .
                     $temp_link->user_id . "<br>";
                 $temp_link->send_temporary_link();

@@ -1,12 +1,17 @@
 <?php
 class User_Controller
 {
-    public function registration_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_password_validation)
+    public function registration_action()
     {
-        if ($user_password == $user_password_validation)
+        if ($_POST("user_password") == $_POST("user_password_validation"))
         {
             $poson = new User_Model();
-            if ($poson->create($user_name, $user_surname, $user_login, $user_email, $user_password))
+            $poson->user_name = $_POST["user_name"];
+            $poson->user_surname = $_POST["user_surname"];
+            $poson->user_login = $_POST["user_login"];
+            $poson->user_email = $_POST["user_email"];
+            $poson->user_password = $_POST["user_password"];
+            if ($poson->create())
                 echo "Check your e-mail for link<br>";
         }
         else
