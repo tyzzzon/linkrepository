@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-<form class="navbar-form navbar-right" action="/user/see_users">
+<form class="navbar-form navbar-right" action="/user/authentification" method="post">
     <div class="form-group">
         <input type="text" name="Login" placeholder="Login" class="form-control">
     </div>

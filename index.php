@@ -48,7 +48,6 @@ require_once 'bootstrap.php';
 //$cont->link_description("vk.com", 5);
 //$cont = new Reg_Controller();
 //$cont->registration("Domokl", "Krivanskiy", "DK", "dk@email.com", "888", "888");
-echo "245h1yh";
 //if ($_REQUEST['ok'] && $_REQUEST['Login']!="" && $_REQUEST['Password']!="")
 //{
 //

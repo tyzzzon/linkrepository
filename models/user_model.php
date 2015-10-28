@@ -160,10 +160,10 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
             $user->get_from_database($user_login);
             if ($user_password == $user->user_password)
             {
-                echo "Success!";
+                echo "Success!<br>";
                 if ($row[0]["user_status"] == "blocked")
                 {
-                    echo "You are blocked";
+                    echo "You are blocked<br>";
                     $temp_link = new Temporary_Link_Model();
                     $temp_link->create_temporary_link($user->user_id);
                 }
@@ -174,12 +174,12 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
             }
             else
             {
-                echo "Wrong password";
+                echo "Wrong password<br>";
             }
         }
         else
         {
-            echo "Wrong login";
+            echo "Wrong login<br>";
         }
     }
 }

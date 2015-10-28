@@ -13,7 +13,7 @@ class Temporary_Link_Model
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
-            echo "There is a temporary link for this user!";
+            echo "There is a temporary link for this user!<br>";
             $this->get_from_database($user_id);
             $this->check_time_link();
         }
@@ -28,7 +28,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
             $get_id = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = " .
                 $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->temporary_link_id = $get_id[0]["temporary_link_id"];
-            echo "Check your email for temporary link";
+            echo "Check your email for temporary link<br>";
         }
     }
 
@@ -118,8 +118,8 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
                 $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
         {
-            echo "The link is dead;(";
-            //$this->delete_link($this->user_id);
+            echo "The link is dead;(<br>";
+            $this->delete_link($this->user_id);
             $this->create_temporary_link($this->user_id);
         }
         else

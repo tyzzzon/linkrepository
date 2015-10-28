@@ -7,11 +7,11 @@ class User_Controller
         {
             $poson = new User_Model();
             if ($poson->create($user_name, $user_surname, $user_login, $user_email, $user_password))
-                echo "Check your e-mail for link";
+                echo "Check your e-mail for link<br>";
         }
         else
         {
-            echo "passwords are not the same";
+            echo "passwords are not the same<br>";
         }
     }
 
@@ -26,7 +26,7 @@ class User_Controller
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
         {
-            echo "Smth is wrong";
+            echo "Smth is wrong<br>";
         }
         else
         {
@@ -48,7 +48,7 @@ class User_Controller
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
         {
-            echo "Smth is wrong";
+            echo "Smth is wrong<br>";
         }
         else
         {
