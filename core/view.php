@@ -1,8 +1,8 @@
 <?php
 class View
 {
-    function render($view, $data = null)
+    function render($view)
     {
-        include 'views/'.$view."php";
+        include 'views/'.$view.".php";
     }
 }
