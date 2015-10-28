@@ -93,7 +93,7 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
             $this->user_password = $row[0]["user_password"];
             $this->user_role = $row[0]["user_role"];
             $this->user_status = $row[0]["user_status"];
-            echo "Everything is ok<br>";
+            echo "We've got it from database<br>";
             return true;
         }
         else

@@ -25,7 +25,7 @@
             <a class="navbar-brand" href="#">Registration</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" action="<?=$_SERVER['index.php']?>">
+            <form class="navbar-form navbar-right" action="/user/authentification" method="post">
                 <div class="form-group">
                     <input type="text" name="Login" placeholder="Login" class="form-control">
                 </div>

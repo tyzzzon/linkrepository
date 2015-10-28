@@ -24,6 +24,7 @@ class User_Controller
     {
         $user = new User_Model();
         $user->authentification($_POST["Login"], md5($_POST["Password"]));
+
     }
 
     public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
