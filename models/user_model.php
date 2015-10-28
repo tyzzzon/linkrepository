@@ -109,18 +109,14 @@ WHERE `user_login` = '".$user_login."'")->rowCount();
         $numb = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
 `user_email`, `user_password`, `user_role`, `user_status` FROM `users`
 WHERE `user_login` = '".$user_login."'")->rowCount();
-        switch ($numb)
+        if ($numb)
         {
-            case 1:
-                $db->query("DELETE FROM users WHERE user_login = '".$user_login."'");
-                echo "Everything is ok<br>";
-                break;
-            case 0:
+            $db->query("DELETE FROM users WHERE user_login = '" . $user_login . "'");
+            echo "Everything is ok<br>";
+        }
+        else
+        {
                 echo "There is no such user<br>";
-                break;
-            default:
-                echo "Smth is wrong...<br>";
-                break;
         }
     }
 
