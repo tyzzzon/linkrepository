@@ -66,7 +66,6 @@ class User_Controller
 
     public function see_users_action()
     {
-        exit();
         $user=new User_Model();
         for ($i=0; $i<5; $i++)
         {
