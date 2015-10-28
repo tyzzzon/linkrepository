@@ -39,9 +39,33 @@
 <div class="jumbotron">
     <div class="container">
         <h1>Registration!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-            jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+        <p><form class="navbar-form navbar-left" action="/user/registration" method="post">
+            <div class="form-group">
+                Your name: <input type="text" name="user_name" placeholder="Name" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                Your surname: <input type="text" name="user_surname" placeholder="Surname" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                Your login*: <input type="text" name="user_login" placeholder="Login" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                Your email*: <input type="text" name="user_email" placeholder="E-mail" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                Your password*: <input type="password" name="user_password" placeholder="Password" class="form-control">
+            </div>
+            <br>
+            <div class="form-group">
+                Confirm password*: <input type="password" name="user_password_confirm" placeholder="Confirm password" class="form-control">
+            </div>
+            <br>
+            <button type="submit" name="ok" class="btn btn-success">Log in</button>
+        </form></p>
     </div>
 </div>
 <div class="container">

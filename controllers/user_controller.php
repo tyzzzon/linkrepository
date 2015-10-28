@@ -3,20 +3,28 @@ class User_Controller
 {
     public function registration_action()
     {
-        if ($_POST("user_password") == $_POST("user_password_validation"))
+        if ($_POST["user_login"]=="" || $_POST["user_email"]=="" || $_POST["user_password"]=="")
         {
-            $poson = new User_Model();
-            $poson->user_name = $_POST["user_name"];
-            $poson->user_surname = $_POST["user_surname"];
-            $poson->user_login = $_POST["user_login"];
-            $poson->user_email = $_POST["user_email"];
-            $poson->user_password = $_POST["user_password"];
-            if ($poson->create())
-                echo "Check your e-mail for link<br>";
+            echo "Not all required fields are filled";
+            // вот тута!!!!!!!!!
         }
         else
         {
-            echo "passwords are not the same<br>";
+            if ($_POST["user_password"] == $_POST["user_password_confirm"])
+            {
+                $poson = new User_Model();
+                $poson->user_name = $_POST["user_name"];
+                $poson->user_surname = $_POST["user_surname"];
+                $poson->user_login = $_POST["user_login"];
+                $poson->user_email = $_POST["user_email"];
+                $poson->user_password = $_POST["user_password"];
+                if ($poson->create())
+                    echo "Check your e-mail for link<br>";
+            }
+            else
+            {
+                echo "passwords are not the same<br>";
+            }
         }
     }
 
