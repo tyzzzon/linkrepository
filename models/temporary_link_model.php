@@ -116,14 +116,14 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         $ids = $db->query("SELECT temporary_link_born_time, user_id FROM temporary_links")->fetchAll(PDO::FETCH_ASSOC);
         for ($i=0;$i<count($ids);$i++)
         {
-            $delta = 10;
+            $delta = 3200;
             $data_now = explode("/", date("Y/m/d/H/i"));
             $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $ids[$i]["temporary_link_born_time"]))));
             if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
                     $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
             {
                 $this->delete_link($ids[$i]["user_id"]);
-                $this->create_temporary_link($ids[$i]["user_id"]);
+                //$this->create_temporary_link($ids[$i]["user_id"]);
             }
             else
             {

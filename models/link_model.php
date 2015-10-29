@@ -19,8 +19,7 @@ class Link_Model extends Model
                            $link_born_time, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository', 'root', '111111');
-        $numb = $db->query("SELECT `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
-`link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
+        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         if ($numb)
         {
@@ -49,8 +48,7 @@ class Link_Model extends Model
     public function get_from_database($link_url, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        $numb = $db->query("SELECT `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
-`link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
+        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         if ($numb)
         {
@@ -86,8 +84,7 @@ class Link_Model extends Model
     public function delete_link($link_url, $user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        $numb = $db->query("SELECT `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
-`link_born_time` , `user_id` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
+        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         switch ($numb)
         {
@@ -108,8 +105,7 @@ class Link_Model extends Model
     public function edit_link()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        $numb = $db->query("SELECT link_name, link_url, link_description, link_private_status FROM `links`
-WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
+        $numb = $db->query("SELECT link_name FROM `links` WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
             $db->query("UPDATE links SET link_name = '".$this->link_name."', link_url =
