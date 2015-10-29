@@ -20,6 +20,14 @@ function autoloadCore($className) {
     }
 }
 
+function autoloadConfig($className) {
+    $filename = "config/" . strtolower($className) . ".php";
+    if (is_readable($filename)) {
+        require_once $filename;
+    }
+}
+
 spl_autoload_register("autoloadModel");
 spl_autoload_register("autoloadController");
 spl_autoload_register("autoloadCore");
+spl_autoload_register("autoloadConfig");

@@ -18,7 +18,7 @@ class User_Model extends Model
 
     public function create()
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository', 'root', '111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$this->user_login."'")->rowCount();
         if ($numb)
         {
@@ -71,7 +71,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
 
     public function get_from_database($user_login)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$user_login."'")->rowCount();
         if ($numb) {
             $row = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
@@ -96,7 +96,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
 
     public function delete_user($user_login)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$user_login."'")->rowCount();
         if ($numb)
         {
@@ -111,7 +111,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
 
     public function edit_user()
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$this->user_login."'")->rowCount();
         if ($numb)
         {
@@ -129,7 +129,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
 
     public function authentification($user_login, $user_password)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->rowCount();
         if ($numb)
         {

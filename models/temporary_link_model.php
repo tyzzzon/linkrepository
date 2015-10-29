@@ -9,7 +9,7 @@ class Temporary_Link_Model
 
     public function create_temporary_link($user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $this->get_from_database($user_id);
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
@@ -36,7 +36,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
 
     public function get_from_database($user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
@@ -57,7 +57,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
 
     public function delete_link($user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
@@ -76,7 +76,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
 
     public function check_link($temporary_link_hash, $user_email)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `user_id` FROM `temporary_links` WHERE `temporary_link_hash` = '".
             $temporary_link_hash."'")->rowCount();
         if ($numb)
@@ -112,15 +112,15 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
 
     public function check_time_link()
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $ids = $db->query("SELECT temporary_link_born_time, user_id FROM temporary_links")->fetchAll(PDO::FETCH_ASSOC);
         for ($i=0;$i<count($ids);$i++)
         {
-            $delta = 3200;
+            global $life_time;
             $data_now = explode("/", date("Y/m/d/H/i"));
             $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $ids[$i]["temporary_link_born_time"]))));
             if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
-                    $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
+                    $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $life_time)
             {
                 $this->delete_link($ids[$i]["user_id"]);
                 //$this->create_temporary_link($ids[$i]["user_id"]);

@@ -4,6 +4,6 @@ require_once 'core/view.php';
 require_once 'core/controller.php';
 require_once 'core/route.php';
 
-//Route::start();
+$db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
 $route = new Route();
 $route->start();

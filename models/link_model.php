@@ -18,7 +18,7 @@ class Link_Model extends Model
     public function create($link_name, $link_url, $link_description, $link_private_status,
                            $link_born_time, $user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository', 'root', '111111');
+        global $db;
         $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         if ($numb)
@@ -47,7 +47,7 @@ class Link_Model extends Model
 
     public function get_from_database($link_url, $user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         if ($numb)
@@ -83,7 +83,7 @@ class Link_Model extends Model
 
     public function delete_link($link_url, $user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         switch ($numb)
@@ -104,7 +104,7 @@ class Link_Model extends Model
     //могут быть одинаковые ссылки у разных пользователей
     public function edit_link()
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $numb = $db->query("SELECT link_name FROM `links` WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
@@ -121,7 +121,7 @@ class Link_Model extends Model
 
     public function link_look($private_rights)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         if ($private_rights)
         {
             $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description, link_private_status FROM
@@ -146,7 +146,7 @@ link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
 
     public function my_link_look($user_id)
     {
-        $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        global $db;
         $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description, link_private_status FROM
 links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         for ($i = 0; $i < count($rows); $i++)
