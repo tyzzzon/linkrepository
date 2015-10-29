@@ -36,7 +36,6 @@ class Route
 
             if(class_exists($controller_name))
             {
-                echo "Yeah!";
                 //making a controller
                 $controller = new $controller_name;
                 if (method_exists($controller, $action_name))
