@@ -112,25 +112,26 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
     public function check_time_link()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        $delta = 3600;
+        for ($i=1;$i<5;$i++)
+            echo $i;
+        $delta = 10;
         $data_now = explode("/", date("Y/m/d/H/i"));
         $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $this->temporary_link_born_time))));
         if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
                 $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
         {
-            echo "The link is dead;(<br>";
             $this->delete_link($this->user_id);
-            $this->create_temporary_link($this->user_id);
+            //$this->create_temporary_link($this->user_id);
         }
-        else
-        {
-            $user = new User_Model();
-            $user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".
-                $this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
-            $user->get_from_database($user_login);
-            $user->user_status = "active";
-            //$user->edit_user();
-            //$this->delete_link($this->user_id);
-        }
+//        else
+//        {
+//            $user = new User_Model();
+//            $user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".
+//                $this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+//            $user->get_from_database($user_login);
+//            $user->user_status = "active";
+//            //$user->edit_user();
+//            //$this->delete_link($this->user_id);
+//        }
     }
 }
