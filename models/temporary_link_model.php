@@ -10,11 +10,11 @@ class Temporary_Link_Model
     public function create_temporary_link($user_id)
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
+        $this->get_from_database($user_id);
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
             echo "There is a temporary link for this user!<br>";
-            $this->get_from_database($user_id);
             $this->check_time_link();
         }
         else
@@ -29,6 +29,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
                 $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->temporary_link_id = $get_id[0]["temporary_link_id"];
             echo "Check your email for temporary link<br>";
+            $this->send_temporary_link();
         }
     }
 
@@ -112,16 +113,22 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
     public function check_time_link()
     {
         $db = new PDO('mysql:host=linkrepository;dbname=linkrepository','root','111111');
-        for ($i=1;$i<5;$i++)
-            echo $i;
-        $delta = 10;
-        $data_now = explode("/", date("Y/m/d/H/i"));
-        $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $this->temporary_link_born_time))));
-        if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
-                $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
+        $ids = $db->query("SELECT temporary_link_born_time, user_id FROM temporary_links")->fetchAll(PDO::FETCH_ASSOC);
+        for ($i=0;$i<count($ids);$i++)
         {
-            $this->delete_link($this->user_id);
-            //$this->create_temporary_link($this->user_id);
+            $delta = 10;
+            $data_now = explode("/", date("Y/m/d/H/i"));
+            $data_born = explode("/", str_replace(":", "/", str_replace(" ", "/", str_replace("-", "/", $ids[$i]["temporary_link_born_time"]))));
+            if (mktime($data_now[3], $data_now[4], 0, $data_now[1], $data_now[2], $data_now[0]) - mktime($data_born[3],
+                    $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $delta)
+            {
+                $this->delete_link($ids[$i]["user_id"]);
+                $this->create_temporary_link($ids[$i]["user_id"]);
+            }
+            else
+            {
+                $db->query("UPDATE users SET user_status = '".$this->user_status."' WHERE user_id = '". $ids[$i]["user_id"]."'");
+            }
         }
 //        else
 //        {

@@ -51,7 +51,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
                 $temp_link->create_temporary_link($this->user_id);
                 echo $temp_link->temporary_link_id . "<br>" . $temp_link->temporary_link_hash . "<br>" . $temp_link->temporary_link_born_time . "<br>" .
                     $temp_link->user_id . "<br>";
-                $temp_link->send_temporary_link();
                 return true;
             }
         }
@@ -146,12 +145,12 @@ WHERE `user_login` = '".$this->user_login."'")->rowCount();
         $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->rowCount();
         if ($numb)
         {
-            $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
             $user = new User_Model();
             $user->get_from_database($user_login);
             if ($user_password == $user->user_password)
             {
                 echo "Success!<br>";
+                $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]["user_status"] == "blocked")
                 {
                     echo "You are blocked<br>";
