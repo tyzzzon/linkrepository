@@ -20,7 +20,7 @@ class Temporary_Link_Model
         else
         {
             $temporary_link_born_date = date("Y-m-d H:i");
-            $this->temporary_link_hash = sha1(uniqid($this->user_id, true));
+            $this->temporary_link_hash = "linkrepository/temp_link/".sha1(uniqid($this->user_id, true));
             $db->query("INSERT INTO temporary_links (user_id, temporary_link_hash, temporary_link_born_time)
 VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_link_born_date . "')");
             $this->user_id = $user_id;

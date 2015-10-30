@@ -1,11 +1,11 @@
 <?php
 require_once "header.php";
 ?>
+
 <div class="jumbotron">
     <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a
-            jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <h1>Welcome!</h1>
+        <p>A lot of usefull information about my application.</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
     </div>
 </div>

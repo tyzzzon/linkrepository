@@ -32,8 +32,33 @@ class Link_Controller
 
     public function link_look($private_rights)
     {
+        echo "<thead>
+    <tr>
+        <th>Link name</th>
+        <th>URL</th>
+        <th>Description</th>
+        <th>Born time</th>
+        <th>User login</th>";
+        if ($private_rights)
+        {
+            echo "<th>Private status</th>";
+        }
+        echo "</tr>
+            </thead>
+            <tbody>";
         $link = new Link_Model();
-        $link->link_look($private_rights);
+        for ($i = 0; $i < $link->get_number($private_rights); $i++)
+        {
+            $link->get_all($private_rights, $i);
+            echo "<tr><td>".$link->link_name."</td>
+                <td>".$link->link_url."</td>
+                <td>".$link->link_description."</td>
+                <td>".$link->link_born_time."</td>
+                <td>".$link->user_login."</td>";
+            if ($private_rights)
+                echo "<td>".$link->link_private_status."</td></tr>";
+        }
+        echo "</tbody>";
     }
 
     public function my_link_look($user_id)

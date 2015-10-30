@@ -20,9 +20,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Link repository</a>
-            <a class="navbar-brand" href="#">Home</a>
+            <a class="navbar-brand" href="/index">Link repository</a>
+            <a class="navbar-brand" href="/index">Home</a>
             <a class="navbar-brand" href="/registration">Registration</a>
+            <a class="navbar-brand" href="/links">Links</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" action="/user/authentification" method="post">

@@ -38,7 +38,7 @@ class User_Model extends Model
                 echo "Everything is ok <br>";
                 $db->query("INSERT INTO users (user_name, user_surname, user_login, user_email, user_password, user_role_id,
 user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', '" . $this->user_login . "', '" . $this->user_email . "', '" . md5($this->user_password) .
-                    "', '" . $this->user_role . "', '" . $this->user_status . "')");
+                    "', '" . $this->user_role_id . "', '" . $this->user_status . "')");
                 $get_id = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '" . $this->user_login . "' AND
         `user_password` = '" . md5($this->user_password) . "'")->fetchAll(PDO::FETCH_ASSOC);
                 $this->user_id = $get_id[0]["user_id"];

@@ -9,6 +9,7 @@ class Link_Model extends Model
     public $link_private_status;
     public $link_born_time;
     public $user_id;
+    public $user_login;
 
     function __construct()
     {
@@ -153,6 +154,40 @@ links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         {
             echo "Link name = ".$rows[$i]["link_name"]." link url = ".$rows[$i]["link_url"]." link description = ".
                 $rows[$i]["link_description"]." link private status = ".$rows[$i]["link_private_status"]."<br>";
+        }
+    }
+
+    public function get_number($private)
+    {
+        global $db;
+        if ($private)
+            $rows = $db->query("SELECT link_id FROM links")->rowCount();
+        else
+            $rows = $db->query("SELECT link_id FROM links WHERE link_private_status = 0")->rowCount();
+        return $rows;
+    }
+
+    public function get_all($private, $iter)
+    {
+        global $db;
+        if ($private)
+        {
+            $row = $db->query("SELECT * FROM links")->fetchAll(PDO::FETCH_ASSOC);
+            $this->link_name = $row[$iter]["link_name"];
+            $this->link_url = $row[$iter]["link_url"];
+            $this->link_description = $row[$iter]["link_description"];
+            $this->link_private_status = $row[$iter]["link_private_status"];
+            $this->link_born_time = $row[$iter]["link_born_time"];
+            $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".$row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+        }
+        else
+        {
+            $row = $db->query("SELECT * FROM links WHERE link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
+            $this->link_name = $row[$iter]["link_name"];
+            $this->link_url = $row[$iter]["link_url"];
+            $this->link_description = $row[$iter]["link_description"];
+            $this->link_born_time = $row[$iter]["link_born_time"];
+            $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".$row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
         }
     }
 }
