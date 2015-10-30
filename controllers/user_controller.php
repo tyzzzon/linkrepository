@@ -33,6 +33,7 @@ class User_Controller
 
     public function authentification_action()
     {
+        var_dump($_POST);
         $user = new User_Model();
         $user->authentification($_POST["Login"], md5($_POST["Password"]));
         $view = new View();
@@ -90,5 +91,18 @@ class User_Controller
             $user->get_from_database("DK");
             $user->lets_see();
         }
+    }
+
+    public function check_link_action($link_hash)
+    {
+        echo $link_hash;
+    }
+
+    public function send_again_action()
+    {
+        global $db;
+        $row = $db->query("SELECT temporary_link_hash FROM temporary_links WHERE temporary_link_id = 214")->fetchAll(PDO::FETCH_ASSOC);
+        mail("tyzzon@yandex.ru", "The link", "Hello there is the link: <a href='http://linkrepository/user/check_link/".$row[0]["temporary_link_hash"]."'>link".$row[0]["temporary_link_hash"]."</a>",
+            "Content-type: text/html\r\n");
     }
 }

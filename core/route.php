@@ -25,6 +25,11 @@ class Route
             $action_name = $routes[2];
         }
 
+        if (!empty($routes[3]))
+        {
+            $parameter = $routes[3];
+        }
+
         //adding postfixes
         $controller_name = $controller_name.'_Controller';
         $action_name = $action_name.'_action';
@@ -41,15 +46,22 @@ class Route
                 if (method_exists($controller, $action_name))
                 {
                     //calling an action of controller
-                    $controller->$action_name();
+                    if (isset($parameter))
+                        $controller->$action_name($parameter);
+                    else
+                        $controller->$action_name();
                 }
                 else
                 {
+                    echo 2;
+                    exit;
                     Route::ErrorPage404();
                 }
             }
             else
             {
+                echo 1;
+                exit;
                 Route::ErrorPage404();
             }
     }
