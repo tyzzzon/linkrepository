@@ -93,7 +93,8 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
                     $user_email . "'")->fetchAll(PDO::FETCH_ASSOC)[0]["user_id"];
                 if ($user_id == $link->user_id)
                 {
-                    $link->check_time_link();
+                    //$link->check_time_link();
+                    $link->delete_link($user_id);
                 }
                 else
                 {
@@ -128,7 +129,8 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
             }
             else
             {
-                $db->query("UPDATE users SET user_status = '".$this->user_status."' WHERE user_id = '". $ids[$i]["user_id"]."'");
+                $db->query("UPDATE users SET user_status = 'active' WHERE user_id = '". $this->user_id."'");
+                $this->delete_link($this->user_id);
             }
         }
 //        else

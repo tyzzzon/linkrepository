@@ -95,7 +95,8 @@ class User_Controller
 
     public function check_link_action($link_hash)
     {
-        echo $link_hash;
+        $temp_link = new Temporary_Link_Model();
+        $temp_link->check_link($link_hash, "login@email.ru");
     }
 
     public function send_again_action()
