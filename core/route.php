@@ -53,15 +53,11 @@ class Route
                 }
                 else
                 {
-                    echo 2;
-                    exit;
                     Route::ErrorPage404();
                 }
             }
             else
             {
-                echo 1;
-                exit;
                 Route::ErrorPage404();
             }
     }

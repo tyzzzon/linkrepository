@@ -84,7 +84,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
             $this->user_password = $row[0]["user_password"];
             $this->user_role_id = $row[0]["user_role_id"];
             $this->user_status = $row[0]["user_status"];
-            echo "We've got it from database<br>";
             return true;
         }
         else
@@ -137,11 +136,9 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
             $user->get_from_database($user_login);
             if ($user_password == $user->user_password)
             {
-                echo "Success!<br>";
                 $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]["user_status"] == "blocked")
                 {
-                    echo "You are blocked<br>";
                     $temp_link = new Temporary_Link_Model();
                     $temp_link->create_temporary_link($user->user_id);
                 }

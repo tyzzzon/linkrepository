@@ -20,7 +20,10 @@ class User_Controller
                 $poson->user_email = $_POST["user_email"];
                 $poson->user_password = $_POST["user_password"];
                 if ($poson->create())
-                    echo "Check your e-mail for link<br>";
+                {
+                    $view = new View();
+                    $view->render("index");
+                }
             }
             else
             {
@@ -33,11 +36,10 @@ class User_Controller
 
     public function authentification_action()
     {
-        var_dump($_POST);
         $user = new User_Model();
         $user->authentification($_POST["Login"], md5($_POST["Password"]));
         $view = new View();
-        $view->render("view");
+        $view->render("links");
     }
 
     public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
@@ -97,6 +99,7 @@ class User_Controller
     {
         $temp_link = new Temporary_Link_Model();
         $temp_link->check_link($link_hash, "login@email.ru");
+        include "views/temp_link_view.php";
     }
 
     public function send_again_action()
