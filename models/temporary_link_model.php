@@ -75,36 +75,17 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
             'MIME-Version: 1.0' . "\r\n" .'Content-type: text/html; charset=iso-8859-1' . "\r\n");
     }
 
-    public function check_link($temporary_link_hash, $user_email)
+    public function check_link($temporary_link_hash)
     {
         global $db;
         $numb = $db->query("SELECT `user_id` FROM `temporary_links` WHERE `temporary_link_hash` = '".
             $temporary_link_hash."'")->rowCount();
         if ($numb)
         {
-            $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_email` = '".
-                $user_email."'")->rowCount();
-            if ($numb)
-            {
                 $link = new Temporary_Link_Model();
                 $link->get_from_database($db->query("SELECT `user_id` FROM `temporary_links` WHERE `temporary_link_hash` = '" .
                     $temporary_link_hash . "'")->fetchAll(PDO::FETCH_ASSOC)[0]["user_id"]);
-                $user_id = $db->query("SELECT user_id FROM users WHERE user_email = '" .
-                    $user_email . "'")->fetchAll(PDO::FETCH_ASSOC)[0]["user_id"];
-                if ($user_id == $link->user_id)
-                {
-                    //$link->check_time_link();
-                    $link->delete_link($user_id);
-                }
-                else
-                {
-                    echo "The link isn't yours!!";
-                }
-            }
-            else
-            {
-                echo "There is no user with such e-mail";
-            }
+                    $link->check_time_link();
         }
         else
         {
@@ -125,7 +106,6 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
                     $data_born[4], 0, $data_born[1], $data_born[2], $data_born[0]) > $life_time)
             {
                 $this->delete_link($ids[$i]["user_id"]);
-                //$this->create_temporary_link($ids[$i]["user_id"]);
             }
             else
             {
@@ -133,15 +113,5 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
                 $this->delete_link($this->user_id);
             }
         }
-//        else
-//        {
-//            $user = new User_Model();
-//            $user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".
-//                $this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
-//            $user->get_from_database($user_login);
-//            $user->user_status = "active";
-//            //$user->edit_user();
-//            //$this->delete_link($this->user_id);
-//        }
     }
 }

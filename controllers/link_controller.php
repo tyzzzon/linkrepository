@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Link_Controller
 {
     public function link_create($link_name, $link_url, $link_description, $link_private_status, $user_id)
@@ -32,7 +33,8 @@ class Link_Controller
 
     public function link_look($private_rights)
     {
-        echo "<thead>
+        echo "<table class='table table-striped'>
+<thead>
     <tr>
         <th>Link name</th>
         <th>URL</th>
@@ -58,7 +60,8 @@ class Link_Controller
             if ($private_rights)
                 echo "<td>".$link->link_private_status."</td></tr>";
         }
-        echo "</tbody>";
+        echo "</tbody>
+</table>";
     }
 
     public function my_link_look($user_id)

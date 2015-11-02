@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Main_Controller
 {
     public function index_action()

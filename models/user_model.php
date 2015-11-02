@@ -139,22 +139,24 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
                 $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]["user_status"] == "blocked")
                 {
-                    $temp_link = new Temporary_Link_Model();
-                    $temp_link->create_temporary_link($user->user_id);
+                    echo "You are blocked!";
+                    return false;
                 }
                 else
                 {
-
+                    return true;
                 }
             }
             else
             {
                 echo "Wrong password<br>";
+                return false;
             }
         }
         else
         {
             echo "Wrong login<br>";
+            return false;
         }
     }
 }

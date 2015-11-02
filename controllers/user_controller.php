@@ -1,4 +1,5 @@
 <?php
+session_start();
 class User_Controller
 {
     public function registration_action()
@@ -37,9 +38,20 @@ class User_Controller
     public function authentification_action()
     {
         $user = new User_Model();
-        $user->authentification($_POST["Login"], md5($_POST["Password"]));
-        $view = new View();
-        $view->render("links");
+        if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
+        {
+            $view = new View();
+            $view->render("links");
+        }
+        else
+            $form_string = "<div class='jumbotron'>
+                <form class='navbar-form navbar-right' action='/user/authentification' method='post'>
+                    <div class='form-group'>
+                        <p>You are blocked! Send new link?</p>
+                    </div>
+                    <button type='submit' name='ok' class='btn btn-success'>Sign in</button>
+                </form>
+            </div>";
     }
 
     public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
@@ -106,6 +118,8 @@ class User_Controller
     {
         global $db;
         $row = $db->query("SELECT temporary_link_hash FROM temporary_links WHERE temporary_link_id = 214")->fetchAll(PDO::FETCH_ASSOC);
+        $temp_link = new Temporary_Link_Model();
+        $temp_link->create_temporary_link();
         mail("tyzzon@yandex.ru", "The link", "Hello there is the link: <a href='http://linkrepository/user/check_link/".$row[0]["temporary_link_hash"]."'>link".$row[0]["temporary_link_hash"]."</a>",
             "Content-type: text/html\r\n");
     }
