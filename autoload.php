@@ -27,7 +27,15 @@ function autoloadConfig($className) {
     }
 }
 
+function autoloadView($className) {
+    $filename = "views/" . strtolower($className) . ".php";
+    if (is_readable($filename)) {
+        require_once $filename;
+    }
+}
+
 spl_autoload_register("autoloadModel");
 spl_autoload_register("autoloadController");
 spl_autoload_register("autoloadCore");
 spl_autoload_register("autoloadConfig");
+spl_autoload_register("autoloadView");

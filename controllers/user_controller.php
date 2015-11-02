@@ -1,5 +1,4 @@
 <?php
-session_start();
 class User_Controller
 {
     public function registration_action()

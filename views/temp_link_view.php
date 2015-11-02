@@ -1,9 +1,6 @@
 <?php
-require_once "header.php";
-?>
+class Temp_Link_View
+{
 
-
-
-<?php
-require_once "footer.php";
+}
 ?>

@@ -1,45 +1,42 @@
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Main page</title>
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <style type="text/css"></style>
-</head>
-
-<div class="jumbotron">
-    <div class="container">
-        <h1>Welcome!</h1>
-        <p>A lot of usefull information about my application.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+<?php
+class Index_View
+{
+    public function render()
+    {
+        echo '
+    <div class="jumbotron" >
+        <div class="container" >
+            <h1 > Welcome!</h1 >
+            <p> A lot of usefull information about my application .</p >
+            <p ><a class="btn btn-primary btn-lg" href = "#" role = "button" > Learn more » </a ></p >
+        </div >
+    </div >
+    <div class="container" >
+        <div class="row" >
+            <div class="col-md-4" >
+                <h2 > Heading</h2 >
+                <p > Donec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodo, tortor
+                    mauris condimentum nibh, ut fermentum massa justo sit amet risus . Etiam porta sem malesuada magna
+                    mollis euismod . Donec sed odio dui . </p >
+                <p ><a class="btn btn-default" href = "#" role = "button" > View details » </a ></p >
+            </div >
+            <div class="col-md-4" >
+                <h2 > Heading</h2 >
+                <p > Donec id elit non mi porta gravida at eget metus . Fusce dapibus, tellus ac cursus commodo, tortor mauris
+                    condimentum nibh, ut fermentum massa justo sit amet risus . Etiam porta sem malesuada magna mollis
+                    euismod . Donec sed odio dui . </p >
+                <p ><a class="btn btn-default" href = "#" role = "button" > View details » </a ></p >
+            </div >
+            <div class="col-md-4" >
+                <h2 > Heading</h2 >
+                <p > Donec sed odio dui . Cras justo odio, dapibus ac facilisis in, egestas eget quam . Vestibulum id
+                    ligula porta felis euismod semper . Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
+                    nibh, ut fermentum massa justo sit amet risus .</p >
+                <p ><a class="btn btn-default" href = "#" role = "button" > View details » </a ></p >
+            </div >
+        </div >
     </div>
-</div>
-<div class="container">
-    <!-- Example row of columns -->
-    <div class="row">
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor
-                mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna
-                mollis euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris
-                condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis
-                euismod. Donec sed odio dui. </p>
-            <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-        <div class="col-md-4">
-            <h2>Heading</h2>
-            <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id
-                ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum
-                nibh, ut fermentum massa justo sit amet risus.</p>
-            <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-        </div>
-    </div>
-
-    <hr>
+    <hr >';
+    }
+}
+?>

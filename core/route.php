@@ -1,11 +1,11 @@
 <?php
 class Route
 {
-    function ErrorPage404()
+    public static function ErrorPage404()
     {
         header('HTTP/1.1 404 Not found');
         header("Status: 404 Not found");
-        header('Location: /views/404.php');
+        header('Location: /error404');
     }
 
     static function start()

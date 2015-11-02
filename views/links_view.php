@@ -1,14 +1,10 @@
 <?php
-require_once "header.php";
-?>
-
-
-    <?php
+class Links_View
+{
+    public function render($private_status=false)
+    {
         $links = new Link_Controller();
-        $links->link_look(1);
-    ?>
-
-
-<?php
-require_once "footer.php";
+        $links->link_look($private_status);
+    }
+}
 ?>

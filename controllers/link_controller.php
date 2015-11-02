@@ -1,5 +1,4 @@
 <?php
-session_start();
 class Link_Controller
 {
     public function link_create($link_name, $link_url, $link_description, $link_private_status, $user_id)
