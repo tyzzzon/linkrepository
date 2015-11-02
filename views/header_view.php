@@ -34,13 +34,16 @@ class Header_View
                             </button >
                             <a class="navbar-brand" href = "/index" > Link repository </a >
                             <a class="navbar-brand" href = "/index" > Home</a >
-                            <a class="navbar-brand" href = "/registration" > Registration</a >
-                            <a class="navbar-brand" href = "/links" > Links</a >
-                        </div >';
+                            <a class="navbar-brand" href = "/links" > Links</a >';
         if ($is_auth)
-        {}
+        {
+            $_SESSION['is_signed']=false;
+            echo '<a class="navbar-brand" href = "/index" > Log out</a >';
+        }
         else
             echo '
+                            <a class="navbar-brand" href = "/registration" > Registration</a >
+                        </div >
                         <div id = "navbar" class="navbar-collapse collapse" >
                             <form class="navbar-form navbar-right" action = "/user/authentification" method = "post" >
                                 <div class="form-group" >

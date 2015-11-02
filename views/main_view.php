@@ -2,12 +2,12 @@
 class Main_View
 {
     public $ar = array();
-    public function render()
+    public function render($view_name)
     {
         $view_header = new Header_View();
-        $view_header->render(false);
+        $view_header->render($_SESSION['is_signed']);
 
-        $class_name = ucfirst(trim($_SERVER["REQUEST_URI"], "/"))."_View";
+        $class_name = ucfirst(trim($view_name, "/"))."_View";
         if(class_exists($class_name))
         {
             $view_content = new $class_name;

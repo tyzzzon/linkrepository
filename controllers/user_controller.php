@@ -6,7 +6,7 @@ class User_Controller
         if ($_POST["user_login"]=="" || $_POST["user_email"]=="" || $_POST["user_password"]=="")
         {
             echo "Not all required fields are filled";
-            $view = new View();
+            $view = new Main_View();
             $view->render("registration");
         }
         else
@@ -21,14 +21,14 @@ class User_Controller
                 $poson->user_password = $_POST["user_password"];
                 if ($poson->create())
                 {
-                    $view = new View();
+                    $view = new Main_View();
                     $view->render("index");
                 }
             }
             else
             {
                 echo "passwords are not the same<br>";
-                $view = new View();
+                $view = new Main_View();
                 $view->render("registration");
             }
         }
@@ -39,8 +39,10 @@ class User_Controller
         $user = new User_Model();
         if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
         {
-            $view = new View();
+            $_SESSION['is_signed']=true;
+            $view = new Main_View();
             $view->render("links");
+
         }
         else
             $form_string = "<div class='jumbotron'>
@@ -109,8 +111,9 @@ class User_Controller
     public function check_link_action($link_hash)
     {
         $temp_link = new Temporary_Link_Model();
-        $temp_link->check_link($link_hash, "login@email.ru");
-        include "views/temp_link_view.php";
+        $temp_link->check_link($link_hash);
+        $view = new Main_View();
+        $view->render("temp_link");
     }
 
     public function send_again_action()
