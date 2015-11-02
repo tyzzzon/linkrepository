@@ -1,28 +1,11 @@
 <?php
 class Header_View
 {
-    public function render($is_auth)
+    public $is_signed = false;
+
+    public function render()
     {
         echo '
-        <!DOCTYPE html >
-        <html lang = "en" >
-            <head >
-                <meta charset = "utf-8" >
-                <meta http-equiv = "X-UA-Compatible" content = "IE=edge" >
-                <meta name = "viewport" content = "width=device-width, initial-scale=1" >
-                <meta name = "description" content = "" >
-                <meta name = "author" content = "" >
-                <title > Main page </title >
-                <link href = "/css/bootstrap.min.css" rel = "stylesheet" >
-                <style type = "text/css" > body
-                {
-                    padding-top:50px;
-                    padding-bottom:40px;
-                }
-                </style >
-                <!--<script src = "/js/bootstrap.min.js" ></script>-->
-            </head >
-            <body>
                 <nav class="navbar navbar-inverse navbar-fixed-top" >
                     <div class="container" >
                         <div class="navbar-header" >
@@ -35,10 +18,10 @@ class Header_View
                             <a class="navbar-brand" href = "/index" > Link repository </a >
                             <a class="navbar-brand" href = "/index" > Home</a >
                             <a class="navbar-brand" href = "/links" > Links</a >';
-        if ($is_auth)
+        if ($this->is_signed)
         {
-            $_SESSION['is_signed']=false;
-            echo '<a class="navbar-brand" href = "/index" > Log out</a >';
+            $this->is_signed=false;
+            echo '<a class="navbar-brand" href = "/index" >Log out</a >';
         }
         else
             echo '
