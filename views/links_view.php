@@ -1,11 +1,10 @@
 <?php
 class Links_View
 {
-    public $private_status = false;
     public $table_head = array();
     public $table_body = array();
 
-    public function render($private_status=false)
+    public function render()
     {
         echo '
 <table class="table table-striped">
@@ -31,8 +30,10 @@ class Links_View
                 echo '
             <th>'
                 .$body_item.'
-            </tr>';
+            </th>';
             }
+            echo '
+        </tr>';
         }
         echo '
     </tbody>

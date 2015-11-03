@@ -1,7 +1,7 @@
 <?php
 class Link_Controller
 {
-    public function link_create($link_name, $link_url, $link_description, $link_private_status, $user_id)
+    public function link_create_action($link_name, $link_url, $link_description, $link_private_status, $user_id)
     {
         $link = new Link_Model();
         if ($link->create($link_name, $link_url, $link_description, $link_private_status, date("Y-m-d H:i"), $user_id))
@@ -10,13 +10,13 @@ class Link_Controller
         }
     }
 
-    public function link_description($link_url, $user_id)
+    public function link_description_action($link_url, $user_id)
     {
         $link = new Link_Model();
         $link->lets_see($link_url, $user_id);
     }
 
-    public function link_edit($link_name, $link_url, $link_description, $link_private_status, $user_id)
+    public function link_edit_action($link_name, $link_url, $link_description, $link_private_status, $user_id)
     {
         $link = new Link_Model();
         if ($link->get_from_database($link_url, $user_id))
@@ -30,7 +30,7 @@ class Link_Controller
         }
     }
 
-    public function link_look($private_rights)
+    public function link_look_action($private_rights)
     {
         $content_view = new Links_View();
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
@@ -50,17 +50,19 @@ class Link_Controller
         else
         {
             $content_view->table_head = $helper_ar;
-            for ($i = 0; $i < $link->get_number($private_rights); $i++)
-            {
+            for ($i = 0; $i < $link->get_number($private_rights); $i++) {
                 $link->get_all($private_rights, $i);
                 $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
                     $link->user_login);
                 array_push($content_view->table_body, $helper_ar);
             }
         }
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->render();
     }
 
-    public function my_link_look($user_id)
+    public function my_link_look_action($user_id)
     {
         $link = new Link_Model();
         $link->my_link_look($user_id);

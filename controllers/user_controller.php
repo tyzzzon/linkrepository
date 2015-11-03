@@ -6,8 +6,7 @@ class User_Controller
         if ($_POST["user_login"]=="" || $_POST["user_email"]=="" || $_POST["user_password"]=="")
         {
             echo "Not all required fields are filled";
-            $view = new Main_View();
-            $view->render("registration");
+            $this->registration_view_action();
         }
         else
         {
@@ -21,17 +20,27 @@ class User_Controller
                 $poson->user_password = $_POST["user_password"];
                 if ($poson->create())
                 {
-                    $view = new Main_View();
-                    $view->render("home");
+                    $content_view = new Main_View();
+                    $main_view = new Main_View();
+                    $main_view->content_view = $content_view;
+                    $main_view->render();
                 }
             }
             else
             {
                 echo "passwords are not the same<br>";
-                $view = new Main_View();
-                $view->render("registration");
+                $this->registration_view_action();
             }
         }
+    }
+
+    public function registration_view_action()
+    {
+        $content_view = new Registration_View();
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->header_ar['Registration'] = '/user/registration_view';
+        $main_view->render();
     }
 
     public function authentification_action()
@@ -39,9 +48,11 @@ class User_Controller
         $user = new User_Model();
         if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
         {
-            $view = new Main_View();
-            $view->ar['is_signed'] = true;
-            $view->render("links");
+            $content_view = new Links_View();
+            $main_view = new Main_View();
+            $main_view->content_view = $content_view;
+            $main_view->ar['is_signed'] = true;
+            $main_view->render();
         }
         else
             $form_string = "<div class='jumbotron'>
@@ -112,6 +123,7 @@ class User_Controller
         $temp_link = new Temporary_Link_Model();
         $temp_link->check_link($link_hash);
         $view = new Main_View();
+        //$main_view->header_ar['Registration'] = '/user/registration_view';
         $view->render("temp_link");
     }
 
@@ -119,7 +131,18 @@ class User_Controller
     {
         $temp_link = new Temporary_Link_Model();
         $temp_link->create_temporary_link();
-        $view = new Main_View();
-        $view->render("home");
+        $content_view = new Home_View();
+        $main_view = new Main_View();
+        $main_view->header_ar['Registration'] = '/user/registration_view';
+        $main_view->content_view = $content_view;
+        $main_view->render("home");
+    }
+
+    public function go_home_action()
+    {
+        $content_view = new Home_View();
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->render();
     }
 }

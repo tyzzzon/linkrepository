@@ -2,9 +2,10 @@
 class Main_View
 {
     public $ar = array('is_signed' => false);
-    public $header_ar = array('Home' => 'Home',);
+    public $header_ar = array('Home' => 'user/go_home', 'Links' => 'link/link_look/1');
+    public $content_view;
 
-    public function render($view_name)
+    public function render()
     {
         echo '
         <!DOCTYPE html >
@@ -36,16 +37,7 @@ class Main_View
         echo '      </div>
             </nav>';
 
-        $class_name = ucfirst(trim($view_name, "/"))."_View";
-        if(class_exists($class_name))
-        {
-            $view_content = new $class_name;
-            $view_content->render();
-        }
-        else
-        {
-            Route::ErrorPage404();
-        }
+        $this->content_view->render();
 //        echo '<div class="header">' . $view->header_view->render() . '</div>';
 //        echo '<div class="content">' . $view->content_view->render() . '</div>';
 //        echo '<div class="footer">' . $view->footer_view->render() . '</div>';
