@@ -32,35 +32,32 @@ class Link_Controller
 
     public function link_look($private_rights)
     {
-        echo "<table class='table table-striped'>
-<thead>
-    <tr>
-        <th>Link name</th>
-        <th>URL</th>
-        <th>Description</th>
-        <th>Born time</th>
-        <th>User login</th>";
+        $content_view = new Links_View();
+        $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
+        $link = new Link_Model();
         if ($private_rights)
         {
-            echo "<th>Private status</th>";
+            array_push($helper_ar, 'Private status');
+            $content_view->table_head = $helper_ar;
+            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            {
+                $link->get_all($private_rights, $i);
+                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                    $link->user_login, $link->link_private_status);
+                array_push($content_view->table_body, $helper_ar);
+            }
         }
-        echo "</tr>
-            </thead>
-            <tbody>";
-        $link = new Link_Model();
-        for ($i = 0; $i < $link->get_number($private_rights); $i++)
+        else
         {
-            $link->get_all($private_rights, $i);
-            echo "<tr><td>".$link->link_name."</td>
-                <td>".$link->link_url."</td>
-                <td>".$link->link_description."</td>
-                <td>".$link->link_born_time."</td>
-                <td>".$link->user_login."</td>";
-            if ($private_rights)
-                echo "<td>".$link->link_private_status."</td></tr>";
+            $content_view->table_head = $helper_ar;
+            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            {
+                $link->get_all($private_rights, $i);
+                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                    $link->user_login);
+                array_push($content_view->table_body, $helper_ar);
+            }
         }
-        echo "</tbody>
-</table>";
     }
 
     public function my_link_look($user_id)

@@ -1,5 +1,5 @@
 <?php
-class Index_View
+class Home_View
 {
     public function render()
     {

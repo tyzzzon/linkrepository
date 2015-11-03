@@ -34,11 +34,9 @@ class Route
         $controller_name = $controller_name.'_Controller';
         $action_name = $action_name.'_action';
 
-
             //file of controller-class
             //$controller_file = strtolower($controller_name).'.php';
             //$controller_path = "controllers/".$controller_file;
-
             if(class_exists($controller_name))
             {
                 //making a controller
@@ -47,9 +45,13 @@ class Route
                 {
                     //calling an action of controller
                     if (isset($parameter))
+                    {
                         $controller->$action_name($parameter);
+                    }
                     else
+                    {
                         $controller->$action_name();
+                    }
                 }
                 else
                 {

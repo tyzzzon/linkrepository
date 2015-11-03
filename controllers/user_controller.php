@@ -22,7 +22,7 @@ class User_Controller
                 if ($poson->create())
                 {
                     $view = new Main_View();
-                    $view->render("index");
+                    $view->render("home");
                 }
             }
             else
@@ -39,10 +39,9 @@ class User_Controller
         $user = new User_Model();
         if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
         {
-            $_SESSION['is_signed']=true;
             $view = new Main_View();
+            $view->ar['is_signed'] = true;
             $view->render("links");
-
         }
         else
             $form_string = "<div class='jumbotron'>
@@ -118,11 +117,9 @@ class User_Controller
 
     public function send_again_action()
     {
-        global $db;
-        $row = $db->query("SELECT temporary_link_hash FROM temporary_links WHERE temporary_link_id = 214")->fetchAll(PDO::FETCH_ASSOC);
         $temp_link = new Temporary_Link_Model();
         $temp_link->create_temporary_link();
-        mail("tyzzon@yandex.ru", "The link", "Hello there is the link: <a href='http://linkrepository/user/check_link/".$row[0]["temporary_link_hash"]."'>link".$row[0]["temporary_link_hash"]."</a>",
-            "Content-type: text/html\r\n");
+        $view = new Main_View();
+        $view->render("home");
     }
 }

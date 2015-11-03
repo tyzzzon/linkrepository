@@ -2,6 +2,7 @@
 class Main_View
 {
     public $ar = array('is_signed' => false);
+    public $header_ar = array('Home' => 'Home',);
 
     public function render($view_name)
     {
@@ -24,10 +25,16 @@ class Main_View
                 </style >
                 <!--<script src = "/js/bootstrap.min.js" ></script>-->
             </head >
-            <body>';
+            <body>
+            <nav class="navbar navbar-inverse navbar-fixed-top" >
+                    <div class="container" >';
+
         $view_header = new Header_View();
         $view_header->is_signed = $this->ar['is_signed'];
+        $view_header->menu_ar = $this->header_ar;
         $view_header->render();
+        echo '      </div>
+            </nav>';
 
         $class_name = ucfirst(trim($view_name, "/"))."_View";
         if(class_exists($class_name))
@@ -36,7 +43,9 @@ class Main_View
             $view_content->render();
         }
         else
+        {
             Route::ErrorPage404();
+        }
 //        echo '<div class="header">' . $view->header_view->render() . '</div>';
 //        echo '<div class="content">' . $view->content_view->render() . '</div>';
 //        echo '<div class="footer">' . $view->footer_view->render() . '</div>';

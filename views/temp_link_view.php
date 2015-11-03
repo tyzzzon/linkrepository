@@ -18,7 +18,7 @@ class Temp_Link_View
         <div class="container" >
             <h2 > Good news, everyone!</h2 >
             <p> Something wrong with your temporary link(maybe time is out).</p >
-            <form class="navbar-form navbar-right" action = "/user/authentification" method = "post" >
+            <form class="navbar-form navbar-right" action = "/user/send_again" method = "post" >
                 Send new one?
                 <button type = "submit" name = "ok" class="btn btn-success" > Of course! </button >
             </form >

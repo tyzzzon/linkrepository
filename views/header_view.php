@@ -2,26 +2,20 @@
 class Header_View
 {
     public $is_signed = false;
+    public $menu_ar = array();
 
     public function render()
     {
         echo '
-                <nav class="navbar navbar-inverse navbar-fixed-top" >
-                    <div class="container" >
                         <div class="navbar-header" >
-                            <button type = "button" class="navbar-toggle collapsed" data-toggle = "collapse" data-target = "#navbar" aria-expanded = "false" aria-controls = "navbar" >
-                                <span class="sr-only" > Toggle navigation </span >
-                                <span class="icon-bar" ></span >
-                                <span class="icon-bar" ></span >
-                                <span class="icon-bar" ></span >
-                            </button >
-                            <a class="navbar-brand" href = "/index" > Link repository </a >
-                            <a class="navbar-brand" href = "/index" > Home</a >
-                            <a class="navbar-brand" href = "/links" > Links</a >';
+                            <a class="navbar-brand" href = "/home" > Link repository </a >';
+        foreach ($this->menu_ar as $menu_item => $menu_dislocation)
+        {
+            echo '
+                            <a class="navbar-brand" href = "/'.$menu_dislocation.'" > '.$menu_item.'</a >';
+        }
         if ($this->is_signed)
         {
-            $this->is_signed=false;
-            echo '<a class="navbar-brand" href = "/index" >Log out</a >';
         }
         else
             echo '
@@ -38,9 +32,6 @@ class Header_View
                                 <button type = "submit" name = "ok" class="btn btn-success" > Sign in </button >
                             </form >
                         </div >';
-        echo '
-                    </div >
-                </nav >';
     }
 }
 ?>
