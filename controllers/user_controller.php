@@ -20,7 +20,7 @@ class User_Controller
                 $poson->user_password = $_POST["user_password"];
                 if ($poson->create())
                 {
-                    $content_view = new Main_View();
+                    $content_view = new Home_View();
                     $main_view = new Main_View();
                     $main_view->content_view = $content_view;
                     $main_view->render();
@@ -39,7 +39,7 @@ class User_Controller
         $content_view = new Registration_View();
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
-        $main_view->header_ar['Registration'] = '/user/registration_view';
+        $main_view->header_ar['Registration'] = 'user/registration_view';
         $main_view->render();
     }
 
@@ -56,7 +56,7 @@ class User_Controller
         }
         else
             $form_string = "<div class='jumbotron'>
-                <form class='navbar-form navbar-right' action='/user/authentification' method='post'>
+                <form class='navbar-form navbar-right' action='user/authentification' method='post'>
                     <div class='form-group'>
                         <p>You are blocked! Send new link?</p>
                     </div>
@@ -122,9 +122,11 @@ class User_Controller
     {
         $temp_link = new Temporary_Link_Model();
         $temp_link->check_link($link_hash);
-        $view = new Main_View();
+        $main_view = new Main_View();
+        $content_view = new Temp_Link_View();
         //$main_view->header_ar['Registration'] = '/user/registration_view';
-        $view->render("temp_link");
+        $main_view->content_view = $content_view;
+        $main_view->render();
     }
 
     public function send_again_action()
@@ -133,7 +135,7 @@ class User_Controller
         $temp_link->create_temporary_link();
         $content_view = new Home_View();
         $main_view = new Main_View();
-        $main_view->header_ar['Registration'] = '/user/registration_view';
+        $main_view->header_ar['Registration'] = 'user/registration_view';
         $main_view->content_view = $content_view;
         $main_view->render("home");
     }

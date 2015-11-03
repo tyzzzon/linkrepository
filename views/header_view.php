@@ -21,7 +21,6 @@ class Header_View
         }
         else
             echo '
-                            <a class="navbar-brand" href = "/user/registration_view" > </a >
                         <div id = "navbar" class="navbar-collapse collapse" >
                             <form class="navbar-form navbar-right" action = "/user/authentification" method = "post" >
                                 <div class="form-group" >

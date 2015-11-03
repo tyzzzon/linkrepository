@@ -1,15 +1,16 @@
 <?php
 class Temp_Link_View
 {
-    public function render($is_good)
+    public $is_good = true;
+    public function render()
     {
-        if ($is_good)
+        if ($this->is_good)
         {
             echo '
         <div class="container" >
             <h2 > Good news, everyone!</h2 >
             <p> You can to sign in now!</p >
-            <p ><a class="btn btn-primary btn-lg" href = "/login" role = "button" > Learn more » </a ></p >
+            <p ><a class="btn btn-primary btn-lg" href = "user/go_home" role = "button" > Learn more » </a ></p >
         </div >';
         }
         else

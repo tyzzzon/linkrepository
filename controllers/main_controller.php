@@ -3,15 +3,16 @@ class Main_Controller
 {
     public function index_action()
     {
-        $view = new Main_View();
-
+        $main_view = new Main_View();
+        $content_view = new Home_View();
         if ($_SERVER["REQUEST_URI"]=="/")
         {
-            $view->render("home");
+            $main_view->content_view = $content_view;
+            $main_view->render();
         }
-        else
+        /*else
         {
-            $view->render($_SERVER["REQUEST_URI"]);
-        }
+            $main_view->render($_SERVER["REQUEST_URI"]);
+        }*/
     }
 }

@@ -2,7 +2,8 @@
 class Main_View
 {
     public $ar = array('is_signed' => false);
-    public $header_ar = array('Home' => 'user/go_home', 'Links' => 'link/link_look/1');
+    public $header_ar = array('Home' => 'user/go_home', 'Links' => 'link/link_look/1',
+        'Registration' => 'user/registration_view');
     public $content_view;
 
     public function render()
