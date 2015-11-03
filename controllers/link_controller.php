@@ -30,7 +30,7 @@ class Link_Controller
         }
     }
 
-    public function link_look_action($private_rights)
+    public function link_look_action($private_rights, $is_signed = false)
     {
         $content_view = new Links_View();
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
@@ -50,7 +50,8 @@ class Link_Controller
         else
         {
             $content_view->table_head = $helper_ar;
-            for ($i = 0; $i < $link->get_number($private_rights); $i++) {
+            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            {
                 $link->get_all($private_rights, $i);
                 $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
                     $link->user_login);
@@ -59,6 +60,8 @@ class Link_Controller
         }
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
+        if ($is_signed)
+            unset($main_view->header_ar['Registration']);
         $main_view->render();
     }
 

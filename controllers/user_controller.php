@@ -48,11 +48,8 @@ class User_Controller
         $user = new User_Model();
         if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
         {
-            $content_view = new Links_View();
-            $main_view = new Main_View();
-            $main_view->content_view = $content_view;
-            $main_view->ar['is_signed'] = true;
-            $main_view->render();
+            $link_cont = new Link_Controller();
+            $link_cont->link_look_action(true, true);
         }
         else
             $form_string = "<div class='jumbotron'>
@@ -137,7 +134,7 @@ class User_Controller
         $main_view = new Main_View();
         $main_view->header_ar['Registration'] = 'user/registration_view';
         $main_view->content_view = $content_view;
-        $main_view->render("home");
+        $main_view->render();
     }
 
     public function go_home_action()

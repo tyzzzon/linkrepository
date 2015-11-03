@@ -10,7 +10,7 @@ class Temp_Link_View
         <div class="container" >
             <h2 > Good news, everyone!</h2 >
             <p> You can to sign in now!</p >
-            <p ><a class="btn btn-primary btn-lg" href = "user/go_home" role = "button" > Learn more » </a ></p >
+            <p ><a class="btn btn-primary btn-lg" href = "/user/go_home" role = "button" > Learn more » </a ></p >
         </div >';
         }
         else
