@@ -46,9 +46,10 @@ class Link_Model extends Model
         }
     }
 
-    public function get_from_database($link_url, $user_id)
+    public function get_from_database($link_url, $user_login)
     {
         global $db;
+        $user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$user_login.'"');
         $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id)->rowCount();
         if ($numb)
@@ -58,7 +59,6 @@ class Link_Model extends Model
 " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->link_id = $row[0]["link_id"];
             $this->link_name = $row[0]["link_name"];
-            $this->link_url = $row[0]["link_url"];
             $this->link_description = $row[0]["link_description"];
             $this->link_private_status = $row[0]["link_private_status"];
             $this->link_born_time = $row[0]["link_born_time"];
@@ -109,8 +109,7 @@ class Link_Model extends Model
         $numb = $db->query("SELECT link_name FROM `links` WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
-            $db->query("UPDATE links SET link_name = '".$this->link_name."', link_url =
-             '".$this->link_url."', link_description = '".$this->link_description."', link_private_status =
+            $db->query("UPDATE links SET link_name = '".$this->link_name."', link_description = '".$this->link_description."', link_private_status =
               ".$this->link_private_status." WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id);
             echo '<script>alert("Everithing is ok");</script>';
         }

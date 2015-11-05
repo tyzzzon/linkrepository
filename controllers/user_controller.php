@@ -86,27 +86,6 @@ class User_Controller
         }
     }
 
-    public function user_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
-    {
-        if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
-            $user_role === "")
-        {
-            echo '<script>alert("Somthing is wrong");</script>';
-        }
-        else
-        {
-            $user = new User_Model();
-            if ($user->get_from_database($user_login))
-            {
-                $user->user_name = $user_name;
-                $user->user_surname = $user_surname;
-                $user->user_email = $user_email;
-                $user->user_password = $user_password;
-                $user->edit_user();
-            }
-        }
-    }
-
     public function see_users_action()
     {
         $user=new User_Model();
@@ -191,7 +170,7 @@ class User_Controller
         $main_view->render();
     }
 
-    public function edit()
+    public function edit_action()
     {
         $user = new User_Model();
         $user->user_name = $_POST['User name'];

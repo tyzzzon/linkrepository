@@ -73,4 +73,39 @@ class Link_Controller
         $link = new Link_Model();
         $link->my_link_look($user_id);
     }
+
+    public function edit_view_action($link_url, $user_login)
+    {
+        $link = new Link_Model();
+        $link->get_from_database($link_url, $user_login);
+        $content_view = new Edit_View();
+        $content_view->field_ar['Link name'] = $link->link_name;
+        $content_view->field_ar['Link URL'] = $link->link_url;
+        $content_view->field_ar['Link description'] = $link->link_description;
+        $content_view->field_ar['Link private status'] = $link->link_private_status;
+        $content_view->field_ar['User login'] = $link->user_login;
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->render();
+    }
+
+    public function edit_action()
+    {
+        $link = new Link_Model();
+        $link->link_name = $_POST['Link name'];
+        $link->link_url = $_POST['Link URL'];
+        $link->link_description = $_POST['Link description'];
+        $link->link_private_status = $_POST['Link private status'];
+        $link->user_login = $_POST['User login'];
+        if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "" ||
+            $link->user_login === "")
+        {
+            echo '<script>alert("Somthing is wrong");</script>';
+            $this->edit_view_action($link->link_url, $link->user_login);
+        }
+        else
+        {
+            $link->edit_link();
+        }
+    }
 }
