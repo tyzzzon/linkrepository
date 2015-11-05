@@ -10,6 +10,7 @@ class User_Model extends Model
     public $user_password;
     public $user_role_id = 3;
     public $user_status = "blocked";
+    public $user_role;
 
     function __construct()
     {
@@ -158,5 +159,21 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
             echo '<script>alert("Wrong login.");</script>';
             return false;
         }
+    }
+
+    public function get_number()
+    {
+        global $db;
+        $rows = $db->query("SELECT user_id FROM users")->rowCount();
+        return $rows;
+    }
+
+    public function get_all($iter)
+    {
+        global $db;
+        $row = $db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
+        $this->user_login = $row[$iter]["user_login"];
+        $this->get_from_database($this->user_login);
+        $this->user_role = $db->query("SELECT role_name FROM roles WHERE role_id = ".$this->user_role_id)->fetchAll(PDO::FETCH_ASSOC)[0]["role_name"];
     }
 }

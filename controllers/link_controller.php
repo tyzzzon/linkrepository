@@ -32,7 +32,7 @@ class Link_Controller
 
     public function link_look_action($private_rights, $is_signed = false)
     {
-        $content_view = new Links_View();
+        $content_view = new List_View();
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
         $link = new Link_Model();
         if ($private_rights)

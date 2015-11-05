@@ -154,4 +154,24 @@ class User_Controller
         $main_view->content_view = $content_view;
         $main_view->render();
     }
+
+    public function users_list_action()
+    {
+        $content_view = new List_View();
+        $helper_ar = array('User name', 'User surname', 'User login', 'User email', 'User role', 'User status');
+        $user = new User_Model();
+        $content_view->table_head = $helper_ar;
+        for ($i = 0; $i < $user->get_number(); $i++)
+        {
+            $user->get_all($i);
+            $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
+                $user->user_email, $user->user_role, $user->user_status);
+            array_push($content_view->table_body, $helper_ar);
+        }
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        unset($main_view->header_ar['Registration']);
+        unset($main_view->header_ar['Authentication']);
+        $main_view->render();
+    }
 }

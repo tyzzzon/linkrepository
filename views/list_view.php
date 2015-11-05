@@ -1,5 +1,5 @@
 <?php
-class Links_View
+class List_View
 {
     public $table_head = array();
     public $table_body = array();
