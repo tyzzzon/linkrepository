@@ -1,42 +1,25 @@
 <?php
 class Edit_View
 {
-    public $table_head = array();
-    public $table_body = array();
+    public $field_ar = array();
 
     public function render()
     {
         echo '
-<table class="table table-striped">
-    <thead>
-        <tr>';
-        foreach($this->table_head as $head_item)
-        {
+        <div class = "jumbotron" >
+            <div class = "container" >
+                <h1 > Registration!</h1 >
+                <p ><form class = "navbar-form navbar-left" action = "/user/edit" method = "post" >';
+        foreach ($this->field_ar as $field_name => $field_text)
             echo '
-            <th>'
-                .$head_item.'
-            </th>';
-        }
+                    <div class = "form-group" >
+                        '.$field_name.': <input type = "text" name = "'.$field_name.'" value = "'.$field_text.'" class = "form-control" >
+                    </div >
+                    <br >';
         echo '
-        </tr>
-    </thead>
-    <tbody>';
-        foreach ($this->table_body as $body_row)
-        {
-            echo '
-        <tr>';
-            foreach ($body_row as $body_item)
-            {
-                echo '
-            <th>'
-                    .$body_item.'
-            </th>';
-            }
-            echo '
-        </tr>';
-        }
-        echo '
-    </tbody>
-</table>';
+                    <button type = "submit" name = "ok" class = "btn btn-success" > Edit </button >
+                </form ></p >
+            </div >
+        </div >';
     }
 }

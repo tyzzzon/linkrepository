@@ -85,6 +85,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
             $this->user_password = $row[0]["user_password"];
             $this->user_role_id = $row[0]["user_role_id"];
             $this->user_status = $row[0]["user_status"];
+            $this->get_role();
             return true;
         }
         else
@@ -113,13 +114,21 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
     {
         global $db;
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$this->user_login."'")->rowCount();
+        $this->get_role_id();
         if ($numb)
         {
             $db->query("UPDATE users SET user_name = '".$this->user_name."', user_surname =
              '".$this->user_surname."', user_role_id = '".$this->user_role_id."', user_status =
-              '".$this->user_status."', user_password = '".md5($this->user_password)."', user_email = '".$this->user_email."'
+              '".$this->user_status."', user_email = '".$this->user_email."'
               WHERE user_login = '". $this->user_login."'");
             echo '<script>alert("Everything is ok");</script>';
+            ////////////////////////
+
+            //                                    .
+            //чо пользователю можно поменять?    /\
+            //                                  /|\
+            //                                   |
+            ////////////////////////
         }
         else
         {
@@ -174,6 +183,17 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         $row = $db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
         $this->user_login = $row[$iter]["user_login"];
         $this->get_from_database($this->user_login);
+    }
+
+    public function get_role()
+    {
+        global $db;
         $this->user_role = $db->query("SELECT role_name FROM roles WHERE role_id = ".$this->user_role_id)->fetchAll(PDO::FETCH_ASSOC)[0]["role_name"];
+    }
+
+    public function get_role_id()
+    {
+        global $db;
+        $this->user_role_id = $db->query("SELECT role_id FROM roles WHERE role_name = ".$this->user_role)->fetchAll(PDO::FETCH_ASSOC)[0]["role_name"];
     }
 }
