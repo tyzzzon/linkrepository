@@ -6,7 +6,7 @@ class Link_Controller
         $link = new Link_Model();
         if ($link->create($link_name, $link_url, $link_description, $link_private_status, date("Y-m-d H:i"), $user_id))
         {
-            echo "Everithing is ok";
+            echo '<script>alert("Everithing is ok");</script>';
         }
     }
 

@@ -14,7 +14,7 @@ class Temporary_Link_Model
         $numb = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
-            echo "There is a temporary link for this user!<br>";
+            echo '<script>alert("There is a temporary link for this user!");</script>';
             $this->check_time_link();
         }
         else
@@ -28,7 +28,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
             $get_id = $db->query("SELECT `temporary_link_id` FROM `temporary_links` WHERE `user_id` = " .
                 $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->temporary_link_id = $get_id[0]["temporary_link_id"];
-            echo "Check your email for temporary link<br>";
+            echo '<script>alert("Check your email for temporary link");</script>';
             $this->send_temporary_link();
         }
     }
@@ -50,7 +50,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         }
         else
         {
-            echo "There is no link for that user";
+            echo '<script>alert("There is no link for that user");</script>';
             return false;
         }
     }
@@ -65,7 +65,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         }
         else
         {
-            echo "There is no link for that user";
+            echo '<script>alert("There is no link for that user");</script>';
         }
     }
 
@@ -89,7 +89,7 @@ VALUES (" . $user_id . ", '" . $this->temporary_link_hash . "', '" . $temporary_
         }
         else
         {
-            echo "invalid link";
+            echo '<script>alert("invalid link");</script>';
         }
     }
 

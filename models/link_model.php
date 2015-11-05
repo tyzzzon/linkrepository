@@ -24,12 +24,12 @@ class Link_Model extends Model
 ".$user_id)->rowCount();
         if ($numb)
         {
-            echo "There is a link with such url<br>";
+            echo '<script>alert("There is a link with such url");</script>';
             return false;
         }
         else
         {
-            echo "Everything is ok <br>";
+            echo '<script>alert("Everything is ok");</script>';
             $this->link_name = $link_name;
             $this->link_url = $link_url;
             $this->link_description = $link_description;
@@ -63,12 +63,12 @@ class Link_Model extends Model
             $this->link_private_status = $row[0]["link_private_status"];
             $this->link_born_time = $row[0]["link_born_time"];
             $this->user_id = $row[0]["user_id"];
-            echo "Everything is ok<br>";
+            echo '<script>alert("Everything is ok");</script>';
             return true;
         }
         else
         {
-            echo "There is no such link<br>";
+            echo '<script>alert("There is no such link");</script>';
             return false;
         }
     }
@@ -92,13 +92,13 @@ class Link_Model extends Model
             case 1:
                 $db->query("DELETE FROM links WHERE `link_url` = '".$link_url."' AND user_id =
 ".$user_id);
-                echo "Everything is ok<br>";
+                echo '<script>alert("Everything is ok");</script>';
                 break;
             case 0:
-                echo "There is no such user<br>";
+                echo '<script>alert("There is no such user");</script>';
                 break;
             default:
-                echo "Smth is wrong...<br>";
+                echo '<script>alert("Smth is wrong...");</script>';
                 break;
         }
     }
@@ -112,11 +112,11 @@ class Link_Model extends Model
             $db->query("UPDATE links SET link_name = '".$this->link_name."', link_url =
              '".$this->link_url."', link_description = '".$this->link_description."', link_private_status =
               ".$this->link_private_status." WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id);
-            echo "Everithing is ok";
+            echo '<script>alert("Everithing is ok");</script>';
         }
         else
         {
-            echo "There is no such link<br>";
+            echo '<script>alert("There is no such link");</script>';
         }
     }
 

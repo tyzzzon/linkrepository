@@ -22,7 +22,7 @@ class User_Model extends Model
         $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$this->user_login."'")->rowCount();
         if ($numb)
         {
-            echo "There is a user with such login<br>";
+            echo '<script>alert("There is a user with such login");</script>';
             return false;
         }
         else
@@ -30,12 +30,12 @@ class User_Model extends Model
             $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_email` = '".$this->user_email."'")->rowCount();
             if ($numb)
             {
-                echo "There is a user with such email<br>";
+                echo '<script>alert("There is a user with such email");</script>';
                 return false;
             }
             else
             {
-                echo "Everything is ok <br>";
+                echo '<script>alert("Everything is ok");</script>';
                 $db->query("INSERT INTO users (user_name, user_surname, user_login, user_email, user_password, user_role_id,
 user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', '" . $this->user_login . "', '" . $this->user_email . "', '" . md5($this->user_password) .
                     "', '" . $this->user_role_id . "', '" . $this->user_status . "')");
@@ -55,7 +55,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         if ($this->user_login == "" || $this->user_id == "" || $this->user_name == "" ||
             $this->user_surname == "" || $this->user_password == "" || $this->user_email == "")
         {
-            echo "Nothing to write<br>";
+            echo '<script>alert("Nothing to write");</script>';
         }
         else
         {
@@ -88,7 +88,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         }
         else
         {
-            echo "There is no such user<br>";
+            echo '<script>alert("There is no such user");</script>';
             return false;
         }
     }
@@ -100,11 +100,11 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         if ($numb)
         {
             $db->query("DELETE FROM users WHERE user_login = '" . $user_login . "'");
-            echo "Everything is ok<br>";
+            echo '<script>alert("Everything is ok");</script>';
         }
         else
         {
-            echo "There is no such user<br>";
+            echo '<script>alert("There is no such user");</script>';
         }
     }
 
@@ -118,15 +118,15 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
              '".$this->user_surname."', user_role_id = '".$this->user_role_id."', user_status =
               '".$this->user_status."', user_password = '".md5($this->user_password)."', user_email = '".$this->user_email."'
               WHERE user_login = '". $this->user_login."'");
-            echo "Everything is ok<br>";
+            echo '<script>alert("Everything is ok");</script>';
         }
         else
         {
-            echo "There is no such user<br>";
+            echo '<script>alert("There is no such user");</script>';
         }
     }
 
-    public function authentification($user_login, $user_password)
+    public function authentication($user_login, $user_password)
     {
         global $db;
         $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->rowCount();
@@ -139,7 +139,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
                 $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
                 if ($row[0]["user_status"] == "blocked")
                 {
-                    echo "You are blocked!";
+                    echo '<script>alert("You are blocked.");</script>';
                     return false;
                 }
                 else
@@ -149,13 +149,13 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
             }
             else
             {
-                echo "Wrong password<br>";
+                echo '<script>alert("Wrong password.");</script>';
                 return false;
             }
         }
         else
         {
-            echo "Wrong login<br>";
+            echo '<script>alert("Wrong login.");</script>';
             return false;
         }
     }

@@ -5,7 +5,7 @@ class User_Controller
     {
         if ($_POST["user_login"]=="" || $_POST["user_email"]=="" || $_POST["user_password"]=="")
         {
-            echo "Not all required fields are filled";
+            echo '<script>alert("Not all required fields are filled");</script>';
             $this->registration_view_action();
         }
         else
@@ -28,7 +28,7 @@ class User_Controller
             }
             else
             {
-                echo "passwords are not the same<br>";
+                echo '<script>alert("Passwords are not the same");</script>';
                 $this->registration_view_action();
             }
         }
@@ -55,20 +55,13 @@ class User_Controller
     public function authentication_action()
     {
         $user = new User_Model();
-        if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
+        if ($user->authentication($_POST["Login"], md5($_POST["Password"])))
         {
             $link_cont = new Link_Controller();
             $link_cont->link_look_action(true, true);
         }
         else
-            $form_string = "<div class='jumbotron'>
-                <form class='navbar-form navbar-right' action='user/authentification' method='post'>
-                    <div class='form-group'>
-                        <p>You are blocked! Send new link?</p>
-                    </div>
-                    <button type='submit' name='ok' class='btn btn-success'>Sign in</button>
-                </form>
-            </div>";
+            $this->auth_view_action();
     }
 
     public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
@@ -76,7 +69,7 @@ class User_Controller
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
         {
-            echo "Smth is wrong<br>";
+            echo '<script>alert("Somthing is wrong");</script>';
         }
         else
         {
@@ -98,7 +91,7 @@ class User_Controller
         if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
             $user_role === "")
         {
-            echo "Smth is wrong<br>";
+            echo '<script>alert("Somthing is wrong");</script>';
         }
         else
         {
