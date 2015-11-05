@@ -102,7 +102,7 @@ class Link_Controller
             $link->user_login === "")
         {
             echo '<script>alert("Somthing is wrong");</script>';
-            $this->edit_view_action($link->link_url, $link->user_login);
+            $this->edit_view_action($link->link_id);
         }
         else
         {
