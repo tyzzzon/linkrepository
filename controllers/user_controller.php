@@ -145,7 +145,8 @@ class User_Controller
             $user->get_all($i);
             $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                 $user->user_email, $user->user_role, $user->user_status);
-            array_push($helper_ar, '<a class="btn btn-primary btn-lg" href = "/user/edit_view/'.$user->user_login.'" role = "button" > Edit </a >');
+            array_push($helper_ar, '<a class="btn btn-primary btn-lg" href = "/user/edit_view/'.$user->user_login.'" role = "button" > Edit </a >',
+                '<a name="'.($i+1).'" class="btn btn-primary btn-lg" role = "button"  data-toggle="modal" data-target="#myModal"> Delete </a > ');
             array_push($content_view->table_body, $helper_ar);
         }
         $main_view = new Main_View();
