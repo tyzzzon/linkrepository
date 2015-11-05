@@ -43,7 +43,16 @@ class User_Controller
         $main_view->render();
     }
 
-    public function authentification_action()
+
+    public function auth_view_action()
+    {
+        $content_view = new Auth_View();
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->render();
+    }
+
+    public function authentication_action()
     {
         $user = new User_Model();
         if ($user->authentification($_POST["Login"], md5($_POST["Password"])))
@@ -140,6 +149,14 @@ class User_Controller
     public function go_home_action()
     {
         $content_view = new Home_View();
+        $main_view = new Main_View();
+        $main_view->content_view = $content_view;
+        $main_view->render();
+    }
+
+    public static function error404_action()
+    {
+        $content_view = new Error404_View();
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
         $main_view->render();

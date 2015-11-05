@@ -61,7 +61,10 @@ class Link_Controller
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
         if ($is_signed)
+        {
             unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
+        }
         $main_view->render();
     }
 

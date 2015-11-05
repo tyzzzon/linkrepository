@@ -5,7 +5,8 @@ class Route
     {
         header('HTTP/1.1 404 Not found');
         header("Status: 404 Not found");
-        header('Location: /error404');
+        //header('Location: user/error404');
+        User_Controller::error404_action();
     }
 
     static function start()
@@ -19,11 +20,14 @@ class Route
 
         //getting the name of the controller
         //getting the name of the action
-        if ( !empty($routes[1]) && !empty($routes[2]))
+        if ( !empty($routes[1]))
         {
             $controller_name = $routes[1];
-            $action_name = $routes[2];
+
         }
+
+        if (!empty($routes[2]))
+            $action_name = $routes[2];
 
         if (!empty($routes[3]))
         {

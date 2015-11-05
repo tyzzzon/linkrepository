@@ -130,7 +130,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
     {
         global $db;
         $numb = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->rowCount();
-        var_dump($numb);
         if ($numb)
         {
             $user = new User_Model();
