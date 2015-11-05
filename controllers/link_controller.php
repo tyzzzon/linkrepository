@@ -44,6 +44,7 @@ class Link_Controller
                 $link->get_all($private_rights, $i);
                 $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
                     $link->user_login, $link->link_private_status);
+                array_push($helper_ar, '<a class="btn btn-primary btn-lg" href = "/link/edit_view/'.$link->link_id.'" role = "button" > Edit </a >');
                 array_push($content_view->table_body, $helper_ar);
             }
         }
@@ -74,10 +75,10 @@ class Link_Controller
         $link->my_link_look($user_id);
     }
 
-    public function edit_view_action($link_url, $user_login)
+    public function edit_view_action($link_id)
     {
         $link = new Link_Model();
-        $link->get_from_database($link_url, $user_login);
+        $link->get_from_database($link_id);
         $content_view = new Edit_View();
         $content_view->field_ar['Link name'] = $link->link_name;
         $content_view->field_ar['Link URL'] = $link->link_url;

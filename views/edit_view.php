@@ -8,7 +8,7 @@ class Edit_View
         echo '
         <div class = "jumbotron" >
             <div class = "container" >
-                <h1 > Registration!</h1 >
+                <h1 > Editing!</h1 >
                 <p ><form class = "navbar-form navbar-left" action = "/user/edit" method = "post" >';
         foreach ($this->field_ar as $field_name => $field_text)
             echo '
