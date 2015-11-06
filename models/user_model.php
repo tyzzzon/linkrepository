@@ -95,13 +95,13 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         }
     }
 
-    public function delete_user($user_login)
+    public function delete_user($user_id)
     {
         global $db;
-        $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$user_login."'")->rowCount();
+        $numb = $db->query("SELECT `user_login` FROM `users` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb)
         {
-            $db->query("DELETE FROM users WHERE user_login = '" . $user_login . "'");
+            $db->query("DELETE FROM users WHERE user_id = " . $user_id);
             echo '<script>alert("Everything is ok");</script>';
         }
         else
@@ -194,6 +194,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
     public function get_role_id()
     {
         global $db;
-        $this->user_role_id = $db->query("SELECT role_id FROM roles WHERE role_name = ".$this->user_role)->fetchAll(PDO::FETCH_ASSOC)[0]["role_name"];
+        $this->user_role_id = $db->query("SELECT role_id FROM roles WHERE role_name = '".$this->user_role."'")->fetchAll(PDO::FETCH_ASSOC)[0]["role_id"];
     }
 }

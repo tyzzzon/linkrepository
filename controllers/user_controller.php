@@ -64,28 +64,6 @@ class User_Controller
             $this->auth_view_action();
     }
 
-    public function admin_edit_user_action($user_name, $user_surname, $user_login, $user_email, $user_password, $user_role)
-    {
-        if ($user_name === "" || $user_surname === "" || $user_login === "" || $user_email === "" || $user_password === "" ||
-            $user_role === "")
-        {
-            echo '<script>alert("Somthing is wrong");</script>';
-        }
-        else
-        {
-            $user = new User_Model();
-            if ($user->get_from_database($user_login))
-            {
-                $user->user_name = $user_name;
-                $user->user_surname = $user_surname;
-                $user->user_email = $user_email;
-                $user->user_password = $user_password;
-                $user->user_role = $user_role;
-                $user->edit_user();
-            }
-        }
-    }
-
     public function see_users_action()
     {
         $user=new User_Model();
@@ -145,9 +123,10 @@ class User_Controller
             $user->get_all($i);
             $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                 $user->user_email, $user->user_role, $user->user_status);
-            array_push($helper_ar, '<a class="btn btn-primary btn-lg" href = "/user/edit_view/'.$user->user_login.'" role = "button" > Edit </a >',
-                '<a name="'.($i+1).'" class="btn btn-primary btn-lg" role = "button"  data-toggle="modal" data-target="#myModal"> Delete </a > ');
+            array_push($helper_ar, '<form action="/user/edit_view/'.$user->user_login.'"> <button class="btn btn-primary btn-lg">Edit</button></form>',
+                '<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Delete</button>');
             array_push($content_view->table_body, $helper_ar);
+            array_push($content_view->id_ar, $user->user_id);
         }
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
@@ -175,14 +154,14 @@ class User_Controller
     public function edit_action()
     {
         $user = new User_Model();
-        $user->user_name = $_POST['User name'];
-        $user->user_surname = $_POST['User surname'];
-        $user->user_login = $_POST['User login'];
-        $user->user_email = $_POST['User email'];
-        $user->user_role = $_POST['User role'];
-        $user->user_status = $_POST['User status'];
+        $user->user_name = $_POST['User_name'];
+        $user->user_surname = $_POST['User_surname'];
+        $user->user_login = $_POST['User_login'];
+        $user->user_email = $_POST['User_email'];
+        $user->user_role = $_POST['User_role'];
+        $user->user_status = $_POST['User_status'];
         if ($user->user_name === "" || $user->user_surname === "" || $user->user_login === "" || $user->user_email === "" ||
-            $user->user_role === "" || $user->user_status)
+            $user->user_role === "" || $user->user_status ==="")
         {
             echo '<script>alert("Somthing is wrong");</script>';
             $this->edit_view_action($user->user_login);
@@ -190,7 +169,15 @@ class User_Controller
         else
         {
             $user->edit_user();
+            $this->users_list_action();
         }
 
+    }
+
+    public function delete_action($user_id)
+    {
+        $user = new User_Model();
+        $user->delete_user($user_id);
+        $this->users_list_action();
     }
 }

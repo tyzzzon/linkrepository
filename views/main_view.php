@@ -19,7 +19,7 @@ class Main_View
                 <meta name = "description" content = "" >
                 <meta name = "author" content = "" >
                 <title > Main page </title >
-                <link href = "/css/bootstrap.css" rel = "stylesheet" >
+                <link href = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" rel = "stylesheet" >
                 <style type = "text/css" > body
                 {
                     padding-top:50px;
@@ -27,7 +27,7 @@ class Main_View
                 }
                 </style >
                 <script src="/js/jquery-1.11.3.js"></script>
-                <script src = "/js/bootstrap.min.js" ></script>
+                <script src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js" ></script>
 
             </head >
             <body>
