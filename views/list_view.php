@@ -67,9 +67,7 @@ document.onclick = function( e )
         var user_id = e.target.getAttribute("user_id");
         alert( user_id);
     }
-    else if (user_id !== undefined)
-    {
-    var table = document.getElementById("tablo");
+    //var table = document.getElementById("tablo");
         $(document).ready(function(){
     $("#myModal").on("click", "#dele", function(){
         userid = user_id;
@@ -77,14 +75,13 @@ document.onclick = function( e )
             type: "POST",
             url: "/user/delete/"+userid,
             success: function(a){
-
+                location.reload();
             }
         });
         return false;
     });
 });
-table.refresh();
-}
+//table.refresh();
 }
 </script>
 ';
