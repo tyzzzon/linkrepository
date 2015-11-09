@@ -3,6 +3,8 @@ class List_View
 {
     public $table_head = array();
     public $table_body = array();
+    public $edit_butt = array();
+    public $delete_butt = array();
 
     public function render()
     {
@@ -33,14 +35,21 @@ class List_View
                 .$body_item.'
             </th>';
             }
-            echo '
-        </tr>';
+            echo '<th>'
+                .$this->edit_butt[$i]->render().'
+            </th>';
+            echo '<th>'
+                .$this->delete_butt[$i]->render().'
+            </th>';
+        echo '</tr>';
             $i++;
         }
         echo '
     </tbody>
 </table>
+';
 
+echo'
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
      <div class="modal-content">
