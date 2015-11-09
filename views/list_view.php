@@ -5,6 +5,7 @@ class List_View
     public $table_body = array();
     public $edit_butt = array();
     public $delete_butt = array();
+    public $delete_url;
 
     public function render()
     {
@@ -74,7 +75,6 @@ document.onclick = function( e )
     if ( e.target.tagName == "BUTTON" && e.target.getAttribute("butt_class") == "dele")
     {
         var user_id = e.target.getAttribute("user_id");
-        alert( user_id);
     }
     //var table = document.getElementById("tablo");
         $(document).ready(function(){
@@ -82,9 +82,10 @@ document.onclick = function( e )
         userid = user_id;
         $.ajax({
             type: "POST",
-            url: "/user/delete/"+userid,
+            url: "'.$this->delete_url.'"+userid,
             success: function(a){
                 location.reload();
+                alert("'.$this->delete_url.'"+userid);
             }
         });
         return false;

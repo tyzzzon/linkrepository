@@ -42,9 +42,14 @@ class Link_Controller
             for ($i = 0; $i < $link->get_number($private_rights); $i++)
             {
                 $link->get_all($private_rights, $i);
+                $edit_butt = new Edit_Butt_View();
+                $delete_butt = new Delete_Butt_View();
+                $edit_butt->action = "/link/edit_view/".$link->link_id;
+                $delete_butt->id = $link->link_id;
                 $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
                     $link->user_login, $link->link_private_status);
-                array_push($helper_ar, '<a class="btn btn-primary btn-lg" href = "/link/edit_view/'.$link->link_id.'" role = "button" > Edit </a >');
+                array_push($content_view->edit_butt, $edit_butt);
+                array_push($content_view->delete_butt, $delete_butt);
                 array_push($content_view->table_body, $helper_ar);
             }
         }
@@ -60,6 +65,7 @@ class Link_Controller
             }
         }
         $main_view = new Main_View();
+        $content_view->delete_url = "/link/delete/";
         $main_view->content_view = $content_view;
         if ($is_signed)
         {
@@ -85,6 +91,7 @@ class Link_Controller
         $content_view->field_ar['Link description'] = $link->link_description;
         $content_view->field_ar['Link private status'] = $link->link_private_status;
         $content_view->field_ar['User login'] = $link->user_login;
+        $content_view->action = "/link/edit";
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
         $main_view->render();
@@ -93,20 +100,38 @@ class Link_Controller
     public function edit_action()
     {
         $link = new Link_Model();
-        $link->link_name = $_POST['Link name'];
-        $link->link_url = $_POST['Link URL'];
-        $link->link_description = $_POST['Link description'];
-        $link->link_private_status = $_POST['Link private status'];
-        $link->user_login = $_POST['User login'];
+        $link->link_name = $_POST['Link_name'];
+        $link->link_url = $_POST['Link_URL'];
+        $link->link_description = $_POST['Link_description'];
+        $link->link_private_status = $_POST['Link_private_status'];
+        $link->user_login = $_POST['User_login'];
         if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "" ||
             $link->user_login === "")
         {
-            echo '<script>alert("Somthing is wrong");</script>';
+            echo '<script>alert("Something is wrong");</script>';
             $this->edit_view_action($link->link_id);
         }
         else
         {
             $link->edit_link();
+            $this->link_look_action(1);
+        }
+    }
+
+    public function delete_action($link_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET')
+        {echo '<script>alert("Access denied")</script>';}
+        else
+        {
+            var_dump($_SERVER);
+            echo "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+            $link = new Link_Model();
+
+            echo 1;
+            $link->delete_link($link_id);
+            echo 2;
+//        $this->link_look_action(1);
         }
     }
 }

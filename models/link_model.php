@@ -61,7 +61,7 @@ class Link_Model extends Model
             $this->link_private_status = $row[0]["link_private_status"];
             $this->link_born_time = $row[0]["link_born_time"];
             $this->user_id = $row[0]["user_id"];
-            $this->user_login = $db->query('SELECT user_login FROM users WHERE user_id = '.$this->user_id);
+            $this->user_login = $db->query('SELECT user_login FROM users WHERE user_id = '.$this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]['user_login'];
             echo '<script>alert("Everything is ok");</script>';
             return true;
         }
@@ -81,16 +81,14 @@ class Link_Model extends Model
             echo "Private status: " . $this->link_private_status . "<br>";
     }
 
-    public function delete_link($link_url, $user_id)
+    public function delete_link($link_id)
     {
         global $db;
-        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
-".$user_id)->rowCount();
+        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_id` = ".$link_id)->rowCount();
         switch ($numb)
         {
             case 1:
-                $db->query("DELETE FROM links WHERE `link_url` = '".$link_url."' AND user_id =
-".$user_id);
+                $db->query("DELETE FROM links WHERE `link_id` = ".$link_id);
                 echo '<script>alert("Everything is ok");</script>';
                 break;
             case 0:
@@ -105,6 +103,7 @@ class Link_Model extends Model
     public function edit_link()
     {
         global $db;
+        $this->user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$this->user_login.'"')->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
         $numb = $db->query("SELECT link_name FROM `links` WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {

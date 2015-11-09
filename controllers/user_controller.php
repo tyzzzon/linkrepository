@@ -123,8 +123,8 @@ class User_Controller
             $user->get_all($i);
             $edit_butt = new Edit_Butt_View();
             $delete_butt = new Delete_Butt_View();
-            $edit_butt->user_login = $user->user_login;
-            $delete_butt->user_id = $user->user_id;
+            $edit_butt->action = "/user/edit_view/".$user->user_login;
+            $delete_butt->id = $user->user_id;
             $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                 $user->user_email, $user->user_role, $user->user_status);
             array_push($content_view->edit_butt, $edit_butt);
@@ -132,6 +132,7 @@ class User_Controller
             array_push($content_view->table_body, $helper_ar);
         }
         $main_view = new Main_View();
+        $content_view->delete_url = "/user/delete/";
         $main_view->content_view = $content_view;
         unset($main_view->header_ar['Registration']);
         unset($main_view->header_ar['Authentication']);
@@ -149,6 +150,7 @@ class User_Controller
         $content_view->field_ar['User email'] = $user->user_email;
         $content_view->field_ar['User role'] = $user->user_role;
         $content_view->field_ar['User status'] = $user->user_status;
+        $content_view->action = "/user/edit";
         $main_view = new Main_View();
         $main_view->content_view = $content_view;
         $main_view->render();

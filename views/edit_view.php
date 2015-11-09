@@ -2,6 +2,7 @@
 class Edit_View
 {
     public $field_ar = array();
+    public $action;
 
     public function render()
     {
@@ -9,7 +10,7 @@ class Edit_View
         <div class = "jumbotron" >
             <div class = "container" >
                 <h1 > Editing!</h1 >
-                <p ><form class = "navbar-form navbar-left" action = "/user/edit" method = "post" >';
+                <p ><form class = "navbar-form navbar-left" action = "'.$this->action.'" method = "post" >';
         foreach ($this->field_ar as $field_name => $field_text)
             echo '
                     <div class = "form-group" >
