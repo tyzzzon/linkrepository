@@ -124,9 +124,8 @@ class User_Controller
             $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                 $user->user_email, $user->user_role, $user->user_status);
             array_push($helper_ar, '<form action="/user/edit_view/'.$user->user_login.'"> <button class="btn btn-primary btn-lg">Edit</button></form>',
-                '<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Delete</button>');
+                '<button id='.$i.' class="btn btn-primary btn-lg" user_id="'.$user->user_id.'" butt_class="dele" data-toggle="modal" data-target="#myModal">Delete</button>');
             array_push($content_view->table_body, $helper_ar);
-            array_push($content_view->id_ar, $user->user_id);
         }
         $main_view = new Main_View();
         $main_view->content_view = $content_view;

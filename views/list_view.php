@@ -3,12 +3,11 @@ class List_View
 {
     public $table_head = array();
     public $table_body = array();
-    public $id_ar = array();
 
     public function render()
     {
         echo '
-<table class="table table-striped">
+<table id="tablo" class="table table-striped">
     <thead>
         <tr>';
         foreach($this->table_head as $head_item)
@@ -26,7 +25,7 @@ class List_View
         foreach ($this->table_body as $body_row)
         {
             echo '
-        <tr id="row'.$i.'" class = "'.$this->id_ar[$i].'">';
+        <tr>';
             foreach ($body_row as $body_item)
             {
                 echo '
@@ -53,9 +52,8 @@ class List_View
            <p></p>
         </div>
         <div class="modal-footer">
-           <a href = "/user/users_list/" id="dele" role = "button" class="delete" data-dismiss="modal">Delete</a>
+           <a id="dele" role = "button" class="btn btn-primary btn-lg" data-dismiss="modal">Delete</a>
            <a class="btn btn-primary btn-lg" role = "button" data-dismiss="modal">Close</a>
-
         </div>
      </div>
   </div>
@@ -64,32 +62,32 @@ class List_View
 <script>
 document.onclick = function( e )
 {
-    if ( e.target.tagName = "BUTTON")
+    if ( e.target.tagName == "BUTTON" && e.target.getAttribute("butt_class") == "dele")
     {
-    var re = /o/;
-    var str = dele.getAttribute("role");
-    var ar = str.split(re);
-    alert( "eiopryje059hyjepoihnjeopi");
+        var user_id = e.target.getAttribute("user_id");
+        alert( user_id);
     }
+    else if (user_id !== undefined)
+    {
+    var table = document.getElementById("tablo");
+        $(document).ready(function(){
+    $("#myModal").on("click", "#dele", function(){
+        userid = user_id;
+        $.ajax({
+            type: "POST",
+            url: "/user/delete/"+userid,
+            success: function(a){
+
+            }
+        });
+        return false;
+    });
+});
+table.refresh();
+}
 }
 </script>
-<!--        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>-->';
+';
     }
 }
 ?>
