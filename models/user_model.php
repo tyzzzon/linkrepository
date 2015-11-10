@@ -154,6 +154,7 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
                 }
                 else
                 {
+                    $this->user_id = $db->query("SELECT `user_id` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
                     return true;
                 }
             }

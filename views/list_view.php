@@ -12,7 +12,7 @@ class List_View
         echo '
 <script type="text/javascript">var target_url = "'.$this->delete_url.'";</script>
 <script type="text/javascript" src="/js/delete.js"></script>
-<table id="tablo" class="table table-striped">
+<table class="table table-striped">
     <thead>
         <tr>';
         foreach($this->table_head as $head_item)

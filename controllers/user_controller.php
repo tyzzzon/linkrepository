@@ -72,8 +72,8 @@ class User_Controller
             $user = new User_Model();
             if ($user->authentication($_POST["Login"], md5($_POST["Password"]))) {
                 $link_cont = new Link_Controller();
-                $link_cont->link_look_action(true, true);
                 $_SESSION['uid'] = $user->user_id;
+                $link_cont->link_look_action(true);
             }
             else
                 $this->auth_view_action();
@@ -117,6 +117,7 @@ class User_Controller
         {
             unset($main_view->header_ar['Registration']);
             unset($main_view->header_ar['Authentication']);
+            //$main_view->header_ar['Log out'] = '';
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -224,5 +225,11 @@ class User_Controller
             $user = new User_Model();
             $user->delete_user($user_id);
         }
+    }
+
+    public function log_out_action()
+    {
+        unset($_SESSION['uid']);
+        $this->go_home_action();
     }
 }
