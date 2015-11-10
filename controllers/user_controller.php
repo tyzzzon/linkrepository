@@ -73,6 +73,7 @@ class User_Controller
             if ($user->authentication($_POST["Login"], md5($_POST["Password"]))) {
                 $link_cont = new Link_Controller();
                 $link_cont->link_look_action(true, true);
+                $_SESSION['uid'] = $user->user_id;
             }
             else
                 $this->auth_view_action();
@@ -85,7 +86,6 @@ class User_Controller
             $temp_link->check_link($link_hash);
             $main_view = new Main_View();
             $content_view = new Temp_Link_View();
-            //$main_view->header_ar['Registration'] = '/user/registration_view';
             $main_view->content_view = $content_view;
             $main_view->render();
     }
@@ -113,6 +113,11 @@ class User_Controller
     {
             $content_view = new Home_View();
             $main_view = new Main_View();
+        if (isset($_SESSION['uid']))
+        {
+            unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
+        }
             $main_view->content_view = $content_view;
             $main_view->render();
     }
@@ -121,6 +126,11 @@ class User_Controller
     {
             $content_view = new Error404_View();
             $main_view = new Main_View();
+        if (isset($_SESSION['uid']))
+        {
+            unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
+        }
             $main_view->content_view = $content_view;
             $main_view->render();
     }
@@ -165,6 +175,8 @@ class User_Controller
             $content_view->field_ar['User status'] = $user->user_status;
             $content_view->action = "/user/edit";
             $main_view = new Main_View();
+            unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
             $main_view->content_view = $content_view;
             $main_view->render();
     }
@@ -206,7 +218,6 @@ class User_Controller
         {
             echo '<script>alert("Access denied")</script>';
             $this->go_home_action();
-            $this->users_list_action();
         }
         else
         {

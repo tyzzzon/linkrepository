@@ -9,9 +9,5 @@ class Main_Controller
                 $main_view->content_view = $content_view;
                 $main_view->render();
             }
-            /*else
-            {
-                $main_view->render($_SERVER["REQUEST_URI"]);
-            }*/
     }
 }

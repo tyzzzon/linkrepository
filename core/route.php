@@ -5,7 +5,6 @@ class Route
     {
         header('HTTP/1.1 404 Not found');
         header("Status: 404 Not found");
-        //header('Location: user/error404');
         User_Controller::error404_action();
     }
 
@@ -23,7 +22,6 @@ class Route
         if ( !empty($routes[1]))
         {
             $controller_name = $routes[1];
-
         }
 
         if (!empty($routes[2]))
@@ -31,16 +29,7 @@ class Route
 
         if (!empty($routes[3]))
         {
-            //$parameters = array();
             $parameter = $routes[3];
-
-            /////////////////////////////////////
-            /////////////////////////////////////
-            /////////////////////////////////////
-            //как передавать параметры через URL
-
-
-
         }
 
         //adding postfixes

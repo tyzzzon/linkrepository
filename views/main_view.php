@@ -3,8 +3,7 @@ class Main_View
 {
     public $ar = array('is_signed' => false);
     public $header_ar = array('Home' => 'user/go_home', 'Links' => 'link/link_look/1',
-        'Registration' => 'user/registration_view', 'Authentication' => 'user/auth_view', 'User list' => 'user/users_list',
-        'User edit' => 'user/edit_view/name', 'Link edit' => 'link/edit_view/vk.com');
+        'Registration' => 'user/registration_view', 'Authentication' => 'user/auth_view', 'User list' => 'user/users_list');
     public $content_view;
 
     public function render()
@@ -27,7 +26,8 @@ class Main_View
                 }
                 </style >
                 <script src="/js/jquery-1.11.3.js"></script>
-                <script src = "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js" ></script>
+                <script src = "/js/bootstrap.min.js" ></script>
+
 
             </head >
             <body>

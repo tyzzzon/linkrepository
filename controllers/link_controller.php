@@ -24,7 +24,7 @@ class Link_Controller
         $link->lets_see($link_url, $user_id);
     }
 
-    public function link_look_action($private_rights, $is_signed = false)
+    public function link_look_action($private_rights)
     {
             $content_view = new List_View();
             $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
@@ -56,10 +56,11 @@ class Link_Controller
             $main_view = new Main_View();
             $content_view->delete_url = "/link/delete/";
             $main_view->content_view = $content_view;
-            if ($is_signed) {
-                unset($main_view->header_ar['Registration']);
-                unset($main_view->header_ar['Authentication']);
-            }
+        if (isset($_SESSION['uid']))
+        {
+            unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
+        }
             $main_view->render();
     }
 
@@ -89,6 +90,11 @@ class Link_Controller
             $content_view->field_ar['User login'] = $link->user_login;
             $content_view->action = "/link/edit";
             $main_view = new Main_View();
+        if (isset($_SESSION['uid']))
+        {
+            unset($main_view->header_ar['Registration']);
+            unset($main_view->header_ar['Authentication']);
+        }
             $main_view->content_view = $content_view;
             $main_view->render();
     }

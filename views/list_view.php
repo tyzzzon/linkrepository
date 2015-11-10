@@ -10,6 +10,8 @@ class List_View
     public function render()
     {
         echo '
+<script type="text/javascript">var target_url = "'.$this->delete_url.'";</script>
+<script type="text/javascript" src="/js/delete.js"></script>
 <table id="tablo" class="table table-striped">
     <thead>
         <tr>';
@@ -69,31 +71,7 @@ echo'
   </div>
 </div>
 
-<script>
-document.onclick = function( e )
-{
-    if ( e.target.tagName == "BUTTON" && e.target.getAttribute("butt_class") == "dele")
-    {
-        var user_id = e.target.getAttribute("user_id");
-    }
-    //var table = document.getElementById("tablo");
-        $(document).ready(function(){
-    $("#myModal").on("click", "#dele", function(){
-        userid = user_id;
-        $.ajax({
-            type: "POST",
-            url: "'.$this->delete_url.'"+userid,
-            success: function(a){
-                location.reload();
-                alert("'.$this->delete_url.'"+userid);
-            }
-        });
-        return false;
-    });
-});
-//table.refresh();
-}
-</script>
+
 ';
     }
 }
