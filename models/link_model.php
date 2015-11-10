@@ -16,12 +16,11 @@ class Link_Model extends Model
         parent::__construct();
     }
 
-    public function create($link_name, $link_url, $link_description, $link_private_status,
-                           $link_born_time, $user_id)
+    public function create()
     {
         global $db;
-        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$link_url."' AND user_id =
-".$user_id)->rowCount();
+        $numb = $db->query("SELECT `link_name` FROM `links` WHERE `link_url` = '".$this->link_url."' AND user_id =
+".$this->user_id)->rowCount();
         if ($numb)
         {
             echo '<script>alert("There is a link with such url");</script>';
@@ -30,17 +29,11 @@ class Link_Model extends Model
         else
         {
             echo '<script>alert("Everything is ok");</script>';
-            $this->link_name = $link_name;
-            $this->link_url = $link_url;
-            $this->link_description = $link_description;
-            $this->link_private_status = $link_private_status;
-            $this->link_born_time = $link_born_time;
-            $this->user_id = $user_id;
             $db->query("INSERT INTO links (`link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
-`link_born_time` , `user_id`) VALUES ('" . $link_name . "', '" . $link_url . "', '" .
-                $link_description . "', '" . $link_private_status . "', '" . $link_born_time . "', '" . $user_id . "')");
-            $get_id = $db->query("SELECT `link_id` FROM `links` WHERE `link_url` = '" . $link_url . "' AND
-        `user_id` = '" . $user_id . "'")->fetchAll(PDO::FETCH_ASSOC);
+`link_born_time` , `user_id`) VALUES ('" . $this->link_name . "', '" . $this->link_url . "', '" .
+                $this->link_description . "', '" . $this->link_private_status . "', '" . date("Y-m-d H:i") . "', '" . $this->user_id . "')");
+            $get_id = $db->query("SELECT `link_id` FROM `links` WHERE `link_url` = '" . $this->link_url . "' AND
+        `user_id` = '" . $this->user_id . "'")->fetchAll(PDO::FETCH_ASSOC);
             $this->link_id = $get_id[0]["link_id"];
             return true;
         }

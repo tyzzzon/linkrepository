@@ -1,21 +1,50 @@
 <?php
 class Link_Controller
 {
-    public function link_create_action($link_name, $link_url, $link_description, $link_private_status, $user_id)
+    public function link_create_action()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(1);
+            $this->link_look_action(0);
         }
         else
         {
             $link = new Link_Model();
-            if ($link->create($link_name, $link_url, $link_description, $link_private_status, date("Y-m-d H:i"), $user_id))
+            $link->link_name = $_POST['Link_name'];
+            $link->link_url = $_POST['Link_URL'];
+            $link->link_description = $_POST['Link_description'];
+            $link->link_private_status = $_POST['Link_private_status'];
+            $link->user_id = $_SESSION['uid'];
+            if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "")
             {
-                echo '<script>alert("Everithing is ok");</script>';
+                echo '<script>alert("Something is wrong");</script>';
+                $this->link_create_view_action();
+            }
+            else
+            {
+                $link->create();
+                $this->link_look_action(0);
             }
         }
+    }
+
+    public function link_create_view_action()
+    {
+        $content_view = new Edit_View();
+        $content_view->field_ar['Link name'] = '';
+        $content_view->field_ar['Link URL'] = '';
+        $content_view->field_ar['Link description'] = '';
+        $content_view->field_ar['Link private status'] = '';
+        $content_view->action = "/link/link_create";
+        $main_view = new Main_View();
+        if (isset($_SESSION['uid']))
+        {
+            unset($main_view->header_ar['user/reg_view']);
+            unset($main_view->header_ar['user/auth_view']);
+        }
+        $main_view->content_view = $content_view;
+        $main_view->render();
     }
 
     public function link_description_action($link_url, $user_id)
@@ -24,7 +53,7 @@ class Link_Controller
         $link->lets_see($link_url, $user_id);
     }
 
-    public function link_look_action($private_rights)
+    public function link_look_action($private_rights = 0)
     {
             $content_view = new List_View();
             $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
@@ -58,8 +87,9 @@ class Link_Controller
             $main_view->content_view = $content_view;
         if (isset($_SESSION['uid']))
         {
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
+            unset($main_view->header_ar['user/reg_view']);
+            unset($main_view->header_ar['user/auth_view']);
+            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->render();
     }
@@ -69,7 +99,7 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(1);
+            $this->link_look_action(0);
         }
         else
         {
@@ -92,8 +122,8 @@ class Link_Controller
             $main_view = new Main_View();
         if (isset($_SESSION['uid']))
         {
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
+            unset($main_view->header_ar['user/reg_view']);
+            unset($main_view->header_ar['user/auth_view']);
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -104,7 +134,7 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(1);
+            $this->link_look_action(0);
         }
         else
         {
@@ -123,7 +153,7 @@ class Link_Controller
             else
             {
                 $link->edit_link();
-                $this->link_look_action(1);
+                $this->link_look_action(0);
             }
         }
     }
@@ -133,11 +163,10 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(1);
+            $this->link_look_action(0);
         }
         else
         {
-            var_dump($_SERVER);
             $link = new Link_Model();
             $link->delete_link($link_id);
         }

@@ -42,12 +42,12 @@ class User_Controller
         }
     }
 
-    public function registration_view_action()
+    public function reg_view_action()
     {
             $content_view = new Registration_View();
             $main_view = new Main_View();
             $main_view->content_view = $content_view;
-            $main_view->header_ar['Registration'] = 'user/registration_view';
+            unset($main_view->header_ar['user/reg_view']);
             $main_view->render();
     }
 
@@ -115,9 +115,9 @@ class User_Controller
             $main_view = new Main_View();
         if (isset($_SESSION['uid']))
         {
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
-            //$main_view->header_ar['Log out'] = '';
+            unset($main_view->header_ar['user/reg_view']);
+            unset($main_view->header_ar['user/auth_view']);
+            $main_view->header_ar[''] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -129,8 +129,9 @@ class User_Controller
             $main_view = new Main_View();
         if (isset($_SESSION['uid']))
         {
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
+            unset($main_view->header_ar['user/reg_view']);
+            unset($main_view->header_ar['user/auth_view']);
+            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -158,8 +159,9 @@ class User_Controller
             $main_view = new Main_View();
             $content_view->delete_url = "/user/delete/";
             $main_view->content_view = $content_view;
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
+        unset($main_view->header_ar['user/reg_view']);
+        unset($main_view->header_ar['user/auth_view']);
+        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
             $main_view->render();
     }
 
@@ -176,8 +178,9 @@ class User_Controller
             $content_view->field_ar['User status'] = $user->user_status;
             $content_view->action = "/user/edit";
             $main_view = new Main_View();
-            unset($main_view->header_ar['Registration']);
-            unset($main_view->header_ar['Authentication']);
+        unset($main_view->header_ar['user/reg_view']);
+        unset($main_view->header_ar['user/auth_view']);
+
             $main_view->content_view = $content_view;
             $main_view->render();
     }
@@ -230,6 +233,6 @@ class User_Controller
     public function log_out_action()
     {
         unset($_SESSION['uid']);
-        $this->go_home_action();
+        session_destroy();
     }
 }

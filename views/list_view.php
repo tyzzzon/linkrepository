@@ -38,12 +38,15 @@ class List_View
                 .$body_item.'
             </th>';
             }
-            echo '<th>'
-                .$this->edit_butt[$i]->render().'
+            if (isset($this->edit_butt[0]))
+            {
+                echo '<th>'
+                    . $this->edit_butt[$i]->render() . '
             </th>';
-            echo '<th>'
-                .$this->delete_butt[$i]->render().'
+                echo '<th>'
+                    . $this->delete_butt[$i]->render() . '
             </th>';
+            }
         echo '</tr>';
             $i++;
         }

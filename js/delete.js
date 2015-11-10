@@ -13,12 +13,11 @@ document.onclick = function( e )
             $.ajax({
                 type: "POST",
                 url: target_url+userid,
-                success: function(a){
+                success: function(){
                     location.reload();
                     alert(target_url+userid);
                 }
             });
-            return false;
         });
     });
 }

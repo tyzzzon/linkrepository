@@ -16,7 +16,7 @@ class Route
 
         $routes = ($strpos=strpos($_SERVER['REQUEST_URI'],"?"))!==false?substr($_SERVER['REQUEST_URI'],0,$strpos):$_SERVER['REQUEST_URI'];
         $routes = explode('/', $routes);
-
+        var_dump($routes);
         //getting the name of the controller
         //getting the name of the action
         if ( !empty($routes[1]))
@@ -30,6 +30,7 @@ class Route
         if (!empty($routes[3]))
         {
             $parameter = $routes[3];
+            var_dump($parameter);
         }
 
         //adding postfixes

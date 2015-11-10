@@ -2,8 +2,25 @@
 class Main_View
 {
     public $ar = array('is_signed' => false);
-    public $header_ar = array('Home' => 'user/go_home', 'Links' => 'link/link_look/1',
-        'Registration' => 'user/registration_view', 'Authentication' => 'user/auth_view', 'User list' => 'user/users_list');
+    public $header_ar = array(
+            'user/go_home' => array(
+                'value' => 'Home',
+                'id'=>'home-link'),
+            'link/link_look' => array(
+                'value' => 'Links',
+                'id' => 'list-link'),
+            'user/reg_view' => array(
+                'value' => 'Registration',
+                'id' => 'reg-link'),
+            'user/auth_view' => array(
+                'value' => 'Authentication',
+                'id' => 'auth-link'),
+            'user/users_list' => array(
+                'value' => 'User list',
+                'id' => 'list-link'),
+            'link/link_create_view' => array(
+                'value' => 'Create link',
+                'id' => 'create-link'));
     public $content_view;
 
     public function render()
@@ -27,7 +44,7 @@ class Main_View
                 </style >
                 <script src="/js/jquery-1.11.3.js"></script>
                 <script src = "/js/bootstrap.min.js" ></script>
-
+                <script src="/js/logout.js"></script>
 
             </head >
             <body>
