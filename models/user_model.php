@@ -70,13 +70,13 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         }
     }
 
-    public function get_from_database($user_login)
+    public function get_from_database($user_id)
     {
         global $db;
-        $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$user_login."'")->rowCount();
+        $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_id` = ".$user_id)->rowCount();
         if ($numb) {
             $row = $db->query("SELECT `user_id`, `user_name`, `user_surname`, `user_login`,
-`user_email`, `user_password`, `user_role_id`, `user_status` FROM `users` WHERE `user_login` = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
+`user_email`, `user_password`, `user_role_id`, `user_status` FROM `users` WHERE `user_id` = ".$user_id)->fetchAll(PDO::FETCH_ASSOC);
             $this->user_id = $row[0]["user_id"];
             $this->user_name = $row[0]["user_name"];
             $this->user_surname = $row[0]["user_surname"];
@@ -122,13 +122,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
               '".$this->user_status."', user_email = '".$this->user_email."'
               WHERE user_login = '". $this->user_login."'");
             echo '<script>alert("Everything is ok");</script>';
-            ////////////////////////
-
-            //                                    .
-            //чо пользователю можно поменять?    /\
-            //                                  /|\
-            //                                   |
-            ////////////////////////
         }
         else
         {
@@ -143,7 +136,8 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         if ($numb)
         {
             $user = new User_Model();
-            $user->get_from_database($user_login);
+            $row = $db->query('SELECT user_id FROM users WHERE user_login = "'.$user_login.'"')->fetchAll(PDO::FETCH_ASSOC);
+            $user->get_from_database($row[0]['user_id']);
             if ($user_password == $user->user_password)
             {
                 $row = $db->query("SELECT `user_status` FROM users WHERE user_login = '".$user_login."'")->fetchAll(PDO::FETCH_ASSOC);
@@ -182,8 +176,8 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
     {
         global $db;
         $row = $db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
-        $this->user_login = $row[$iter]["user_login"];
-        $this->get_from_database($this->user_login);
+        $this->user_id = $row[$iter]["user_id"];
+        $this->get_from_database($this->user_id);
     }
 
     public function get_role()

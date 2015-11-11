@@ -93,6 +93,7 @@ class Link_Controller
 
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->render();
@@ -125,6 +126,7 @@ class Link_Controller
 
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
         $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         $main_view->render();
     }

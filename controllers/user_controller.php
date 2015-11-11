@@ -120,6 +120,7 @@ class User_Controller
 
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
             $main_view->header_ar[''] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
@@ -137,6 +138,7 @@ class User_Controller
 
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
@@ -154,7 +156,7 @@ class User_Controller
                 $user->get_all($i);
                 $edit_butt = new Edit_Butt_View();
                 $delete_butt = new Delete_Butt_View();
-                $edit_butt->action = "/user/edit_view/" . $user->user_login;
+                $edit_butt->action = "/user/edit_view/" . $user->user_id;
                 $delete_butt->id = $user->user_id;
                 $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                     $user->user_email, $user->user_role, $user->user_status);
@@ -170,14 +172,15 @@ class User_Controller
 
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
         $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
             $main_view->render();
     }
 
-    public function edit_view_action($user_login)
+    public function edit_view_action($user_id)
     {
             $user = new User_Model();
-            $user->get_from_database($user_login);
+            $user->get_from_database($user_id);
             $content_view = new Edit_View();
             $content_view->field_ar['User name'] = $user->user_name;
             $content_view->field_ar['User surname'] = $user->user_surname;
@@ -185,7 +188,7 @@ class User_Controller
             $content_view->field_ar['User email'] = $user->user_email;
             $content_view->field_ar['User role'] = $user->user_role;
             $content_view->field_ar['User status'] = $user->user_status;
-            $content_view->action = "/user/edit";
+            $content_view->action = "/user/edit/".$user_id;
             $main_view = new Main_View();
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
@@ -194,7 +197,7 @@ class User_Controller
             $main_view->render();
     }
 
-    public function edit_action()
+    public function edit_action($user_id)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
@@ -214,12 +217,12 @@ class User_Controller
                 $user->user_role === "" || $user->user_status === "")
             {
                 echo '<script>alert("Somthing is wrong");</script>';
-                $this->edit_view_action($user->user_login);
+                $this->edit_view_action($user_id);
             }
             else
             {
                 $user->edit_user();
-                $this->users_list_action();
+                $this->go_home_action();
             }
         }
 
