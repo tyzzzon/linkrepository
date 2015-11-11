@@ -47,7 +47,6 @@ class Link_Model extends Model
         {
             $row = $db->query("SELECT `link_id`, `link_name` ,  `link_url` ,  `link_description` ,  `link_private_status` ,
 `link_born_time` , `user_id` FROM `links` WHERE `link_id` = ".$link_id)->fetchAll(PDO::FETCH_ASSOC);
-            var_dump($row);
             $this->link_url = $row[0]["link_url"];
             $this->link_name = $row[0]["link_name"];
             $this->link_description = $row[0]["link_description"];

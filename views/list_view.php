@@ -6,6 +6,7 @@ class List_View
     public $edit_butt = array();
     public $delete_butt = array();
     public $delete_url;
+    public $bool_arr = array();
 
     public function render()
     {
@@ -37,6 +38,13 @@ class List_View
             <th>'
                 .$body_item.'
             </th>';
+            }
+            if (isset($this->bool_arr[0]))
+            {
+                echo '<th><input type="checkbox"';
+                if ($this->bool_arr[$i])
+                    echo ' checked';
+                echo ' disabled></th>';
             }
             if (isset($this->edit_butt[0]))
             {

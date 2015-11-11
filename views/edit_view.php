@@ -2,6 +2,7 @@
 class Edit_View
 {
     public $field_ar = array();
+    public $bool_par;
     public $action;
 
     public function render()
@@ -17,6 +18,13 @@ class Edit_View
                         '.$field_name.': <input type = "text" name = "'.$field_name.'" value = "'.$field_text.'" class = "form-control" >
                     </div >
                     <br >';
+        if (isset($this->bool_par))
+        {
+            echo '<div class = "form-group" >Private status: <input type="checkbox" name="Link private status" class = "form-control"';
+            if ($this->bool_par)
+                echo ' checked';
+            echo '></div><br>';
+        }
         echo '
                     <button type = "submit" name = "ok" class = "btn btn-success" > Edit </button >
                 </form ></p >

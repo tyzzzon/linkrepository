@@ -24,7 +24,7 @@ class Link_Controller
             else
             {
                 $link->create();
-                $this->link_look_action(0);
+                $this->my_link_look_action();
             }
         }
     }
@@ -35,7 +35,7 @@ class Link_Controller
         $content_view->field_ar['Link name'] = '';
         $content_view->field_ar['Link URL'] = '';
         $content_view->field_ar['Link description'] = '';
-        $content_view->field_ar['Link private status'] = '';
+        $content_view->bool_par = false;
         $content_view->action = "/link/link_create";
         $main_view = new Main_View();
         if (isset($_SESSION['uid']))
@@ -68,7 +68,8 @@ class Link_Controller
                     $edit_butt->action = "/link/edit_view/" . $link->link_id;
                     $delete_butt->id = $link->link_id;
                     $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
-                        $link->user_login, $link->link_private_status);
+                        $link->user_login);
+                    array_push($content_view->bool_arr, $link->link_private_status);
                     array_push($content_view->edit_butt, $edit_butt);
                     array_push($content_view->delete_butt, $delete_butt);
                     array_push($content_view->table_body, $helper_ar);
@@ -89,9 +90,10 @@ class Link_Controller
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->render();
     }
@@ -109,7 +111,8 @@ class Link_Controller
             $delete_butt = new Delete_Butt_View();
             $edit_butt->action = "/link/edit_view/" . $link->link_id;
             $delete_butt->id = $link->link_id;
-            $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time, $link->link_private_status);
+            $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time);
+            array_push($content_view->bool_arr, $link->link_private_status);
             array_push($content_view->edit_butt, $edit_butt);
             array_push($content_view->delete_butt, $delete_butt);
             array_push($content_view->table_body, $helper_ar);
@@ -119,9 +122,10 @@ class Link_Controller
         $main_view->content_view = $content_view;
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
-        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         $main_view->render();
     }
 
@@ -133,7 +137,10 @@ class Link_Controller
             $content_view->field_ar['Link name'] = $link->link_name;
             $content_view->field_ar['Link URL'] = $link->link_url;
             $content_view->field_ar['Link description'] = $link->link_description;
-            $content_view->field_ar['Link private status'] = $link->link_private_status;
+        if($link->link_private_status)
+            $content_view->bool_par = true;
+        else
+            $content_view->bool_par = false;
             $content_view->field_ar['User login'] = $link->user_login;
             $content_view->action = "/link/edit";
             $main_view = new Main_View();
@@ -159,7 +166,10 @@ class Link_Controller
             $link->link_name = $_POST['Link_name'];
             $link->link_url = $_POST['Link_URL'];
             $link->link_description = $_POST['Link_description'];
-            $link->link_private_status = $_POST['Link_private_status'];
+            if (isset($_POST['Link_private_status']))
+                $link->link_private_status = 1;
+            else
+                $link->link_private_status = 0;
             $link->user_login = $_POST['User_login'];
             if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "" ||
                 $link->user_login === "")

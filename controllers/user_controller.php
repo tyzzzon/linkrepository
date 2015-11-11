@@ -13,7 +13,7 @@ class User_Controller
             if ($_POST["user_login"] == "" || $_POST["user_email"] == "" || $_POST["user_password"] == "")
             {
                 echo '<script>alert("Not all required fields are filled");</script>';
-                $this->registration_view_action();
+                $this->reg_view_action();
             }
             else
             {
@@ -36,7 +36,7 @@ class User_Controller
                 else
                 {
                     echo '<script>alert("Passwords are not the same");</script>';
-                    $this->registration_view_action();
+                    $this->reg_view_action();
                 }
             }
         }
@@ -117,9 +117,10 @@ class User_Controller
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-            $main_view->header_ar[''] = array('value' => 'Log out', 'id' => 'logout_btn');
+
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar[''] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -133,9 +134,10 @@ class User_Controller
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -165,9 +167,10 @@ class User_Controller
             $main_view->content_view = $content_view;
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
-        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
             $main_view->render();
     }
 
