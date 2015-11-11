@@ -14,10 +14,7 @@ class Main_View
                 'id' => 'reg-link'),
             'user/auth_view' => array(
                 'value' => 'Authentication',
-                'id' => 'auth-link'),
-            'user/users_list' => array(
-                'value' => 'User list',
-                'id' => 'list-link'));
+                'id' => 'auth-link'));
     public $content_view;
 
     public function render()
@@ -55,12 +52,6 @@ class Main_View
             </nav>';
 
         $this->content_view->render();
-
-//        echo '<div class="header">' . $view->header_view->render() . '</div>';
-//        echo '<div class="content">' . $view->content_view->render() . '</div>';
-//        echo '<div class="footer">' . $view->footer_view->render() . '</div>';
-//        require_once "header_view.php";
-//        require_once "footer_view.php";
 
         $view_footer = new Footer_view();
         $view_footer->render();

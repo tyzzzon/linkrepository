@@ -111,13 +111,17 @@ class User_Controller
 
     public function go_home_action()
     {
+        $user = new User_Model();
             $content_view = new Home_View();
             $main_view = new Main_View();
         if (isset($_SESSION['uid']))
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-
+            if ($user->permission('edit_all_users'))
+            {
+                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+            }
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
@@ -129,13 +133,17 @@ class User_Controller
 
     public static function error404_action()
     {
+        $user = new User_Model();
             $content_view = new Error404_View();
             $main_view = new Main_View();
         if (isset($_SESSION['uid']))
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-
+            if ($user->permission('edit_all_users'))
+            {
+                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+            }
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
@@ -169,6 +177,10 @@ class User_Controller
             $main_view->content_view = $content_view;
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
+        if ($user->permission('edit_all_users'))
+        {
+            $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+        }
 
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');

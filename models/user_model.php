@@ -191,4 +191,20 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         global $db;
         $this->user_role_id = $db->query("SELECT role_id FROM roles WHERE role_name = '".$this->user_role."'")->fetchAll(PDO::FETCH_ASSOC)[0]["role_id"];
     }
+
+    public function permission($permission)
+    {
+        global $db;
+        if (isset($_SESSION['uid']))
+        {
+            $numb = $db->query('SELECT permission FROM users, permissions_for_roles
+WHERE users.user_role_id = permissions_for_roles.role_id AND users.user_id = ' . $_SESSION['uid']);
+            $row = $numb->fetchAll(PDO::FETCH_ASSOC);
+            for ($i = 0; $i < $numb->rowCount(); $i++) {
+                if ($permission == $row[$i]['permission'])
+                    return true;
+            }
+        }
+        return false;
+    }
 }

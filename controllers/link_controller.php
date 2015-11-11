@@ -53,8 +53,13 @@ class Link_Controller
         $link->lets_see($link_url, $user_id);
     }
 
-    public function link_look_action($private_rights = 0)
+    public function link_look_action()
     {
+        $user = new User_Model();
+        if ($user->permission('edit_all_links'))
+            $private_rights = true;
+        else
+            $private_rights = false;
             $content_view = new List_View();
             $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
             $link = new Link_Model();
@@ -90,7 +95,10 @@ class Link_Controller
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
-
+            if ($user->permission('edit_all_users'))
+            {
+                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+            }
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
@@ -101,6 +109,7 @@ class Link_Controller
 
     public function my_link_look_action()
     {
+        $user = new User_Model();
         $link = new Link_Model();
         $content_view = new List_View();
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'Private status');
@@ -123,7 +132,10 @@ class Link_Controller
         $main_view->content_view = $content_view;
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
-
+        if ($user->permission('edit_all_users'))
+        {
+            $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+        }
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
         $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
