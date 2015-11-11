@@ -6,7 +6,7 @@ $(document).ready(function() {
         $.ajax({
             url: '/user/log_out',
             success: function () {
-                location.reload();
+                location.replace('/user/go_home');
             }
         });
     });

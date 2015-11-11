@@ -17,10 +17,7 @@ class Main_View
                 'id' => 'auth-link'),
             'user/users_list' => array(
                 'value' => 'User list',
-                'id' => 'list-link'),
-            'link/link_create_view' => array(
-                'value' => 'Create link',
-                'id' => 'create-link'));
+                'id' => 'list-link'));
     public $content_view;
 
     public function render()

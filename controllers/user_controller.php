@@ -73,7 +73,7 @@ class User_Controller
             if ($user->authentication($_POST["Login"], md5($_POST["Password"]))) {
                 $link_cont = new Link_Controller();
                 $_SESSION['uid'] = $user->user_id;
-                $link_cont->link_look_action(true);
+                $link_cont->link_look_action(false);
             }
             else
                 $this->auth_view_action();
@@ -118,6 +118,8 @@ class User_Controller
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
             $main_view->header_ar[''] = array('value' => 'Log out', 'id' => 'logout_btn');
+            $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
+            $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -132,6 +134,8 @@ class User_Controller
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+            $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
+            $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
         }
             $main_view->content_view = $content_view;
             $main_view->render();
@@ -162,6 +166,8 @@ class User_Controller
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
         $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+        $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
+        $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->render();
     }
 

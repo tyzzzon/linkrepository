@@ -90,22 +90,39 @@ class Link_Controller
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+            $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
+            $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
         }
             $main_view->render();
     }
 
-    public function my_link_look_action($user_id)
+    public function my_link_look_action()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET')
+        $link = new Link_Model();
+        $content_view = new List_View();
+        $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'Private status');
+        $content_view->table_head = $helper_ar;
+        for ($i = 0; $i < $link->get_my_number(); $i++)
         {
-            echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(0);
+            $link->my_link_look($_SESSION['uid'], $i);;
+            $edit_butt = new Edit_Butt_View();
+            $delete_butt = new Delete_Butt_View();
+            $edit_butt->action = "/link/edit_view/" . $link->link_id;
+            $delete_butt->id = $link->link_id;
+            $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time, $link->link_private_status);
+            array_push($content_view->edit_butt, $edit_butt);
+            array_push($content_view->delete_butt, $delete_butt);
+            array_push($content_view->table_body, $helper_ar);
         }
-        else
-        {
-            $link = new Link_Model();
-            $link->my_link_look($user_id);
-        }
+        $main_view = new Main_View();
+        $content_view->delete_url = "/link/delete/";
+        $main_view->content_view = $content_view;
+        unset($main_view->header_ar['user/reg_view']);
+        unset($main_view->header_ar['user/auth_view']);
+        $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
+        $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
+        $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->render();
     }
 
     public function edit_view_action($link_id)

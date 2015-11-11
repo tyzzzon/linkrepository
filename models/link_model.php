@@ -135,16 +135,18 @@ link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
-    public function my_link_look($user_id)
+    public function my_link_look($user_id, $iter)
     {
         global $db;
-        $rows = $db->query("SELECT DISTINCT link_name, link_url, link_description, link_private_status FROM
-links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
-        for ($i = 0; $i < count($rows); $i++)
-        {
-            echo "Link name = ".$rows[$i]["link_name"]." link url = ".$rows[$i]["link_url"]." link description = ".
-                $rows[$i]["link_description"]." link private status = ".$rows[$i]["link_private_status"]."<br>";
-        }
+        $rows = $db->query("SELECT DISTINCT link_id, link_name, link_url, link_description, link_born_time, link_private_status,
+user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
+        $this->link_name = $rows[$iter]['link_name'];
+        $this->link_url = $rows[$iter]['link_url'];
+        $this->link_description = $rows[$iter]['link_description'];
+        $this->link_private_status = $rows[$iter]['link_private_status'];
+        $this->link_born_time = $rows[$iter]['link_born_time'];
+        $this->link_id = $rows[$iter]['link_id'];
+        $this->user_id = $rows[$iter]['user_id'];
     }
 
     public function get_number($private)
@@ -154,6 +156,13 @@ links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
             $rows = $db->query("SELECT link_id FROM links")->rowCount();
         else
             $rows = $db->query("SELECT link_id FROM links WHERE link_private_status = 0")->rowCount();
+        return $rows;
+    }
+
+    public function get_my_number()
+    {
+        global $db;
+        $rows = $db->query("SELECT link_id FROM links WHERE user_id = ".$_SESSION['uid'])->rowCount();
         return $rows;
     }
 
