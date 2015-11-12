@@ -14,7 +14,10 @@ class Link_Controller
             $link->link_name = $_POST['Link_name'];
             $link->link_url = $_POST['Link_URL'];
             $link->link_description = $_POST['Link_description'];
-            $link->link_private_status = $_POST['Link_private_status'];
+            if (isset($_POST['Link_private_status']))
+                $link->link_private_status = 1;
+            else
+                $link->link_private_status = 0;
             $link->user_id = $_SESSION['uid'];
             if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "")
             {
@@ -24,7 +27,7 @@ class Link_Controller
             else
             {
                 $link->create();
-                $this->my_link_look_action();
+                $this->my_list_action(1);
             }
         }
     }
@@ -95,7 +98,7 @@ class Link_Controller
             for ($i = 0; $i < $items_on_page; $i++)
             {
                 $link->get_all($private_rights, $i, ($page-1)*($items_on_page));
-                if(!empty($user->user_name))
+                if(!empty($link->link_name))
                 {
                     $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
                         $link->user_login);
@@ -234,8 +237,13 @@ class Link_Controller
 
     public function list_action($page)
     {
+        $user = new User_Model();
         $link = new Link_Model();
-        $pages = $link->pages_numb();
+        if ($user->permission('edit_all_links'))
+            $private_rights = true;
+        else
+            $private_rights = false;
+        $pages = $link->pages_numb($private_rights);
         $this->link_look_action($page, $pages);
     }
 

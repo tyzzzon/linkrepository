@@ -205,11 +205,14 @@ user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         $this->link_id = $db->query('SELECT link_id FROM links WHERE link_url = "'.$this->link_url.'" AND user_id = '.$this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]['link_id'];
     }
 
-    public function pages_numb()
+    public function pages_numb($private)
     {
         global $items_on_page;
         global $db;
-        $numb = $db->query('SELECT * FROM links')->rowCount();
+        if ($private)
+            $numb = $db->query('SELECT * FROM links')->rowCount();
+        else
+            $numb = $db->query('SELECT * FROM links WHERE link_private_status = 0')->rowCount();
         $pages = $numb/$items_on_page;
         return $pages;
     }
