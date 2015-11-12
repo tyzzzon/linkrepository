@@ -6,7 +6,7 @@ class Main_View
             'user/go_home' => array(
                 'value' => 'Home',
                 'id'=>'home-link'),
-            'link/link_look' => array(
+            'link/list/1' => array(
                 'value' => 'Links',
                 'id' => 'list-link'),
             'user/reg_view' => array(

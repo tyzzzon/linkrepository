@@ -65,35 +65,43 @@ class Link_Controller
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
         $link = new Link_Model();
         for ($i=0;$i<$numb_of_pages;$i++)
-            array_push($content_view->pagination, '/user/list/'.($i+1));
+            array_push($content_view->pagination, '/link/list/'.($i+1));
         if ($private_rights)
         {
             array_push($helper_ar, 'Private status');
             $content_view->table_head = $helper_ar;
-            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            for ($i = 0; $i < $items_on_page; $i++)
             {
                 $link->get_all($private_rights, $i, ($page-1)*($items_on_page));
-                $edit_butt = new Edit_Butt_View();
-                $delete_butt = new Delete_Butt_View();
-                $edit_butt->action = "/link/edit_view/" . $link->link_id;
-                $delete_butt->id = $link->link_id;
-                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
-                    $link->user_login);
-                array_push($content_view->bool_arr, $link->link_private_status);
-                array_push($content_view->edit_butt, $edit_butt);
-                array_push($content_view->delete_butt, $delete_butt);
-                array_push($content_view->table_body, $helper_ar);
+                if(!empty($link->link_name))
+                {
+                    $edit_butt = new Edit_Butt_View();
+                    $delete_butt = new Delete_Butt_View();
+                    $edit_butt->action = "/link/edit_view/" . $link->link_id;
+                    $delete_butt->id = $link->link_id;
+                    $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                        $link->user_login);
+                    array_push($content_view->bool_arr, $link->link_private_status);
+                    $link->clean();
+                    array_push($content_view->edit_butt, $edit_butt);
+                    array_push($content_view->delete_butt, $delete_butt);
+                    array_push($content_view->table_body, $helper_ar);
+                }
             }
         }
         else
         {
             $content_view->table_head = $helper_ar;
-            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            for ($i = 0; $i < $items_on_page; $i++)
             {
-                $link->get_all($private_rights, $i);
-                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
-                    $link->user_login);
-                array_push($content_view->table_body, $helper_ar);
+                $link->get_all($private_rights, $i, ($page-1)*($items_on_page));
+                if(!empty($user->user_name))
+                {
+                    $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                        $link->user_login);
+                    $link->clean();
+                    array_push($content_view->table_body, $helper_ar);
+                }
             }
         }
         $main_view = new Main_View();
@@ -106,32 +114,39 @@ class Link_Controller
             if ($user->permission('edit_all_users'))
                 $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
-            $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+            $main_view->header_ar['link/my_list/1'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
         $main_view->render();
     }
 
-    public function my_link_look_action()
+    public function my_link_look_action($page, $numb_of_pages)
     {
+        global $items_on_page;
         $user = new User_Model();
         $link = new Link_Model();
         $content_view = new List_View();
         $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'Private status');
         $content_view->table_head = $helper_ar;
-        for ($i = 0; $i < $link->get_my_number(); $i++)
+        for ($i=0;$i<$numb_of_pages;$i++)
+            array_push($content_view->pagination, '/link/my_list/'.($i+1));
+        for ($i = 0; $i < $items_on_page; $i++)
         {
-            $link->my_link_look($_SESSION['uid'], $i);;
-            $edit_butt = new Edit_Butt_View();
-            $delete_butt = new Delete_Butt_View();
-            $edit_butt->action = "/link/edit_view/" . $link->link_id;
-            $delete_butt->id = $link->link_id;
-            $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time);
-            array_push($content_view->bool_arr, $link->link_private_status);
-            array_push($content_view->edit_butt, $edit_butt);
-            array_push($content_view->delete_butt, $delete_butt);
-            array_push($content_view->table_body, $helper_ar);
+            $link->get_all_mine($i, ($page-1)*($items_on_page));
+            if(!empty($link->link_name))
+            {
+                $edit_butt = new Edit_Butt_View();
+                $delete_butt = new Delete_Butt_View();
+                $edit_butt->action = "/link/edit_view/" . $link->link_id;
+                $delete_butt->id = $link->link_id;
+                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time);
+                array_push($content_view->bool_arr, $link->link_private_status);
+                $link->clean();
+                array_push($content_view->edit_butt, $edit_butt);
+                array_push($content_view->delete_butt, $delete_butt);
+                array_push($content_view->table_body, $helper_ar);
+            }
         }
         $main_view = new Main_View();
         $content_view->delete_url = "/link/delete/";
@@ -139,11 +154,9 @@ class Link_Controller
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
         if ($user->permission('edit_all_users'))
-        {
             $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
-        }
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
-        $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
+        $main_view->header_ar['link/my_list/1'] = array('value' => 'My links', 'id' => 'my-links');
         $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
         $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         $main_view->render();
@@ -224,5 +237,12 @@ class Link_Controller
         $link = new Link_Model();
         $pages = $link->pages_numb();
         $this->link_look_action($page, $pages);
+    }
+
+    public function my_list_action($page)
+    {
+        $link = new Link_Model();
+        $pages = $link->my_pages_numb();
+        $this->my_link_look_action($page, $pages);
     }
 }

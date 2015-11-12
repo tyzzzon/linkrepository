@@ -213,4 +213,42 @@ user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         $pages = $numb/$items_on_page;
         return $pages;
     }
+
+    public function clean()
+    {
+        $this->link_id = null;
+        $this->link_name = null;
+        $this->link_url = null;
+        $this->link_description = null;
+        $this->link_private_status = null;
+        $this->link_born_time = null;
+        $this->user_id = null;
+        $this->user_login = null;
+    }
+
+    public function get_all_mine($iter, $down)
+    {
+        global $db;
+        global $items_on_page;
+        $row = $db->query("SELECT link_id, link_name, link_url, link_description, link_born_time, link_private_status,
+user_id FROM links WHERE user_id = " . $_SESSION['uid'] ." LIMIT " . $down . ", " . $items_on_page)->fetchAll(PDO::FETCH_ASSOC);
+        if (isset($row[$iter]))
+        {
+            $this->link_id = $row[$iter]["link_id"];
+            $this->link_name = $row[$iter]["link_name"];
+            $this->link_url = $row[$iter]["link_url"];
+            $this->link_description = $row[$iter]["link_description"];
+            $this->link_private_status = $row[$iter]["link_private_status"];
+            $this->link_born_time = $row[$iter]["link_born_time"];
+        }
+    }
+
+    public function my_pages_numb()
+    {
+        global $items_on_page;
+        global $db;
+        $numb = $db->query('SELECT * FROM links WHERE user_id = '.$_SESSION['uid'])->rowCount();
+        $pages = $numb/$items_on_page;
+        return $pages;
+    }
 }
