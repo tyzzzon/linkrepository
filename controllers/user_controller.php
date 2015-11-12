@@ -120,7 +120,7 @@ class User_Controller
             unset($main_view->header_ar['user/auth_view']);
             if ($user->permission('edit_all_users'))
             {
-                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+                $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
             }
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
@@ -142,7 +142,7 @@ class User_Controller
             unset($main_view->header_ar['user/auth_view']);
             if ($user->permission('edit_all_users'))
             {
-                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+                $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
             }
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
@@ -153,40 +153,44 @@ class User_Controller
             $main_view->render();
     }
 
-    public function users_list_action()
+    public function users_list_action($page, $numb_of_pages)
     {
-            $content_view = new List_View();
-            $helper_ar = array('User name', 'User surname', 'User login', 'User email', 'User role', 'User status');
-            $user = new User_Model();
-            $content_view->table_head = $helper_ar;
-            for ($i = 0; $i < $user->get_number(); $i++)
+        global $items_on_page;
+        $content_view = new List_View();
+        $helper_ar = array('User name', 'User surname', 'User login', 'User email', 'User role', 'User status');
+        for ($i=0;$i<$numb_of_pages;$i++)
+            array_push($content_view->pagination, '/user/list/'.($i+1));
+        $user = new User_Model();
+        $content_view->table_head = $helper_ar;
+        for ($i = 0; $i < $items_on_page; $i++)
+        {
+            $user->get_all($i, ($page-1)*($items_on_page));
+            if(!empty($user->user_name))
             {
-                $user->get_all($i);
                 $edit_butt = new Edit_Butt_View();
                 $delete_butt = new Delete_Butt_View();
                 $edit_butt->action = "/user/edit_view/" . $user->user_id;
                 $delete_butt->id = $user->user_id;
                 $helper_ar = array($user->user_name, $user->user_surname, $user->user_login,
                     $user->user_email, $user->user_role, $user->user_status);
+                $user->clean();
                 array_push($content_view->edit_butt, $edit_butt);
                 array_push($content_view->delete_butt, $delete_butt);
                 array_push($content_view->table_body, $helper_ar);
             }
-            $main_view = new Main_View();
-            $content_view->delete_url = "/user/delete/";
-            $main_view->content_view = $content_view;
+        }
+        $main_view = new Main_View();
+        $content_view->delete_url = "/user/delete/";
+        $main_view->content_view = $content_view;
         unset($main_view->header_ar['user/reg_view']);
         unset($main_view->header_ar['user/auth_view']);
         if ($user->permission('edit_all_users'))
-        {
-            $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
-        }
-
+            $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
         $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
         $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
-            $main_view->render();
+        $main_view->render();
     }
 
     public function edit_view_action($user_id)
@@ -258,5 +262,17 @@ class User_Controller
     {
         unset($_SESSION['uid']);
         session_destroy();
+    }
+
+    public function list_action($page)
+    {
+        $user = new User_Model();
+        $pages = $user->pages_numb();
+        $content_view = new List_View();
+        $helper_ar = array('User name', 'User surname', 'User login', 'User email', 'User role', 'User status');
+        $content_view->table_head = $helper_ar;
+        for ($i=0;$i<$pages;$i++)
+            array_push($content_view->pagination, '/user/list/'.($i+1));
+        $this->users_list_action($page, $pages);
     }
 }

@@ -172,12 +172,18 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         return $rows;
     }
 
-    public function get_all($iter)
+    public function get_all($iter, $down)
     {
         global $db;
-        $row = $db->query("SELECT * FROM users")->fetchAll(PDO::FETCH_ASSOC);
-        $this->user_id = $row[$iter]["user_id"];
-        $this->get_from_database($this->user_id);
+        global $items_on_page;
+        $row = $db->query("SELECT * FROM users LIMIT ".$down.", ".($items_on_page))->fetchAll(PDO::FETCH_ASSOC);
+        var_dump($iter);
+        var_dump($down);
+        if (isset($row[$iter]))
+        {
+            $this->user_id = $row[$iter]["user_id"];
+            $this->get_from_database($this->user_id);
+        }
     }
 
     public function get_role()
@@ -206,5 +212,27 @@ WHERE users.user_role_id = permissions_for_roles.role_id AND users.user_id = ' .
             }
         }
         return false;
+    }
+
+    public function pages_numb()
+    {
+        global $items_on_page;
+        global $db;
+        $numb = $db->query('SELECT * FROM users')->rowCount();
+        $pages = $numb/$items_on_page;
+        return $pages;
+    }
+
+    public function clean()
+    {
+        $this->user_name = null;
+        $this->user_id = null;
+        $this->user_surname = null;
+        $this->user_login = null;
+        $this->user_email = null;
+        $this->user_password = null;
+        $this->user_role_id = null;
+        $this->user_status = null;
+        $this->user_role = null;
     }
 }

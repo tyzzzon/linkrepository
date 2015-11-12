@@ -7,6 +7,7 @@ class List_View
     public $delete_butt = array();
     public $delete_url;
     public $bool_arr = array();
+    public $pagination = array();
 
     public function render()
     {
@@ -81,9 +82,15 @@ echo'
      </div>
   </div>
 </div>
-
-
 ';
+        echo '<ul class="pagination">';
+        $i = 1;
+        foreach ($this->pagination as $page)
+        {
+            echo '<li><a href="' . $page . '">' . $i . '</a></li>';
+            $i++;
+        }
+        echo '</ul>';
     }
 }
 ?>
