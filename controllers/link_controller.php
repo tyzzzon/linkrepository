@@ -35,9 +35,9 @@ class Link_Controller
     public function link_create_view_action()
     {
         $content_view = new Edit_View();
-        $content_view->field_ar['Link name'] = '';
-        $content_view->field_ar['Link URL'] = '';
-        $content_view->field_ar['Link description'] = '';
+        $content_view->field_ar['Link name'] = array('', '');
+        $content_view->field_ar['Link URL'] = array('', '');
+        $content_view->field_ar['Link description'] = array('', '');
         $content_view->bool_par = false;
         $content_view->action = "/link/link_create";
         $main_view = new Main_View();
@@ -168,25 +168,32 @@ class Link_Controller
     public function edit_view_action($link_id)
     {
             $link = new Link_Model();
+        if ($link->get_access($link_id))
+        {
             $link->get_from_database($link_id);
             $content_view = new Edit_View();
-            $content_view->field_ar['Link name'] = $link->link_name;
-            $content_view->field_ar['Link URL'] = $link->link_url;
-            $content_view->field_ar['Link description'] = $link->link_description;
-        if($link->link_private_status)
-            $content_view->bool_par = true;
-        else
-            $content_view->bool_par = false;
-            $content_view->field_ar['User login'] = $link->user_login;
+            $content_view->field_ar['Link name'] = array($link->link_name, '');
+            $content_view->field_ar['Link URL'] = array($link->link_url, 'hidden');
+            $content_view->field_ar['Link description'] = array($link->link_description, '');
+            if ($link->link_private_status)
+                $content_view->bool_par = true;
+            else
+                $content_view->bool_par = false;
+            $content_view->field_ar['User login'] = array($link->user_login, 'hidden');
             $content_view->action = "/link/edit";
             $main_view = new Main_View();
-        if (isset($_SESSION['uid']))
-        {
-            unset($main_view->header_ar['user/reg_view']);
-            unset($main_view->header_ar['user/auth_view']);
-        }
+            if (isset($_SESSION['uid'])) {
+                unset($main_view->header_ar['user/reg_view']);
+                unset($main_view->header_ar['user/auth_view']);
+            }
             $main_view->content_view = $content_view;
             $main_view->render();
+        }
+        else
+        {
+            echo '<script>alert("Access denied!!")</script>';
+            $this->my_list_action(1);
+        }
     }
 
     public function edit_action()
@@ -201,12 +208,15 @@ class Link_Controller
             $link = new Link_Model();
             $link->link_name = $_POST['Link_name'];
             $link->link_url = $_POST['Link_URL'];
+            $link->user_login = $_POST['User_login'];
+            $link->get_id();
+            $link->get_from_database($link->link_id);
             $link->link_description = $_POST['Link_description'];
+
             if (isset($_POST['Link_private_status']))
                 $link->link_private_status = 1;
             else
                 $link->link_private_status = 0;
-            $link->user_login = $_POST['User_login'];
             if ($link->link_name === "" || $link->link_url === "" || $link->link_description === "" || $link->link_private_status === "" ||
                 $link->user_login === "")
             {

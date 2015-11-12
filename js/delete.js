@@ -14,10 +14,9 @@ document.onclick = function( e )
                 type: "POST",
                 url: target_url+userid,
                 success: function(){
-                    location.reload();
-                    alert(target_url+userid);
+                    location.replace('/link/my_list/1');
                 }
             });
         });
     });
-}
+};

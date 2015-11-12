@@ -13,11 +13,17 @@ class Edit_View
                 <h1 > Editing!</h1 >
                 <p ><form class = "navbar-form navbar-left" action = "'.$this->action.'" method = "post" >';
         foreach ($this->field_ar as $field_name => $field_text)
+        {
             echo '
-                    <div class = "form-group" >
-                        '.$field_name.': <input type = "text" name = "'.$field_name.'" value = "'.$field_text.'" class = "form-control" >
-                    </div >
+                    <div class = "form-group" >';
+            if ($field_text[1]=='hidden')
+                echo '<input type = "hidden" name = "'.$field_name.'" value = "'.$field_text[0].'" class = "form-control" >';
+            else
+                echo '
+                        '.$field_name.': <input type = "text" name = "'.$field_name.'" value = "'.$field_text[0].'" class = "form-control" '.$field_text[1].'>';
+            echo '</div >
                     <br >';
+                    }
         if (isset($this->bool_par))
         {
             echo '<div class = "form-group" >Private status: <input type="checkbox" name="Link private status" class = "form-control"';

@@ -110,10 +110,10 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         }
     }
 
-    public function edit_user()
+    public function edit_user($user_id)
     {
         global $db;
-        $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_login` = '".$this->user_login."'")->rowCount();
+        $numb = $db->query("SELECT `user_id` FROM `users` WHERE `user_id` = ".$user_id)->rowCount();
         $this->get_role_id();
         if ($numb)
         {

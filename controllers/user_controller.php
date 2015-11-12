@@ -198,12 +198,19 @@ class User_Controller
             $user = new User_Model();
             $user->get_from_database($user_id);
             $content_view = new Edit_View();
-            $content_view->field_ar['User name'] = $user->user_name;
-            $content_view->field_ar['User surname'] = $user->user_surname;
-            $content_view->field_ar['User login'] = $user->user_login;
-            $content_view->field_ar['User email'] = $user->user_email;
-            $content_view->field_ar['User role'] = $user->user_role;
-            $content_view->field_ar['User status'] = $user->user_status;
+            $content_view->field_ar['User name'] = array ($user->user_name, '');
+            $content_view->field_ar['User surname'] = array ($user->user_surname, '');
+            $content_view->field_ar['User login'] = array ($user->user_login, 'disabled');
+            $content_view->field_ar['User email'] = array ($user->user_email, 'disabled');
+        if (!$user->permission('edit_all_users'))
+        {
+            $content_view->field_ar['User role'] = array($user->user_role, 'disabled');
+        }
+        else
+        {
+            $content_view->field_ar['User role'] = array($user->user_role, '');
+            $content_view->field_ar['User status'] = array($user->user_status, '');
+        }
             $content_view->action = "/user/edit/".$user_id;
             $main_view = new Main_View();
         unset($main_view->header_ar['user/reg_view']);
@@ -223,12 +230,16 @@ class User_Controller
         else
         {
             $user = new User_Model();
+            $user->get_from_database($user_id);
             $user->user_name = $_POST['User_name'];
             $user->user_surname = $_POST['User_surname'];
-            $user->user_login = $_POST['User_login'];
-            $user->user_email = $_POST['User_email'];
-            $user->user_role = $_POST['User_role'];
-            $user->user_status = $_POST['User_status'];
+//            $user->user_login = $_POST['User_login'];
+//            $user->user_email = $_POST['User_email'];
+            if ($user->permission('edit_all_users'))
+            {
+                $user->user_role = $_POST['User_role'];
+                $user->user_status = $_POST['User_status'];
+            }
             if ($user->user_name === "" || $user->user_surname === "" || $user->user_login === "" || $user->user_email === "" ||
                 $user->user_role === "" || $user->user_status === "")
             {
@@ -237,7 +248,7 @@ class User_Controller
             }
             else
             {
-                $user->edit_user();
+                $user->edit_user($user_id);
                 $this->go_home_action();
             }
         }
