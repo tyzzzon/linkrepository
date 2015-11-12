@@ -177,8 +177,6 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         global $db;
         global $items_on_page;
         $row = $db->query("SELECT * FROM users LIMIT ".$down.", ".($items_on_page))->fetchAll(PDO::FETCH_ASSOC);
-        var_dump($iter);
-        var_dump($down);
         if (isset($row[$iter]))
         {
             $this->user_id = $row[$iter]["user_id"];

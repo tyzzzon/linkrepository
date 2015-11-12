@@ -73,7 +73,7 @@ class User_Controller
             if ($user->authentication($_POST["Login"], md5($_POST["Password"]))) {
                 $link_cont = new Link_Controller();
                 $_SESSION['uid'] = $user->user_id;
-                $link_cont->link_look_action(false);
+                $link_cont->list_action(1);
             }
             else
                 $this->auth_view_action();
@@ -268,11 +268,6 @@ class User_Controller
     {
         $user = new User_Model();
         $pages = $user->pages_numb();
-        $content_view = new List_View();
-        $helper_ar = array('User name', 'User surname', 'User login', 'User email', 'User role', 'User status');
-        $content_view->table_head = $helper_ar;
-        for ($i=0;$i<$pages;$i++)
-            array_push($content_view->pagination, '/user/list/'.($i+1));
         $this->users_list_action($page, $pages);
     }
 }

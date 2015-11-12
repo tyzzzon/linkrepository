@@ -165,29 +165,36 @@ user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         return $rows;
     }
 
-    public function get_all($private, $iter)
+    public function get_all($private, $iter, $down)
     {
         global $db;
+        global $items_on_page;
         if ($private)
         {
-            $row = $db->query("SELECT * FROM links")->fetchAll(PDO::FETCH_ASSOC);
-            $this->link_id = $row[$iter]["link_id"];
-            $this->link_name = $row[$iter]["link_name"];
-            $this->link_url = $row[$iter]["link_url"];
-            $this->link_description = $row[$iter]["link_description"];
-            $this->link_private_status = $row[$iter]["link_private_status"];
-            $this->link_born_time = $row[$iter]["link_born_time"];
-            $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".$row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+            $row = $db->query("SELECT * FROM links LIMIT ".$down.", ".($items_on_page))->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($row[$iter]))
+            {
+                $this->link_id = $row[$iter]["link_id"];
+                $this->link_name = $row[$iter]["link_name"];
+                $this->link_url = $row[$iter]["link_url"];
+                $this->link_description = $row[$iter]["link_description"];
+                $this->link_private_status = $row[$iter]["link_private_status"];
+                $this->link_born_time = $row[$iter]["link_born_time"];
+                $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = " . $row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+            }
         }
         else
         {
-            $row = $db->query("SELECT * FROM links WHERE link_private_status = 0")->fetchAll(PDO::FETCH_ASSOC);
-            $this->link_id = $row[$iter]["link_id"];
-            $this->link_name = $row[$iter]["link_name"];
-            $this->link_url = $row[$iter]["link_url"];
-            $this->link_description = $row[$iter]["link_description"];
-            $this->link_born_time = $row[$iter]["link_born_time"];
-            $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = ".$row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+            $row = $db->query("SELECT * FROM links WHERE link_private_status = 0 LIMIT ".$down.", ".($items_on_page))->fetchAll(PDO::FETCH_ASSOC);
+            if (isset($row[$iter]))
+            {
+                $this->link_id = $row[$iter]["link_id"];
+                $this->link_name = $row[$iter]["link_name"];
+                $this->link_url = $row[$iter]["link_url"];
+                $this->link_description = $row[$iter]["link_description"];
+                $this->link_born_time = $row[$iter]["link_born_time"];
+                $this->user_login = $db->query("SELECT user_login FROM users WHERE user_id = " . $row[$iter]["user_id"])->fetchAll(PDO::FETCH_ASSOC)[0]["user_login"];
+            }
         }
     }
 
@@ -196,5 +203,14 @@ user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         global $db;
         $this->user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$this->user_login.'"')->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
         $this->link_id = $db->query('SELECT link_id FROM links WHERE link_url = "'.$this->link_url.'" AND user_id = '.$this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]['link_id'];
+    }
+
+    public function pages_numb()
+    {
+        global $items_on_page;
+        global $db;
+        $numb = $db->query('SELECT * FROM links')->rowCount();
+        $pages = $numb/$items_on_page;
+        return $pages;
     }
 }

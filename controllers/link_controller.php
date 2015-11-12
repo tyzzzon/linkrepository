@@ -6,7 +6,7 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(0);
+            $this->list_action(1);
         }
         else
         {
@@ -53,58 +53,64 @@ class Link_Controller
         $link->lets_see($link_url, $user_id);
     }
 
-    public function link_look_action()
+    public function link_look_action($page, $numb_of_pages)
     {
+        global $items_on_page;
         $user = new User_Model();
         if ($user->permission('edit_all_links'))
             $private_rights = true;
         else
             $private_rights = false;
-            $content_view = new List_View();
-            $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
-            $link = new Link_Model();
-            if ($private_rights) {
-                array_push($helper_ar, 'Private status');
-                $content_view->table_head = $helper_ar;
-                for ($i = 0; $i < $link->get_number($private_rights); $i++) {
-                    $link->get_all($private_rights, $i);
-                    $edit_butt = new Edit_Butt_View();
-                    $delete_butt = new Delete_Butt_View();
-                    $edit_butt->action = "/link/edit_view/" . $link->link_id;
-                    $delete_butt->id = $link->link_id;
-                    $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
-                        $link->user_login);
-                    array_push($content_view->bool_arr, $link->link_private_status);
-                    array_push($content_view->edit_butt, $edit_butt);
-                    array_push($content_view->delete_butt, $delete_butt);
-                    array_push($content_view->table_body, $helper_ar);
-                }
-            } else {
-                $content_view->table_head = $helper_ar;
-                for ($i = 0; $i < $link->get_number($private_rights); $i++) {
-                    $link->get_all($private_rights, $i);
-                    $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
-                        $link->user_login);
-                    array_push($content_view->table_body, $helper_ar);
-                }
+        $content_view = new List_View();
+        $helper_ar = array('Link name', 'URL', 'Description', 'Born time', 'User login');
+        $link = new Link_Model();
+        for ($i=0;$i<$numb_of_pages;$i++)
+            array_push($content_view->pagination, '/user/list/'.($i+1));
+        if ($private_rights)
+        {
+            array_push($helper_ar, 'Private status');
+            $content_view->table_head = $helper_ar;
+            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            {
+                $link->get_all($private_rights, $i, ($page-1)*($items_on_page));
+                $edit_butt = new Edit_Butt_View();
+                $delete_butt = new Delete_Butt_View();
+                $edit_butt->action = "/link/edit_view/" . $link->link_id;
+                $delete_butt->id = $link->link_id;
+                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                    $link->user_login);
+                array_push($content_view->bool_arr, $link->link_private_status);
+                array_push($content_view->edit_butt, $edit_butt);
+                array_push($content_view->delete_butt, $delete_butt);
+                array_push($content_view->table_body, $helper_ar);
             }
-            $main_view = new Main_View();
-            $content_view->delete_url = "/link/delete/";
-            $main_view->content_view = $content_view;
+        }
+        else
+        {
+            $content_view->table_head = $helper_ar;
+            for ($i = 0; $i < $link->get_number($private_rights); $i++)
+            {
+                $link->get_all($private_rights, $i);
+                $helper_ar = array($link->link_name, $link->link_url, $link->link_description, $link->link_born_time,
+                    $link->user_login);
+                array_push($content_view->table_body, $helper_ar);
+            }
+        }
+        $main_view = new Main_View();
+        $content_view->delete_url = "/link/delete/";
+        $main_view->content_view = $content_view;
         if (isset($_SESSION['uid']))
         {
             unset($main_view->header_ar['user/reg_view']);
             unset($main_view->header_ar['user/auth_view']);
             if ($user->permission('edit_all_users'))
-            {
-                $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
-            }
+                $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
             $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
             $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
             $main_view->header_ar['user/edit_view/'.$_SESSION['uid']] = array('value' => 'Edit profile', 'id' => 'edit-profile');
             $main_view->header_ar['#'] = array('value' => 'Log out', 'id' => 'logout_btn');
         }
-            $main_view->render();
+        $main_view->render();
     }
 
     public function my_link_look_action()
@@ -134,7 +140,7 @@ class Link_Controller
         unset($main_view->header_ar['user/auth_view']);
         if ($user->permission('edit_all_users'))
         {
-            $main_view->header_ar['user/users_list'] = array('value' => 'User list', 'id' => 'list-link');
+            $main_view->header_ar['user/list/1'] = array('value' => 'User list', 'id' => 'list-link');
         }
         $main_view->header_ar['link/link_create_view'] = array('value' => 'Create link', 'id' => 'create-link');
         $main_view->header_ar['link/my_link_look'] = array('value' => 'My links', 'id' => 'my-links');
@@ -172,7 +178,7 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(0);
+            $this->list_action(1);
         }
         else
         {
@@ -194,7 +200,7 @@ class Link_Controller
             else
             {
                 $link->edit_link();
-                $this->link_look_action(0);
+                $this->list_action(1);
             }
         }
     }
@@ -204,12 +210,19 @@ class Link_Controller
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
             echo '<script>alert("Access denied")</script>';
-            $this->link_look_action(0);
+            $this->list_action(1);
         }
         else
         {
             $link = new Link_Model();
             $link->delete_link($link_id);
         }
+    }
+
+    public function list_action($page)
+    {
+        $link = new Link_Model();
+        $pages = $link->pages_numb();
+        $this->link_look_action($page, $pages);
     }
 }
