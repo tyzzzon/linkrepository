@@ -96,6 +96,7 @@ class Link_Model extends Model
     {
         global $db;
         $this->user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$this->user_login.'"')->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
+        $this->user_login = $db->query('SELECT user_login FROM users WHERE user_id = '.$this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]['user_login'];
         $numb = $db->query("SELECT link_name FROM `links` WHERE `link_url` = '".$this->link_url."'AND user_id =".$this->user_id)->rowCount();
         if ($numb)
         {
@@ -198,10 +199,10 @@ user_id FROM links WHERE user_id = " . $user_id)->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
-    public function get_id()
+    public function get_id($user_login)
     {
         global $db;
-        $this->user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$this->user_login.'"')->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
+        $this->user_id = $db->query('SELECT user_id FROM users WHERE user_login = "'.$user_login.'"')->fetchAll(PDO::FETCH_ASSOC)[0]['user_id'];
         $this->link_id = $db->query('SELECT link_id FROM links WHERE link_url = "'.$this->link_url.'" AND user_id = '.$this->user_id)->fetchAll(PDO::FETCH_ASSOC)[0]['link_id'];
     }
 

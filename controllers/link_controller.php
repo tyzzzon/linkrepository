@@ -175,7 +175,8 @@ class Link_Controller
         if (isset($_SESSION['uid']))
         {
             $link = new Link_Model();
-            if ($link->get_access($link_id)) {
+            if ($link->get_access($link_id))
+            {
                 $link->get_from_database($link_id);
                 $content_view = new Edit_View();
                 $content_view->field_ar['Link name'] = array($link->link_name, '');
@@ -186,15 +187,18 @@ class Link_Controller
                 else
                     $content_view->bool_par = false;
                 $content_view->field_ar['User login'] = array($link->user_login, 'hidden');
-                $content_view->action = "/link/edit";
+                $content_view->action = "/link/edit/".$link->user_login;
                 $main_view = new Main_View();
-                if (isset($_SESSION['uid'])) {
+                if (isset($_SESSION['uid']))
+                {
                     unset($main_view->header_ar['user/reg_view']);
                     unset($main_view->header_ar['user/auth_view']);
                 }
                 $main_view->content_view = $content_view;
                 $main_view->render();
-            } else {
+            }
+            else
+            {
                 echo '<script>alert("Access denied!!")</script>';
                 $this->my_list_action(1);
             }
@@ -203,7 +207,7 @@ class Link_Controller
             echo '<script>alert("Access denied!!");</script>';
     }
 
-    public function edit_action()
+    public function edit_action($user_login)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET')
         {
@@ -213,11 +217,12 @@ class Link_Controller
         else
         {
             $link = new Link_Model();
-            $link->link_name = $_POST['Link_name'];
             $link->link_url = $_POST['Link_URL'];
-            $link->user_login = $_POST['User_login'];
-            $link->get_id();
+            $link->get_id($user_login);
             $link->get_from_database($link->link_id);
+            $link->link_name = $_POST['Link_name'];
+            $link->user_login = $_POST['User_login'];
+
             $link->link_description = $_POST['Link_description'];
 
             if (isset($_POST['Link_private_status']))
