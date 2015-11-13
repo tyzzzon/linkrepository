@@ -34,6 +34,8 @@ class Link_Controller
 
     public function link_create_view_action()
     {
+        if (isset($_SESSION['uid']))
+        {
         $content_view = new Edit_View();
         $content_view->field_ar['Link name'] = array('', '');
         $content_view->field_ar['Link URL'] = array('', '');
@@ -48,6 +50,9 @@ class Link_Controller
         }
         $main_view->content_view = $content_view;
         $main_view->render();
+        }
+        else
+            echo '<script>alert("Access denied!!");</script>';
     }
 
     public function link_description_action($link_url, $user_id)
@@ -167,33 +172,35 @@ class Link_Controller
 
     public function edit_view_action($link_id)
     {
-            $link = new Link_Model();
-        if ($link->get_access($link_id))
+        if (isset($_SESSION['uid']))
         {
-            $link->get_from_database($link_id);
-            $content_view = new Edit_View();
-            $content_view->field_ar['Link name'] = array($link->link_name, '');
-            $content_view->field_ar['Link URL'] = array($link->link_url, 'hidden');
-            $content_view->field_ar['Link description'] = array($link->link_description, '');
-            if ($link->link_private_status)
-                $content_view->bool_par = true;
-            else
-                $content_view->bool_par = false;
-            $content_view->field_ar['User login'] = array($link->user_login, 'hidden');
-            $content_view->action = "/link/edit";
-            $main_view = new Main_View();
-            if (isset($_SESSION['uid'])) {
-                unset($main_view->header_ar['user/reg_view']);
-                unset($main_view->header_ar['user/auth_view']);
+            $link = new Link_Model();
+            if ($link->get_access($link_id)) {
+                $link->get_from_database($link_id);
+                $content_view = new Edit_View();
+                $content_view->field_ar['Link name'] = array($link->link_name, '');
+                $content_view->field_ar['Link URL'] = array($link->link_url, 'hidden');
+                $content_view->field_ar['Link description'] = array($link->link_description, '');
+                if ($link->link_private_status)
+                    $content_view->bool_par = true;
+                else
+                    $content_view->bool_par = false;
+                $content_view->field_ar['User login'] = array($link->user_login, 'hidden');
+                $content_view->action = "/link/edit";
+                $main_view = new Main_View();
+                if (isset($_SESSION['uid'])) {
+                    unset($main_view->header_ar['user/reg_view']);
+                    unset($main_view->header_ar['user/auth_view']);
+                }
+                $main_view->content_view = $content_view;
+                $main_view->render();
+            } else {
+                echo '<script>alert("Access denied!!")</script>';
+                $this->my_list_action(1);
             }
-            $main_view->content_view = $content_view;
-            $main_view->render();
         }
         else
-        {
-            echo '<script>alert("Access denied!!")</script>';
-            $this->my_list_action(1);
-        }
+            echo '<script>alert("Access denied!!");</script>';
     }
 
     public function edit_action()
@@ -247,6 +254,8 @@ class Link_Controller
 
     public function list_action($page)
     {
+        if (isset($_SESSION['uid']))
+        {
         $user = new User_Model();
         $link = new Link_Model();
         if ($user->permission('edit_all_links'))
@@ -255,12 +264,20 @@ class Link_Controller
             $private_rights = false;
         $pages = $link->pages_numb($private_rights);
         $this->link_look_action($page, $pages);
+        }
+        else
+            echo '<script>alert("Access denied!!");</script>';
     }
 
     public function my_list_action($page)
     {
+        if (isset($_SESSION['uid']))
+        {
         $link = new Link_Model();
         $pages = $link->my_pages_numb();
         $this->my_link_look_action($page, $pages);
+        }
+        else
+            echo '<script>alert("Access denied!!");</script>';
     }
 }

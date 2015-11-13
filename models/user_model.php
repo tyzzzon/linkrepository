@@ -60,13 +60,13 @@ user_status) VALUES ('" . $this->user_name . "', '" . $this->user_surname . "', 
         }
         else
         {
-            echo "Id: " . $this->user_id . "<br>";
-            echo "Name: " . $this->user_name . "<br>";
-            echo "Surname: " . $this->user_surname . "<br>";
-            echo "User login: " . $this->user_login . "<br>";
-            echo "Email: " . $this->user_email . "<br>";
-            echo "Role: " . $this->user_role_id . "<br>";
-            echo "Status: " . $this->user_status . "<br>";
+//            echo "Id: " . $this->user_id . "<br>";
+//            echo "Name: " . $this->user_name . "<br>";
+//            echo "Surname: " . $this->user_surname . "<br>";
+//            echo "User login: " . $this->user_login . "<br>";
+//            echo "Email: " . $this->user_email . "<br>";
+//            echo "Role: " . $this->user_role_id . "<br>";
+//            echo "Status: " . $this->user_status . "<br>";
         }
     }
 
